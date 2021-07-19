@@ -29,25 +29,15 @@
 ;==========================================================
 
 [colors]
-;background = ${xrdb:color0:#222}
-background = #222
-background-alt = #444
-;foreground = ${xrdb:color7:#222}
-foreground = #dfdfdf
-foreground-alt = #555
-primary = #ffb52a
-secondary = #e60053
-alert = #bd2c40
-; Gruvbox 
-fg = #ebdbb2
-bg = #282828
-red = #cc241d
-green = #98971a
-yellow = #b16286
-blue = #458588
-purple = #b16286
-aqua = #689d6a
-gray = #a89984
+fg = #abb2bf
+bg = #282c34
+red = #e06c75
+green = #98c379
+yellow = #e5c07b
+blue = #61afef
+purple = #c678dd
+aqua = #56b6c2
+gray = #abb2bf
 
 [bar/main]
 ;monitor = ${env:MONITOR:HDMI-1}
@@ -58,7 +48,7 @@ height = 32
 radius = 0
 fixed-center = true
 
-background = ${colors.hg}
+background = ${colors.bg}
 foreground = ${colors.fg}
 
 line-size = 3
@@ -83,7 +73,7 @@ font-5 = siji:pixelsize=12;1
 
 modules-left = i3
 modules-center = date
-modules-right = wlan alsa cpu temperature memory gpu gputemp vram
+modules-right = wlan alsa cpu cputemp memory gpu gputemp vram
 
 tray-position = right
 tray-padding = 1
@@ -123,8 +113,9 @@ label-mode-background = ${colors.yellow}
 
 ; focused = Active workspace on focused monitor
 label-focused = %name% %icon%
-label-focused-background = ${colors.green}
-label-focused-underline= ${colors.green}
+label-focused-background = ${colors.blue}
+label-focused-underline= ${colors.blue}
+label-focused-foreground= ${colors.bg}
 label-focused-padding = 2
 
 ; unfocused = Inactive workspace on any monitor
@@ -198,32 +189,13 @@ label = %date% %time%
 [module/alsa]
 type = internal/alsa
 
-format-volume = <label-volume> <bar-volume>
-label-volume = ""
-label-volume-font = 0
+format-volume = <label-volume>
+label-volume = "VOL: %{F${colors.fg}%percentage%%"
 label-volume-foreground = ${colors.gray}
 
 format-muted= <label-muted>
-format-muted-prefix = " "
 format-muted-foreground = ${colors.red}
-label-muted = "|─────────"
-
-bar-volume-width = 10
-bar-volume-foreground-0 = ${colors.green}
-bar-volume-foreground-1 = ${colors.green}
-bar-volume-foreground-2 = ${colors.green}
-bar-volume-foreground-3 = ${colors.green}
-bar-volume-foreground-4 = ${colors.green}
-bar-volume-foreground-5 = ${colors.red}
-bar-volume-foreground-6 = ${colors.red}
-bar-volume-gradient = false
-bar-volume-indicator = |
-bar-volume-indicator-font = 2
-bar-volume-fill = ─
-bar-volume-fill-font = 2
-bar-volume-empty = ─
-bar-volume-empty-font = 2
-bar-volume-empty-foreground = ${colors.fg}
+label-muted = "MUTED"
 
 [module/temperature]
 type = internal/temperature
@@ -242,6 +214,14 @@ ramp-0 = TEMP:
 ramp-1 = TEMP:
 ramp-2 = TEMP:
 ramp-foreground = ${colors.gray}
+
+[module/cputemp]
+type=custom/script
+exec=sensors coretemp-isa-0000 -j | jq '."coretemp-isa-0000"."Package id 0"."temp1_input"'
+format=<label>
+format-foreground=${colors.gray}
+label="TEMP: %{F${colors.fg}%output%°C"
+interval=5
 
 [module/gputemp]
 type=custom/script

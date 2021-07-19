@@ -1,5 +1,9 @@
 xrandr --output DP-4 --primary --mode 2560x1440 --rate 144
 xrandr --output DP-0 --right-of DP-4
 xrandr --output HDMI-0 --left-of DP-4
+xset s off
+xset -dpms
+xset s noblank
 feh --bg-fill ~/Pictures/Wallpapers
 xbanish &
+autotiling &
