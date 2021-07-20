@@ -85,7 +85,7 @@ bindsym $mod+semicolon workspace $ws3 exec i3-sensible-terminal
 bindsym $mod+Shift+p exec shutdown -h now
 
 # kill focused window
-bindsym $mod+p kill
+bindsym $mod+c kill
 
 # start dmenu (a program launcher)
 bindsym $mod+space exec --no-startup-id rofi -show run
@@ -228,3 +228,4 @@ client.urgent           $red $red $fg $red $red
 
 #end of window title bars & borders section
 for_window [class="^.*"] border pixel 2
+for_window [class="steam_app_1182480" title="Origin"] floating enable

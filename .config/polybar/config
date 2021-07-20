@@ -37,7 +37,7 @@ yellow = #e5c07b
 blue = #61afef
 purple = #c678dd
 aqua = #56b6c2
-gray = #abb2bf
+gray = #5c6370
 
 [bar/main]
 ;monitor = ${env:MONITOR:HDMI-1}
@@ -73,7 +73,7 @@ font-5 = siji:pixelsize=12;1
 
 modules-left = i3
 modules-center = date
-modules-right = wlan alsa cpu cputemp memory gpu gputemp vram
+modules-right = wlan vpn alsa cpu cputemp memory gpu gputemp vram
 
 tray-position = right
 tray-padding = 1
@@ -214,6 +214,16 @@ ramp-0 = TEMP:
 ramp-1 = TEMP:
 ramp-2 = TEMP:
 ramp-foreground = ${colors.gray}
+
+[module/vpn]
+type=custom/script
+exec=printf "" && (nmcli -f GENERAL.STATE con show Auxita | cut -d ':' -f 2 | xargs | awk '{print toupper($0)}' && echo DOWN) | tr '\n' ' ' | xargs
+format=<label>
+format-foreground=${colors.gray}
+label="VPN: %{F${colors.fg}%output%"
+interval=5
+click-left=nmcli connection up Auxita
+click-right=nmcli connection down Auxita
 
 [module/cputemp]
 type=custom/script

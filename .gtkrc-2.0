@@ -1,0 +1,5 @@
+gtk-theme-name="Arc-Dark"
+gtk-icon-theme-name = Arc
+gtk-font-name = IBM Plex Sans 12
+gtk-decoration-layout=menu
+gtk-cursor-theme-name=Breeze

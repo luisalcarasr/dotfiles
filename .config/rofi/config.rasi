@@ -1,4 +1,4 @@
 configuration {
-  theme:"gruvbox-dark-soft";
+  theme:"onedark";
   font: "IBM Plex Mono 14";
 }
