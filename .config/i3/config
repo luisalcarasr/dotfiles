@@ -229,3 +229,5 @@ client.urgent           $red $red $fg $red $red
 #end of window title bars & borders section
 for_window [class="^.*"] border pixel 2
 for_window [class="steam_app_1182480" title="Origin"] floating enable
+for_window [class="resolve"] floating disable
+for_window [title="resolve"] floating enable
