@@ -6,6 +6,7 @@
 #
 
 exec_always --no-startup-id $HOME/.xprofile
+exec_always --no-startup-id conky --daemonize --pause=5
 
 # i3 config file (v4)
 #
