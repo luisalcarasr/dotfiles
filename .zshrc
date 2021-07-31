@@ -1,7 +1,6 @@
 # If you come from bash you might have to change your $PATH.
 export PATH=$PATH:$HOME/.local/bin
 
-
 # export MANGOHUD=1
 # export MANGOHUD_DLSYM=1
 
@@ -113,3 +112,4 @@ source $ZSH/oh-my-zsh.sh
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 alias config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
 alias pacman='sudo pacman'
+alias emacs='emacs -nw'

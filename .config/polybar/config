@@ -58,10 +58,10 @@ border-size = 0
 border-color = ${colors.fg}
 
 padding-left = 0
-padding-right = 3
+padding-right = 1
 
 module-margin-left = 1
-module-margin-right = 2
+module-margin-right = 3
 
 font-0 = IBM Plex Sans:pixelsize=12;1
 font-1 = FontAwesome5Free:style=Solid:size=12;1
@@ -131,6 +131,7 @@ label-visible-padding = ${self.label-unfocused-padding}
 ; urgent = Workspace with urgency hint set
 label-urgent = %name% %icon%
 label-urgent-background = ${colors.red}
+label-urgent-foreground = ${colors.fg}
 label-urgent-padding = 2
 
 ; Separator in between workspaces
@@ -159,8 +160,8 @@ format-connected = <label-connected>
 label-connected = ONLINE
 label-connected-foreground = ${colors.green} 
 
-format-disconnected =
-;format-disconnected = <label-disconnected>
+;format-disconnected =
+format-disconnected = <label-disconnected>
 ;format-disconnected-underline = ${self.format-connected-underline}
 ;label-disconnected = %ifname% disconnected
 label-disconnected-foreground = ${colors.red}

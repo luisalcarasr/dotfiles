@@ -1,1 +1,2 @@
-source config.sh
+# source config.sh
+source vscode-extensions.sh
