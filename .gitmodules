@@ -3,6 +3,7 @@
 	url = https://github.com/bardisty/gruvbox-rofi
 [submodule ".config/nvim"]
 	path = .config/nvim
+	branch = develop
 	url = git@github.com:luisalcarasr/nvim
 [submodule "/home/luis/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting"]
 	path = /home/luis/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
