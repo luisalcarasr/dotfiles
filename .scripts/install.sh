@@ -1,10 +1,10 @@
-sudo pacman -Syy git i3-gaps xorg xorg-server dialog openssh openssl neovim zsh alacritty firefox arc-gtk-theme arc-icon-theme archlinux-wallpaper steam pulseaudio alsa-utils jq nodejs-lts-fermium npm yarn lib32-fontconfig ttf-liberation vifm exa axel feh neofetch catimg intel-ucode obs-studio htop bat ripgrep zip unzip jdk11-openjdk conky code bluez bluez-utils dunst piper xpadneo-dkms 
+sudo pacman -Syy git i3-gaps xorg xorg-server dialog openssh openssl neovim zsh alacritty firefox arc-gtk-theme arc-icon-theme archlinux-wallpaper steam pulseaudio alsa-utils jq nodejs-lts-fermium npm yarn lib32-fontconfig ttf-liberation vifm exa axel feh neofetch catimg intel-ucode obs-studio htop bat ripgrep zip unzip jdk11-openjdk conky code bluez bluez-utils dunst piper git
 
 git clone https://aur.archlinux.org/yay.git $HOME/yay
 cd $HOME/yay
 makepkg -si
 gpg --recv-keys --keyserver hkp://keyserver.ubuntu.com:80 --recv 27EDEAF22F3ABCEB50DB9A125CC908FDB71E12C2
-yay -Syy polybar yay xcursor-breeze spotify mongodb-bin teams discord xbanish autotiling upd72020x-fw wd719x-firmware aic94xx-firmware google-chrome 
+yay -Syy polybar yay xcursor-breeze spotify mongodb-bin teams discord xbanish autotiling upd72020x-fw wd719x-firmware aic94xx-firmware google-chrome xpadneo-dkms 
 
 sudo modprobe btusb
 sudo systemctl start bluetooth
@@ -22,3 +22,5 @@ source $HOME/.scripts/vscode-extensions.sh
 sleep 5
 clear
 neofetch
+sleep 5
+sudo reboot
