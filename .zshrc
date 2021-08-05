@@ -4,6 +4,8 @@ export PATH=$PATH:$HOME/.local/bin
 # export MANGOHUD=1
 # export MANGOHUD_DLSYM=1
 
+export ACE=$HOME/Projects/ace
+
 # Path to your oh-my-zsh installation.
 export ZSH="/home/luis/.oh-my-zsh"
 
@@ -113,3 +115,4 @@ source $ZSH/oh-my-zsh.sh
 alias config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
 alias pacman='sudo pacman'
 alias emacs='emacs -nw'
+alias ace="cd $ACE"

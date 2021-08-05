@@ -1,6 +1,6 @@
 font:
   normal:
-    family: IBM Plex Mono
+    family: monospace
   size: 10
 colors:
   primary:
@@ -36,4 +36,4 @@ colors:
     white:   '0x828791'
 env:
   TERM: xterm-256color
-background_opacity: 1
+background_opacity: .99

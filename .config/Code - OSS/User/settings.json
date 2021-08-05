@@ -137,5 +137,7 @@
   "editor.fontSize": 14,
   "thunder-client.enableSaveOption": true,
   "window.menuBarVisibility": "toggle",
-  "redhat.telemetry.enabled": false
+  "redhat.telemetry.enabled": false,
+  "vscode-neovim.neovimInitVimPaths.linux": "$HOME/.config/nvim/init.vim",
+  "vscode-neovim.neovimExecutablePaths.linux": "/bin/nvim"
 }

@@ -5,8 +5,12 @@
 # this file and re-run i3-config-wizard(1).
 #
 
+# Startup
+exec_always --no-startup-id killall picom && picom -b --config ~/.config/picom/picom.conf
+exec_always --no-startup-id $HOME/.config/polybar/launch.sh
+exec_always --no-startup-id exec i3-workspace-names
 exec_always --no-startup-id $HOME/.xprofile
-exec_always --no-startup-id conky --daemonize --pause=5
+exec_always --no-startup-id killall conky && conky --daemonize --pause=5
 
 # i3 config file (v4)
 #
@@ -40,11 +44,6 @@ exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
 # and nm-applet is a desktop environment-independent system tray GUI for it.
 exec --no-startup-id nm-applet
 
-# Polybar
-exec_always --no-startup-id $HOME/.config/polybar/launch.sh
-exec_always --no-startup-id exec i3-workspace-names
-
-
 # Use pactl to adjust volume in PulseAudio.
 set $refresh_i3status killall -SIGUSR1 i3status
 bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +10% && $refresh_i3status
@@ -65,7 +64,7 @@ set $ws4 "4:MEDIA"
 set $ws5 "5:MISC"
 set $ws6 "6:SOCIAL"
 set $ws7 "7:GAMES"
-set $ws8 "8:UNKNOWN"
+set $ws8 "8:TERMINAL"
 set $ws9 "9:VIRTUAL MACHINES"
 set $ws10 "10:UNKNOWN"
 
@@ -80,7 +79,7 @@ bindsym $mod+o workspace $ws2 exec firefox -private
 bindsym $mod+u workspace $ws3 exec firefox figma.com
 bindsym $mod+y workspace $ws4 exec firefox youtube.com
 bindsym $mod+n workspace $ws2 exec firefox localhost:4000
-bindsym $mod+semicolon workspace $ws3 exec i3-sensible-terminal
+bindsym $mod+semicolon workspace $ws8 exec i3-sensible-terminal
 
 # Shutdown
 bindsym $mod+Shift+p exec shutdown -h now
@@ -89,7 +88,7 @@ bindsym $mod+Shift+p exec shutdown -h now
 bindsym $mod+c kill
 
 # start dmenu (a program launcher)
-bindsym $mod+space exec --no-startup-id rofi -show run
+bindsym $mod+space exec --no-startup-id rofi -show drun
 # A more modern dmenu replacement is rofi:
 # bindcode $mod+40 exec "rofi -modi drun,run -show drun"
 # There also is i3-dmenu-desktop which only displays applications shipping a
@@ -143,7 +142,7 @@ workspace $ws4 output DP-4
 workspace $ws5 output DP-0
 workspace $ws6 output HDMI-0
 workspace $ws7 output DP-4
-workspace $ws8 output DP-0
+workspace $ws8 output HDMI-0
 workspace $ws9 output HDMI-0
 workspace $ws10 output HDMI-0
 
