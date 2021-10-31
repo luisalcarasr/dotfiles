@@ -56,14 +56,10 @@ keys = [
 
     # Grow windows. If current window is on the edge of screen and direction
     # will be to screen edge - window would shrink.
-    Key([mod, "control"], "h", lazy.layout.grow_left(),
-        desc="Grow window to the left"),
-    Key([mod, "control"], "l", lazy.layout.grow_right(),
-        desc="Grow window to the right"),
-    Key([mod, "control"], "j", lazy.layout.grow_down(),
-        desc="Grow window down"),
-    Key([mod, "control"], "k", lazy.layout.grow_up(), desc="Grow window up"),
-    Key([mod], "n", lazy.layout.normalize(), desc="Reset all window sizes"),
+
+
+    Key([mod], "i", lazy.prev_screen()),
+    Key([mod], "p", lazy.next_screen()),
 
     # Toggle between split and unsplit sides of stack.
     # Split = all windows displayed
@@ -75,10 +71,10 @@ keys = [
 
     # Toggle between different layouts as defined below
     Key([mod], "Tab", lazy.next_layout(), desc="Toggle between layouts"),
-    Key([mod], "w", lazy.window.kill(), desc="Kill focused window"),
+    Key([mod], "c", lazy.window.kill(), desc="Kill focused window"),
 
-    Key([mod, "control"], "r", lazy.restart(), desc="Restart Qtile"),
-    Key([mod, "control"], "q", lazy.shutdown(), desc="Shutdown Qtile"),
+    Key([mod, "shift"], "r", lazy.restart(), desc="Restart Qtile"),
+    Key([mod, "shift"], "q", lazy.shutdown(), desc="Shutdown Qtile"),
     Key([mod], "space", lazy.spawncmd(),
         desc="Spawn a command using a prompt widget"),
 ]
@@ -103,6 +99,15 @@ keys.extend([
     Key([mod], '5', lazy.group['social'].toscreen()),
     Key([mod], '6', lazy.group['games'].toscreen()),
     Key([mod], '7', lazy.group['vbox'].toscreen()),
+
+
+    Key([mod, "shift"], "1", lazy.window.togroup('dev')),
+    Key([mod, "shift"], "2", lazy.window.togroup('www')),
+    Key([mod, "shift"], "3", lazy.window.togroup('design')),
+    Key([mod, "shift"], "4", lazy.window.togroup('media')),
+    Key([mod, "shift"], "5", lazy.window.togroup('social')),
+    Key([mod, "shift"], "6", lazy.window.togroup('games')),
+    Key([mod, "shift"], "7", lazy.window.togroup('vbox')),
 ])
 
 layouts = [
@@ -130,6 +135,7 @@ widget_defaults = dict(
     font='IBM Plex Mono',
     fontsize=16,
     padding=4,
+    foreground="#abb2bf"
 )
 extension_defaults = widget_defaults.copy()
 
@@ -149,10 +155,20 @@ screens = [
                     inactive="#abb2bf",
                     active="#61afef",
                 ),
-                widget.TextBox("|", foreground="#abb2bf"),
+                widget.TextBox("|"),
                 widget.Prompt(),
                 widget.WindowName(),
-                widget.CPU(),
+                widget.Pomodoro(
+                    color_active='#61afef',
+                    color_break='#98c379',
+                    color_inactive='#e06c75',
+                ),
+                # widget.Wlan(interface='wlp2s0', format='WLAN {percent:2.0%}'),
+                # widget.TextBox("VOL"),
+                # widget.PulseVolume(),
+                # widget.CPU(),
+                # widget.ThermalSensor(foreground='#abb2bf'),
+                # widget.Memory(),
                 widget.Chord(
                     chords_colors={
                         'launch': ("#e06c75", "#abb2bf"),
@@ -160,8 +176,7 @@ screens = [
                     name_transform=lambda name: name.upper(),
                 ),
                 widget.Systray(icon_size=18, padding=8),
-                widget.TextBox(" ")
-                # widget.Clock(format=' %H:%M '),
+                widget.Clock(format=' %H:%M '),
                 # widget.QuickExit(),
             ],
             24,
@@ -193,6 +208,7 @@ floating_layout = layout.Floating(float_rules=[
     Match(wm_class='ssh-askpass'),  # ssh-askpass
     Match(title='branchdialog'),  # gitk
     Match(title='pinentry'),  # GPG key password entry
+    Match(wm_class="steam_app_1182480", title="Origin"), # Origin
 ])
 auto_fullscreen = True
 focus_on_window_activation = "smart"
