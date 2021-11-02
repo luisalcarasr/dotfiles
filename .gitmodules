@@ -1,25 +1,20 @@
 [submodule ".config/rofi/themes/gruvbox"]
 	path = .config/rofi/themes/gruvbox
+	branch = master
 	url = https://github.com/bardisty/gruvbox-rofi
 [submodule ".config/nvim"]
 	path = .config/nvim
 	branch = develop
 	url = git@github.com:luisalcarasr/nvim
-[submodule "/home/luis/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting"]
-	path = /home/luis/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
-	url = https://github.com/zsh-users/zsh-syntax-highlighting.git
-[submodule "/home/luis/.oh-my-zsh/custom/plugins/zsh-autosuggestions"]
-	path = /home/luis/.oh-my-zsh/custom/plugins/zsh-autosuggestions
-	url = https://github.com/zsh-users/zsh-autosuggestions
-[submodule "/home/luis/.oh-my-zsh/custom/plugins/zsh-completions"]
-	path = /home/luis/.oh-my-zsh/custom/plugins/zsh-completions
-	url = https://github.com/zsh-users/zsh-completions
-[submodule ".oh-my-zsh/custom/plugins/zsh-syntax-highlighting"]
+[submodule "zsh-syntax-highlighting"]
 	path = .oh-my-zsh/custom/plugins/zsh-syntax-highlighting
+	branch = master
 	url = https://github.com/zsh-users/zsh-syntax-highlighting
 [submodule "zsh-autosuggestions"]
 	path = .oh-my-zsh/custom/plugins/zsh-autosuggestions
+	branch = master
 	url = https://github.com/zsh-users/zsh-autosuggestions
 [submodule "zsh-completions"]
 	path = .oh-my-zsh/custom/plugins/zsh-completions
+	branch = master
 	url = https://github.com/zsh-users/zsh-completions
