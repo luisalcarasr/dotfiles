@@ -57,9 +57,12 @@ keys = [
     # Grow windows. If current window is on the edge of screen and direction
     # will be to screen edge - window would shrink.
 
+    Key([mod], "i", lazy.to_screen(2)),
+    Key([mod], "o", lazy.to_screen(0)),
+    Key([mod], "p", lazy.to_screen(1)),
 
-    Key([mod], "i", lazy.prev_screen()),
-    Key([mod], "p", lazy.next_screen()),
+    Key([mod], "comma", lazy.prev_screen()),
+    Key([mod], "period", lazy.next_screen()),
 
     # Toggle between split and unsplit sides of stack.
     # Split = all windows displayed
@@ -132,7 +135,7 @@ layouts = [
 ]
 
 widget_defaults = dict(
-    font='IBM Plex Mono',
+    font='monospace',
     fontsize=16,
     padding=4,
     foreground="#abb2bf"
@@ -144,8 +147,7 @@ screens = [
         top=bar.Bar(
             [
                 # widget.CurrentLayout(),
-                widget.TextBox(" Arch", foreground="#1793d1"),
-                widget.TextBox("Linux |", foreground="#abb2bf"),
+                widget.TextBox("  "),
                 widget.GroupBox(
                     highlight_color="#282C34",
                     highlight_method="line",
@@ -155,11 +157,17 @@ screens = [
                     inactive="#abb2bf",
                     active="#61afef",
                 ),
-                widget.TextBox("|"),
-                widget.Prompt(),
-                widget.WindowName(),
+                widget.TextBox(' ', background='#61afef', foreground='#ffffff'),
+                widget.WindowCount(background='#61afef', foreground='#ffffff'),
+                widget.Prompt(padding=16, prompt='> '),
+                widget.WindowName(padding=16),
                 widget.Pomodoro(
                     color_active='#61afef',
+                    prefix_inactive='',
+                    prefix_active=' ',
+                    prefix_break=' ',
+                    prefix_long_break='  ',
+                    prefix_paused='',
                     color_break='#98c379',
                     color_inactive='#e06c75',
                 ),
