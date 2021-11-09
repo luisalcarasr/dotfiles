@@ -115,4 +115,7 @@ source $ZSH/oh-my-zsh.sh
 alias config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
 alias pacman='sudo pacman'
 alias emacs='emacs -nw'
+alias ls='exa'
+alias la='exa -la'
+alias ll='exa -l'
 alias ace="cd $ACE && git status && clear"

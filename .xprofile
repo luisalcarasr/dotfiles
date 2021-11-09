@@ -4,6 +4,6 @@ xrandr --output HDMI-0 --left-of DP-4
 xset s off
 xset -dpms
 xset s noblank
-feh --bg-fill ~/Pictures/Wallpapers
+feh --bg-fill /usr/share/backgrounds/archlinux/simple.png
 xbanish &
 autotiling &

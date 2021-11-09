@@ -138,7 +138,7 @@ widget_defaults = dict(
     font='monospace',
     fontsize=16,
     padding=4,
-    foreground="#abb2bf"
+    foreground="#ffffff"
 )
 extension_defaults = widget_defaults.copy()
 
@@ -157,10 +157,13 @@ screens = [
                     inactive="#abb2bf",
                     active="#61afef",
                 ),
-                widget.TextBox(' ', background='#61afef', foreground='#ffffff'),
-                widget.WindowCount(background='#61afef', foreground='#ffffff'),
-                widget.Prompt(padding=16, prompt='> '),
-                widget.WindowName(padding=16),
+                # widget.TextBox(' ', background='#61afef'),
+                # widget.WindowCount(background='#61afef'),
+                widget.Prompt(padding=16, prompt='> ', foreground='#98c379'),
+                # widget.WindowName(padding=16),
+                widget.TextBox(width=bar.STRETCH),
+                widget.Systray(icon_size=18, padding=8),
+                widget.TextBox('|', foreground='#61afef', padding=8),
                 widget.Pomodoro(
                     color_active='#61afef',
                     prefix_inactive='',
@@ -177,18 +180,18 @@ screens = [
                 # widget.CPU(),
                 # widget.ThermalSensor(foreground='#abb2bf'),
                 # widget.Memory(),
-                widget.Chord(
-                    chords_colors={
-                        'launch': ("#e06c75", "#abb2bf"),
-                    },
-                    name_transform=lambda name: name.upper(),
-                ),
-                widget.Systray(icon_size=18, padding=8),
-                widget.Clock(format=' %H:%M '),
+                # widget.Chord(
+                #     chords_colors={
+                #         'launch': ("#e06c75", "#abb2bf"),
+                #     },
+                #     name_transform=lambda name: name.upper(),
+                # ),
+                widget.TextBox('|', foreground='#61afef', padding=8),
+                widget.Clock(format='%H:%M '),
                 # widget.QuickExit(),
             ],
-            24,
-            background="#282C34"
+            30,
+            background="#000000"
         ),
     ),
 ]
@@ -217,6 +220,7 @@ floating_layout = layout.Floating(float_rules=[
     Match(title='branchdialog'),  # gitk
     Match(title='pinentry'),  # GPG key password entry
     Match(wm_class="steam_app_1182480", title="Origin"), # Origin
+    Match(wm_class="steam_app_*"), # Steam Apps
 ])
 auto_fullscreen = True
 focus_on_window_activation = "smart"
@@ -224,7 +228,7 @@ reconfigure_screens = True
 
 # If things like steam games want to auto-minimize themselves when losing
 # focus, should we respect this or not?
-auto_minimize = True
+auto_minimize = False
 
 # XXX: Gasp! We're lying here. In fact, nobody really uses or cares about this
 # string besides java UI toolkits; you can see several discussions on the
