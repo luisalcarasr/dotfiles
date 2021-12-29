@@ -82,35 +82,33 @@ keys = [
         desc="Spawn a command using a prompt widget"),
 ]
 
-# groups = [Group(i) for i in "123456789"]
-
 groups = [
-    Group('dev'),
-    Group('www'),
-    Group('design'),
-    Group('media'),
-    Group('social'),
-    Group('games'),
-    Group('vbox'),
+    Group('   '),
+    Group('   '),
+    Group('   '),
+    Group('   '),
+    Group('   '),
+    Group('   '),
+    Group('   '),
 ]
 
 keys.extend([
-    Key([mod], '1', lazy.group['dev'].toscreen()),
-    Key([mod], '2', lazy.group['www'].toscreen()),
-    Key([mod], '3', lazy.group['design'].toscreen()),
-    Key([mod], '4', lazy.group['media'].toscreen()),
-    Key([mod], '5', lazy.group['social'].toscreen()),
-    Key([mod], '6', lazy.group['games'].toscreen()),
-    Key([mod], '7', lazy.group['vbox'].toscreen()),
+    Key([mod], '1', lazy.group['   '].toscreen()),
+    Key([mod], '2', lazy.group['   '].toscreen()),
+    Key([mod], '3', lazy.group['   '].toscreen()),
+    Key([mod], '4', lazy.group['   '].toscreen()),
+    Key([mod], '5', lazy.group['   '].toscreen()),
+    Key([mod], '6', lazy.group['   '].toscreen()),
+    Key([mod], '7', lazy.group['   '].toscreen()),
 
 
-    Key([mod, "shift"], "1", lazy.window.togroup('dev')),
-    Key([mod, "shift"], "2", lazy.window.togroup('www')),
-    Key([mod, "shift"], "3", lazy.window.togroup('design')),
-    Key([mod, "shift"], "4", lazy.window.togroup('media')),
-    Key([mod, "shift"], "5", lazy.window.togroup('social')),
-    Key([mod, "shift"], "6", lazy.window.togroup('games')),
-    Key([mod, "shift"], "7", lazy.window.togroup('vbox')),
+    Key([mod, "shift"], "1", lazy.window.togroup('   ')),
+    Key([mod, "shift"], "2", lazy.window.togroup('   ')),
+    Key([mod, "shift"], "3", lazy.window.togroup('   ')),
+    Key([mod, "shift"], "4", lazy.window.togroup('   ')),
+    Key([mod, "shift"], "5", lazy.window.togroup('   ')),
+    Key([mod, "shift"], "6", lazy.window.togroup('   ')),
+    Key([mod, "shift"], "7", lazy.window.togroup('   ')),
 ])
 
 layouts = [
@@ -120,22 +118,10 @@ layouts = [
         margin=8
     ),
     layout.Max(),
-    # Try more layouts by unleashing below layouts.
-    # layout.Columns(),
-    # layout.Stack(num_stacks=2),
-    # layout.Bsp(),
-    # layout.Matrix(),
-    # layout.MonadTall(),
-    # layout.MonadWide(),
-    # layout.RatioTile(),
-    # layout.Tile(),
-    # layout.TreeTab(),
-    # layout.VerticalTile(),
-    # layout.Zoomy(),
 ]
 
 widget_defaults = dict(
-    font='monospace',
+    font='CaskaydiaCove Nerd Font',
     fontsize=16,
     padding=4,
     foreground="#ffffff"
@@ -146,8 +132,9 @@ screens = [
     Screen(
         top=bar.Bar(
             [
-                # widget.CurrentLayout(),
                 widget.TextBox("  "),
+                widget.Prompt(padding=16, prompt='> ', foreground='#98c379'),
+                widget.TextBox(width=bar.STRETCH),
                 widget.GroupBox(
                     highlight_color="#282C34",
                     highlight_method="line",
@@ -157,38 +144,9 @@ screens = [
                     inactive="#abb2bf",
                     active="#61afef",
                 ),
-                # widget.TextBox(' ', background='#61afef'),
-                # widget.WindowCount(background='#61afef'),
-                widget.Prompt(padding=16, prompt='> ', foreground='#98c379'),
-                # widget.WindowName(padding=16),
                 widget.TextBox(width=bar.STRETCH),
                 widget.Systray(icon_size=18, padding=8),
-                widget.TextBox('|', foreground='#61afef', padding=8),
-                widget.Pomodoro(
-                    color_active='#61afef',
-                    prefix_inactive='',
-                    prefix_active=' ',
-                    prefix_break=' ',
-                    prefix_long_break='  ',
-                    prefix_paused='',
-                    color_break='#98c379',
-                    color_inactive='#e06c75',
-                ),
-                # widget.Wlan(interface='wlp2s0', format='WLAN {percent:2.0%}'),
-                # widget.TextBox("VOL"),
-                # widget.PulseVolume(),
-                # widget.CPU(),
-                # widget.ThermalSensor(foreground='#abb2bf'),
-                # widget.Memory(),
-                # widget.Chord(
-                #     chords_colors={
-                #         'launch': ("#e06c75", "#abb2bf"),
-                #     },
-                #     name_transform=lambda name: name.upper(),
-                # ),
-                widget.TextBox('|', foreground='#61afef', padding=8),
                 widget.Clock(format='%H:%M '),
-                # widget.QuickExit(),
             ],
             30,
             background="#000000"

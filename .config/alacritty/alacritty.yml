@@ -1,11 +1,9 @@
 font:
   normal:
-    # family: monospace
-    family: BlexMono Nerd Font
+    family: CaskaydiaCove Nerd Font
   size: 11
 colors:
   primary:
-    # background: '0x000000'
     background: '0x1e2127'
     foreground: '0xabb2bf'
     bright_foreground: '0xe6efff'

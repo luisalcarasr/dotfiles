@@ -79,9 +79,6 @@ plugins=(
   git
   sudo
   yarn
-  zsh-syntax-highlighting
-  zsh-autosuggestions
-  zsh-completions
 )
 autoload -U compinit && compinit
 
