@@ -30,7 +30,7 @@
 
 [colors]
 fg = #abb2bf
-bg = #282c34
+bg = #ee282c34
 red = #e06c75
 green = #98c379
 yellow = #e5c07b
@@ -57,11 +57,11 @@ line-color = ${colors.red}
 border-size = 0
 border-color = ${colors.fg}
 
-padding-left = 0
-padding-right = 3
+padding-left = 4
+padding-right = 0
 
 module-margin-left = 1
-module-margin-right = 2
+module-margin-right = 3
 
 font-0 = IBM Plex Sans:pixelsize=10;1
 font-1 = FontAwesome5Free:style=Solid:size=10;1
@@ -69,6 +69,7 @@ font-2 = FontAwesome5Free:style=Regular:size=10;1
 font-3 = FontAwesome5Brands:style=Regular:size=10;1
 font-4 = unifont:fontformat=truetype:size=10:antialias=false;0
 font-5 = siji:pixelsize=10;1
+font-6 = monospace:pixelsize=12;1
 
 
 modules-left = i3
@@ -76,7 +77,7 @@ modules-center = date
 modules-right = wlan alsa cpu cputemp memory
 
 tray-position = right
-tray-padding = 1
+tray-padding = 10
 ;tray-background = #0063ff
 
 ;wm-restack = bspwm
@@ -104,7 +105,7 @@ index-sort = true
 wrapping-scroll = false
 strip-wsnumbers = true
 
-ws-icon-1=DEV;
+ws-icon-default = 
 ;pin-workspaces = true
 
 label-mode-padding = 2
@@ -112,25 +113,26 @@ label-mode-foreground = ${colors.fg}
 label-mode-background = ${colors.yellow}
 
 ; focused = Active workspace on focused monitor
-label-focused = %name% %icon%
+label-focused = %name% [%index%]
 label-focused-background = ${colors.blue}
 label-focused-underline= ${colors.blue}
 label-focused-foreground= ${colors.bg}
 label-focused-padding = 2
 
 ; unfocused = Inactive workspace on any monitor
-label-unfocused = %name% %icon%
+label-unfocused = %name% [%index%]
 label-unfocused-padding = 2
 
 ; visible = Active workspace on unfocused monitor
-label-visible = %name% %icon%
+label-visible = %name% [%index%]
 label-visible-background = ${colors.bg}
 ;label-visible-underline = ${self.label-focused-underline}
 label-visible-padding = ${self.label-unfocused-padding}
 
 ; urgent = Workspace with urgency hint set
-label-urgent = %name% %icon%
+label-urgent = %name% [%index%]
 label-urgent-background = ${colors.red}
+label-urgent-foreground = ${colors.fg}
 label-urgent-padding = 2
 
 ; Separator in between workspaces
@@ -157,10 +159,10 @@ interval = 3.0
 
 format-connected = <label-connected>
 label-connected = ONLINE
-label-connected-foreground = ${colors.green} 
+label-connected-foreground = ${colors.green}
 
-format-disconnected =
-;format-disconnected = <label-disconnected>
+;format-disconnected =
+format-disconnected = <label-disconnected>
 ;format-disconnected-underline = ${self.format-connected-underline}
 ;label-disconnected = %ifname% disconnected
 label-disconnected-foreground = ${colors.red}
@@ -254,7 +256,7 @@ type=custom/script
 exec=echo $(($(nvidia-smi --query-gpu=memory.used --format=csv,noheader,nounits | awk '{ print $1}') * 100 / $(nvidia-smi --query-gpu=memory.total --format=csv,noheader,nounits | awk '{ print $1}')))
 format=<label>
 format-foreground=${colors.gray}
-label="VRAM: %{F${colors.fg}%output%%" 
+label="VRAM: %{F${colors.fg}%output%%"
 interval=5
 
 [module/powermenu]
