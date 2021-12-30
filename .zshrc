@@ -6,6 +6,8 @@ export PATH=$PATH:$HOME/.local/bin
 
 export ACE=$HOME/Projects/ace
 
+export XCURSOR_THEME='Breeze'
+
 # Path to your oh-my-zsh installation.
 export ZSH="/home/luis/.oh-my-zsh"
 

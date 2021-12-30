@@ -78,8 +78,7 @@ keys = [
 
     Key([mod, "shift"], "r", lazy.restart(), desc="Restart Qtile"),
     Key([mod, "shift"], "q", lazy.shutdown(), desc="Shutdown Qtile"),
-    Key([mod], "space", lazy.spawncmd(),
-        desc="Spawn a command using a prompt widget"),
+    Key([mod], "space", lazy.spawn('rofi -show drun -show-icons'), desc="Spawn a command using a prompt widget"),
 ]
 
 groups = [
@@ -115,14 +114,16 @@ layouts = [
     layout.MonadTall(
         border_focus='#1793d1',
         border_normal='#282C34',
-        margin=8
+        margin=16,
+        single_margin=16,
+        single_border_width=0
     ),
     layout.Max(),
 ]
 
 widget_defaults = dict(
-    font='CaskaydiaCove Nerd Font',
-    fontsize=16,
+    font='Hack Nerd Font',
+    fontsize=14,
     padding=4,
     foreground="#ffffff"
 )
@@ -132,21 +133,24 @@ screens = [
     Screen(
         top=bar.Bar(
             [
-                widget.TextBox("  "),
+                widget.Sep(padding=16, foreground='#000000'),
+                widget.TextBox(" ", fontsize=16),
                 widget.Prompt(padding=16, prompt='> ', foreground='#98c379'),
-                widget.TextBox(width=bar.STRETCH),
+                widget.Spacer(),
                 widget.GroupBox(
                     highlight_color="#282C34",
                     highlight_method="line",
                     highlight_border="#61afef",
                     urgent_alert_method="line",
                     urgent_text="#e06c75",
-                    inactive="#abb2bf",
+                    inactive="#ffffff",
                     active="#61afef",
+                    fontsize=16
                 ),
-                widget.TextBox(width=bar.STRETCH),
+                widget.Spacer(),
                 widget.Systray(icon_size=18, padding=8),
-                widget.Clock(format='%H:%M '),
+                widget.Clock(format=' %H:%M'),
+                widget.Sep(padding=16, foreground='#000000'),
             ],
             30,
             background="#000000"
@@ -168,18 +172,23 @@ dgroups_app_rules = []  # type: List
 follow_mouse_focus = True
 bring_front_click = False
 cursor_warp = False
-floating_layout = layout.Floating(float_rules=[
-    # Run the utility of `xprop` to see the wm class and name of an X client.
-    *layout.Floating.default_float_rules,
-    Match(wm_class='confirmreset'),  # gitk
-    Match(wm_class='makebranch'),  # gitk
-    Match(wm_class='maketag'),  # gitk
-    Match(wm_class='ssh-askpass'),  # ssh-askpass
-    Match(title='branchdialog'),  # gitk
-    Match(title='pinentry'),  # GPG key password entry
-    Match(wm_class="steam_app_1182480", title="Origin"), # Origin
-    Match(wm_class="steam_app_*"), # Steam Apps
-])
+floating_layout = layout.Floating(
+    float_rules=[
+        # Run the utility of `xprop` to see the wm class and name of an X client.
+        *layout.Floating.default_float_rules,
+        Match(wm_class='confirmreset'),  # gitk
+        Match(wm_class='makebranch'),  # gitk
+        Match(wm_class='maketag'),  # gitk
+        Match(wm_class='ssh-askpass'),  # ssh-askpass
+        Match(title='branchdialog'),  # gitk
+        Match(title='pinentry'),  # GPG key password entry
+        Match(wm_class="steam_app_1182480", title="Origin"), # Origin
+        Match(wm_class="steam_app_*"), # Steam Apps
+    ],
+    border_focus='#1793d1',
+    border_normal='#282C34',
+    border_width=2,
+)
 auto_fullscreen = True
 focus_on_window_activation = "smart"
 reconfigure_screens = True

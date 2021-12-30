@@ -74,7 +74,7 @@ sudo systemctl enable NetworkManager
 
 Enable multilib in /etc/pacman.conf
 
-sudo pacman -Syyu xorg xorg-server alacritty firefox lightdm lightdm-gtk-greeter qtile python-pip
+sudo pacman -Syyu xorg xorg-server alacritty firefox lightdm lightdm-gtk-greeter qtile python-pip xcb-util-cursor
 
 sudo pacman -Syyu arc-gtk-theme arc-icon-theme archlinux-wallpaper feh 
 
