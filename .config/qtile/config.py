@@ -78,7 +78,8 @@ keys = [
 
     Key([mod, "shift"], "r", lazy.restart(), desc="Restart Qtile"),
     Key([mod, "shift"], "q", lazy.shutdown(), desc="Shutdown Qtile"),
-    Key([mod], "space", lazy.spawn('rofi -show drun -show-icons'), desc="Spawn a command using a prompt widget"),
+    # Key([mod], "space", lazy.spawn('rofi -show drun -show-icons'), desc="Spawn a command using a prompt widget"),
+    Key([mod], "space", lazy.spawncmd(''), desc="Spawn a command using a prompt widget"),
 ]
 
 groups = [
@@ -122,38 +123,63 @@ layouts = [
 ]
 
 widget_defaults = dict(
-    font='Hack Nerd Font',
+    font='BlexMono Nerd Font',
     fontsize=14,
-    padding=4,
+    padding=0,
     foreground="#ffffff"
 )
 extension_defaults = widget_defaults.copy()
+
+colors = {
+    "white": "#ffffff",
+    "black": "#000000",
+    "dark": "#282C34",
+    "blue": "#61afef",
+    "red": "#e06c75",
+    "green": "#98c379",
+    "yellow": "#e6c07b",
+}
 
 screens = [
     Screen(
         top=bar.Bar(
             [
-                widget.Sep(padding=16, foreground='#000000'),
-                widget.TextBox(" ", fontsize=16),
-                widget.Prompt(padding=16, prompt='> ', foreground='#98c379'),
+                # Arch Logo
+                widget.Sep(padding=16, background=colors["blue"], foreground=colors["blue"]),
+                widget.TextBox("", fontsize=18, background=colors["blue"], foreground=colors["black"], padding=8),
+                widget.Sep(padding=16, background=colors["blue"], foreground=colors["blue"]),
+
+                # Laucher
+                widget.TextBox("\u25e3", foreground=colors["blue"], background=colors["green"], fontsize=64, padding=-1),
+                widget.TextBox("", fontsize=18, background=colors["green"], foreground=colors["black"], padding=8),
+                widget.Prompt(prompt=' ', background=colors["green"], foreground=colors['black']),
+                widget.Sep(padding=16, background=colors["green"], foreground=colors["green"]),
+                widget.TextBox("\u25e3", foreground=colors["green"], background=colors["yellow"],fontsize=64, padding=-1),
+                widget.TextBox("\u25e3", foreground=colors["yellow"], fontsize=64, padding=-1),
+
                 widget.Spacer(),
                 widget.GroupBox(
-                    highlight_color="#282C34",
+                    highlight_color=colors["dark"],
                     highlight_method="line",
-                    highlight_border="#61afef",
+                    highlight_border=colors["blue"],
                     urgent_alert_method="line",
-                    urgent_text="#e06c75",
-                    inactive="#ffffff",
-                    active="#61afef",
-                    fontsize=16
+                    urgent_text=colors["red"],
+                    inactive=colors["white"],
+                    active=colors["blue"],
+                    fontsize=14
                 ),
                 widget.Spacer(),
-                widget.Systray(icon_size=18, padding=8),
-                widget.Clock(format=' %H:%M'),
-                widget.Sep(padding=16, foreground='#000000'),
+                widget.Systray(icon_size=16, padding=10),
+                widget.TextBox("\u25e2", foreground=colors["yellow"], fontsize=64, padding=-0.1),
+                widget.TextBox("\u25e2", foreground=colors["green"], background=colors["yellow"],fontsize=64, padding=-0.1),
+                widget.TextBox("\u25e2", foreground=colors["green"], background=colors["green"], fontsize=64, padding=-0.1),
+                widget.TextBox("\u25e2", foreground=colors["blue"], background=colors["green"],fontsize=64, padding=-0.1),
+                widget.TextBox("", fontsize=18, background=colors["blue"], foreground=colors["black"], padding=16),
+                widget.Clock(format='%H:%M', background=colors["blue"], foreground=colors["black"]),
+                widget.Sep(padding=16, background=colors["blue"], foreground=colors["blue"]),
             ],
-            30,
-            background="#000000"
+            24,
+            background=colors["black"]
         ),
     ),
 ]
