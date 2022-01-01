@@ -116,14 +116,14 @@ layouts = [
         border_focus='#1793d1',
         border_normal='#282C34',
         margin=16,
-        single_margin=16,
+        single_margin=0,
         single_border_width=0
     ),
     layout.Max(),
 ]
 
 widget_defaults = dict(
-    font='BlexMono Nerd Font',
+    font='CaskaydiaCove Nerd Font',
     fontsize=14,
     padding=0,
     foreground="#ffffff"
@@ -138,6 +138,7 @@ colors = {
     "red": "#e06c75",
     "green": "#98c379",
     "yellow": "#e6c07b",
+    "aqua": "#56b6c2",
 }
 
 screens = [
@@ -147,15 +148,16 @@ screens = [
                 # Arch Logo
                 widget.Sep(padding=16, background=colors["blue"], foreground=colors["blue"]),
                 widget.TextBox("", fontsize=18, background=colors["blue"], foreground=colors["black"], padding=8),
-                widget.Sep(padding=16, background=colors["blue"], foreground=colors["blue"]),
+                widget.TextBox("luis@arch", background=colors["blue"], foreground=colors["black"], padding=8),
+                # widget.Sep(padding=16, background=colors["blue"], foreground=colors["blue"]),
 
                 # Laucher
                 widget.TextBox("\u25e3", foreground=colors["blue"], background=colors["green"], fontsize=64, padding=-1),
                 widget.TextBox("", fontsize=18, background=colors["green"], foreground=colors["black"], padding=8),
-                widget.Prompt(prompt=' ', background=colors["green"], foreground=colors['black']),
-                widget.Sep(padding=16, background=colors["green"], foreground=colors["green"]),
-                widget.TextBox("\u25e3", foreground=colors["green"], background=colors["yellow"],fontsize=64, padding=-1),
-                widget.TextBox("\u25e3", foreground=colors["yellow"], fontsize=64, padding=-1),
+                widget.Prompt(prompt=' ', background=colors["green"], foreground=colors['black'], cursor_color=colors['black']),
+
+                # Clock
+                widget.TextBox("\u25e3", foreground=colors["green"], background=colors["black"],fontsize=64, padding=-1),
 
                 widget.Spacer(),
                 widget.GroupBox(
@@ -166,17 +168,128 @@ screens = [
                     urgent_text=colors["red"],
                     inactive=colors["white"],
                     active=colors["blue"],
-                    fontsize=14
+                    fontsize=16
                 ),
                 widget.Spacer(),
-                widget.Systray(icon_size=16, padding=10),
-                widget.TextBox("\u25e2", foreground=colors["yellow"], fontsize=64, padding=-0.1),
-                widget.TextBox("\u25e2", foreground=colors["green"], background=colors["yellow"],fontsize=64, padding=-0.1),
-                widget.TextBox("\u25e2", foreground=colors["green"], background=colors["green"], fontsize=64, padding=-0.1),
-                widget.TextBox("\u25e2", foreground=colors["blue"], background=colors["green"],fontsize=64, padding=-0.1),
-                widget.TextBox("", fontsize=18, background=colors["blue"], foreground=colors["black"], padding=16),
+
+                # Clock
+                widget.TextBox("\u25e2", foreground=colors["blue"], background=colors["black"],fontsize=64, padding=-0.1),
+                widget.TextBox("", foreground=colors["black"], background=colors["blue"], fontsize=18, padding=16),
                 widget.Clock(format='%H:%M', background=colors["blue"], foreground=colors["black"]),
                 widget.Sep(padding=16, background=colors["blue"], foreground=colors["blue"]),
+            ],
+            24,
+            background=colors["black"]
+        ),
+    ),
+    Screen(
+        top=bar.Bar(
+            [
+                # Arch Logo
+                widget.Sep(padding=16, background=colors["white"], foreground=colors["white"]),
+                widget.Image(filename='~/intel.svg', background=colors["white"], margin=5),
+                # widget.Net(format="{interface}/s", foreground=colors["black"], background=colors["blue"]),
+                # widget.Sep(padding=16, background=colors["blue"], foreground=colors["blue"]),
+
+                # Laucher
+                widget.TextBox("\u25e3", foreground=colors["white"], background=colors["blue"], fontsize=64, padding=-1),
+                widget.TextBox("﬙", foreground=colors["black"], background=colors["blue"], fontsize=18, padding=16),
+                widget.CPU(format="{load_percent}%",background=colors["blue"], foreground=colors["black"]),
+
+                # Clock
+                widget.TextBox("\u25e3", foreground=colors["blue"], background=colors["yellow"],fontsize=64, padding=-1),
+                widget.TextBox("", foreground=colors["black"], background=colors["yellow"],fontsize=18, padding=16),
+                widget.ThermalSensor(foreground=colors["black"], background=colors["yellow"]),
+
+                # 
+                widget.TextBox("\u25e3", foreground=colors["yellow"], background=colors["aqua"], fontsize=64, padding=-1),
+                widget.TextBox("", foreground=colors["black"], background=colors["aqua"],fontsize=18, padding=16),
+                widget.Memory(format="{MemPercent}%", foreground=colors["black"], background=colors["aqua"]),
+
+                widget.TextBox("\u25e3", foreground=colors["aqua"], fontsize=64, padding=-0.1),
+
+                widget.Spacer(),
+                widget.GroupBox(
+                    highlight_color=colors["dark"],
+                    highlight_method="line",
+                    highlight_border=colors["blue"],
+                    urgent_alert_method="line",
+                    urgent_text=colors["red"],
+                    inactive=colors["white"],
+                    active=colors["blue"],
+                    fontsize=16
+                ),
+                widget.Spacer(),
+
+                # Clock
+                widget.TextBox("\u25e2", foreground=colors["blue"], background=colors["black"],fontsize=64, padding=-0.1),
+                widget.TextBox("", foreground=colors["black"], background=colors["blue"], fontsize=18, padding=16),
+                widget.Clock(format='%H:%M', background=colors["blue"], foreground=colors["black"]),
+                widget.Sep(padding=16, background=colors["blue"], foreground=colors["blue"]),
+            ],
+            24,
+            background=colors["black"]
+        ),
+    ),
+    Screen(
+        top=bar.Bar(
+            [
+                # Arch Logo
+                widget.Sep(padding=16, background=colors["blue"], foreground=colors["blue"]),
+                widget.TextBox("", fontsize=18, background=colors["blue"], foreground=colors["black"], padding=16),
+                # widget.Net(format="{interface}/s", foreground=colors["black"], background=colors["blue"]),
+                # widget.Sep(padding=16, background=colors["blue"], foreground=colors["blue"]),
+
+                # Laucher
+                widget.TextBox("\u25e3", foreground=colors["blue"], background=colors["green"], fontsize=64, padding=-1),
+                widget.TextBox("", fontsize=18, background=colors["green"], foreground=colors["black"], padding=16),
+                widget.Net(format="{up}/s", foreground=colors["black"], background=colors["green"]),
+
+                # Clock
+                widget.TextBox("\u25e3", foreground=colors["green"], background=colors["yellow"],fontsize=64, padding=-1),
+                widget.TextBox("", fontsize=18, background=colors["yellow"], foreground=colors["black"], padding=16),
+                widget.Net(format="{down}/s", foreground=colors["black"], background=colors["yellow"]),
+
+                # 
+                widget.TextBox("\u25e3", foreground=colors["yellow"], background=colors["aqua"], fontsize=64, padding=-1),
+                widget.TextBox("歷", foreground=colors["black"], background=colors["aqua"],fontsize=18, padding=16),
+                widget.TextBox("127.0.0.1", foreground=colors["black"], background=colors["aqua"]),
+
+                widget.TextBox("\u25e3", foreground=colors["aqua"], fontsize=64, padding=-0.1),
+
+                widget.Spacer(),
+                widget.GroupBox(
+                    highlight_color=colors["dark"],
+                    highlight_method="line",
+                    highlight_border=colors["blue"],
+                    urgent_alert_method="line",
+                    urgent_text=colors["red"],
+                    inactive=colors["white"],
+                    active=colors["blue"],
+                    fontsize=16
+                ),
+                widget.Spacer(),
+
+                widget.TextBox("\u25e2", foreground=colors["aqua"], fontsize=64, padding=-0.1),
+
+                # VRAM
+                widget.TextBox("", foreground=colors["black"], background=colors["aqua"],fontsize=18, padding=16),
+                widget.TextBox("0.0%", foreground=colors["black"], background=colors["aqua"]),
+                widget.TextBox("\u25e2", foreground=colors["yellow"], background=colors["aqua"], fontsize=64, padding=-0.1),
+
+                # RAM
+                widget.TextBox("", foreground=colors["black"], background=colors["yellow"],fontsize=18, padding=16),
+                widget.NvidiaSensors(format="{temp}°C", foreground=colors["black"], background=colors["yellow"]),
+                widget.TextBox("\u25e2", foreground=colors["green"], background=colors["yellow"],fontsize=64, padding=-0.1),
+
+                #GPU
+                widget.TextBox("﬙", foreground=colors["black"], background=colors["green"], fontsize=18, padding=16),
+                widget.TextBox("0.0%",background=colors["green"], foreground=colors["black"]),
+                widget.TextBox("\u25e2", foreground=colors["white"], background=colors["green"],fontsize=64, padding=-0.1),
+
+                # CPU
+                widget.Image(filename='~/nvidia.svg', background=colors["white"], margin=5),
+                widget.Sep(padding=16, background=colors["white"], foreground=colors["white"]),
             ],
             24,
             background=colors["black"]
