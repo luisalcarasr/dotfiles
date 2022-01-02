@@ -111,13 +111,26 @@ keys.extend([
     Key([mod, "shift"], "7", lazy.window.togroup('   ')),
 ])
 
+colors = {
+    "white": "#ffffff",
+    "light": "#eeeeee",
+    "black": "#000000",
+    "dark": "#282C34",
+    "blue": "#61afef",
+    "sky": "#1793d1",
+    "red": "#e06c75",
+    "green": "#98c379",
+    "yellow": "#e6c07b",
+    "aqua": "#56b6c2",
+}
+
 layouts = [
     layout.MonadTall(
-        border_focus='#1793d1',
-        border_normal='#282C34',
+        border_focus=colors["sky"],
+        border_normal=colors["dark"],
         margin=16,
-        single_margin=0,
-        single_border_width=0
+        # single_margin=0,
+        # single_border_width=0
     ),
     layout.Max(),
 ]
@@ -126,20 +139,9 @@ widget_defaults = dict(
     font='CaskaydiaCove Nerd Font',
     fontsize=14,
     padding=0,
-    foreground="#ffffff"
+    foreground=colors["white"]
 )
 extension_defaults = widget_defaults.copy()
-
-colors = {
-    "white": "#ffffff",
-    "black": "#000000",
-    "dark": "#282C34",
-    "blue": "#61afef",
-    "red": "#e06c75",
-    "green": "#98c379",
-    "yellow": "#e6c07b",
-    "aqua": "#56b6c2",
-}
 
 screens = [
     Screen(
@@ -149,7 +151,7 @@ screens = [
                 widget.Sep(padding=16, background=colors["blue"], foreground=colors["blue"]),
                 widget.TextBox("", fontsize=18, background=colors["blue"], foreground=colors["black"], padding=8),
                 widget.TextBox("luis@arch", background=colors["blue"], foreground=colors["black"], padding=8),
-                # widget.Sep(padding=16, background=colors["blue"], foreground=colors["blue"]),
+                # idget.Sep(padding=16, background=colors["blue"], foreground=colors["blue"]),
 
                 # Laucher
                 widget.TextBox("\u25e3", foreground=colors["blue"], background=colors["green"], fontsize=64, padding=-1),
@@ -173,6 +175,7 @@ screens = [
                 widget.Spacer(),
 
                 # Clock
+                widget.Systray(icon_size=18, padding=8),
                 widget.TextBox("\u25e2", foreground=colors["blue"], background=colors["black"],fontsize=64, padding=-0.1),
                 widget.TextBox("", foreground=colors["black"], background=colors["blue"], fontsize=18, padding=16),
                 widget.Clock(format='%H:%M', background=colors["blue"], foreground=colors["black"]),
@@ -186,13 +189,13 @@ screens = [
         top=bar.Bar(
             [
                 # Arch Logo
-                widget.Sep(padding=16, background=colors["white"], foreground=colors["white"]),
-                widget.Image(filename='~/intel.svg', background=colors["white"], margin=5),
+                widget.Sep(padding=16, background=colors["light"], foreground=colors["light"]),
+                widget.Image(filename='~/intel.svg', background=colors["light"], margin=5),
                 # widget.Net(format="{interface}/s", foreground=colors["black"], background=colors["blue"]),
                 # widget.Sep(padding=16, background=colors["blue"], foreground=colors["blue"]),
 
                 # Laucher
-                widget.TextBox("\u25e3", foreground=colors["white"], background=colors["blue"], fontsize=64, padding=-1),
+                widget.TextBox("\u25e3", foreground=colors["light"], background=colors["blue"], fontsize=64, padding=-1),
                 widget.TextBox("﬙", foreground=colors["black"], background=colors["blue"], fontsize=18, padding=16),
                 widget.CPU(format="{load_percent}%",background=colors["blue"], foreground=colors["black"]),
 
@@ -285,11 +288,11 @@ screens = [
                 #GPU
                 widget.TextBox("﬙", foreground=colors["black"], background=colors["green"], fontsize=18, padding=16),
                 widget.TextBox("0.0%",background=colors["green"], foreground=colors["black"]),
-                widget.TextBox("\u25e2", foreground=colors["white"], background=colors["green"],fontsize=64, padding=-0.1),
+                widget.TextBox("\u25e2", foreground=colors["light"], background=colors["green"],fontsize=64, padding=-0.1),
 
                 # CPU
-                widget.Image(filename='~/nvidia.svg', background=colors["white"], margin=5),
-                widget.Sep(padding=16, background=colors["white"], foreground=colors["white"]),
+                widget.Image(filename='~/nvidia.svg', background=colors["light"], margin=5),
+                widget.Sep(padding=16, background=colors["light"], foreground=colors["light"]),
             ],
             24,
             background=colors["black"]
