@@ -184,6 +184,59 @@ screens = [
             24,
             background=colors["black"]
         ),
+        bottom=bar.Bar(
+            [
+                widget.Sep(padding=16, background=colors["blue"], foreground=colors["blue"]),
+                widget.TextBox("", fontsize=18, background=colors["blue"], foreground=colors["black"], padding=16),
+                widget.Wlan(format="{essid}", foreground=colors["black"], background=colors["blue"], interface="wlo1"),
+                # widget.Sep(padding=16, background=colors["blue"], foreground=colors["blue"]),
+
+                # Laucher
+                widget.TextBox("\u25e3", foreground=colors["blue"], background=colors["green"], fontsize=64, padding=-1),
+                widget.TextBox("", fontsize=18, background=colors["green"], foreground=colors["black"], padding=16),
+                widget.Net(format="{up}/s", foreground=colors["black"], background=colors["green"]),
+
+                # Clock
+                widget.TextBox("\u25e3", foreground=colors["green"], background=colors["yellow"],fontsize=64, padding=-1),
+                widget.TextBox("", fontsize=18, background=colors["yellow"], foreground=colors["black"], padding=16),
+                widget.Net(format="{down}/s", foreground=colors["black"], background=colors["yellow"]),
+
+                # 
+                widget.TextBox("\u25e3", foreground=colors["yellow"], background=colors["aqua"], fontsize=64, padding=-1),
+                widget.TextBox("歷", foreground=colors["black"], background=colors["aqua"],fontsize=18, padding=16),
+                widget.TextBox("127.0.0.1", foreground=colors["black"], background=colors["aqua"]),
+
+                widget.TextBox("\u25e3", foreground=colors["aqua"], fontsize=64, padding=-1),
+
+                widget.Spacer(),
+                widget.Spacer(),
+
+                widget.TextBox("\u25e2", foreground=colors["aqua"], background=colors["black"], fontsize=64, padding=-0.1),
+                # VRAM
+                # widget.TextBox("", foreground=colors["black"], background=colors["aqua"],fontsize=18, padding=16),
+                widget.Battery(format="{char}", fontsize=18, padding=16, background=colors["aqua"], foreground=colors["black"], low_foreground=colors["red"], full_char="", charge_char="", discharge_char="", empty_char="", unknown_char=""),
+                widget.Battery(format="{percent:2.0%}",background=colors["aqua"], foreground=colors["black"], low_foreground=colors["red"]),
+                widget.TextBox("\u25e2", foreground=colors["yellow"], background=colors["aqua"], fontsize=64, padding=-0.1),
+
+                # RAM
+                widget.TextBox("", foreground=colors["black"], background=colors["yellow"],fontsize=18, padding=16),
+                widget.ThermalSensor(foreground=colors["black"], background=colors["yellow"]),
+                widget.TextBox("\u25e2", foreground=colors["green"], background=colors["yellow"],fontsize=64, padding=-0.1),
+
+                #GPU
+                widget.TextBox("", foreground=colors["black"], background=colors["green"], fontsize=18, padding=16),
+                widget.Memory(format="{MemPercent}%", foreground=colors["black"], background=colors["green"]),
+                widget.TextBox("\u25e2", foreground=colors["blue"], background=colors["green"],fontsize=64, padding=-0.1),
+
+                # CPU
+                widget.TextBox("﬙", foreground=colors["black"], background=colors["blue"], fontsize=18, padding=16),
+                widget.CPU(format="{load_percent}%",background=colors["blue"], foreground=colors["black"]),
+                widget.Sep(padding=16, background=colors["blue"], foreground=colors["blue"]),
+            ],
+            24,
+            background=colors["black"]
+            
+        ),
     ),
     Screen(
         top=bar.Bar(
