@@ -1,0 +1,12 @@
+colors = {
+    "white": "#ffffff",
+    "light": "#eeeeee",
+    "black": "#000000",
+    "dark": "#282C34",
+    "blue": "#61afef",
+    "sky": "#1793d1",
+    "red": "#e06c75",
+    "green": "#98c379",
+    "yellow": "#e6c07b",
+    "aqua": "#56b6c2",
+}
