@@ -29,7 +29,7 @@ mod = "mod4"
 
 from utils.theme import colors
 from utils.network import extract_ip
-from lib.widgets import GPU, VRAM
+from lib.widgets import GPU, VRAM, Wireless
 from shortcuts import keys, mouse
 from workspaces import groups, layouts, floating_layout
 
@@ -97,6 +97,7 @@ screens = [
                 widget.Sep(padding=16, background=colors["blue"], foreground=colors["blue"]),
                 widget.TextBox("", fontsize=18, background=colors["blue"], foreground=colors["black"], padding=16),
                 # widget.Wlan(format="{essid}", foreground=colors["black"], background=colors["blue"], interface="wlp2s0"),
+                Wireless(foreground=colors["black"], background=colors["blue"], interface="wlo1"),
 
                 # Uploadl Speed
                 widget.TextBox("\u25e3", foreground=colors["blue"], background=colors["green"], fontsize=64, padding=-1),
@@ -119,8 +120,8 @@ screens = [
 
                 # Battery
                 widget.TextBox("\u25e2", foreground=colors["aqua"], background=colors["black"], fontsize=64, padding=-0.1),
-                widget.Battery(format="{char}", fontsize=18, padding=16, background=colors["aqua"], foreground=colors["black"], low_foreground=colors["red"], full_char="", charge_char="", discharge_char="", empty_char="", unknown_char=""),
-                widget.Battery(format="{percent:2.0%}",background=colors["aqua"], foreground=colors["black"], low_foreground=colors["red"]),
+                widget.Battery(format="{char}", fontsize=18, padding=16, background=colors["aqua"], foreground=colors["black"], low_foreground=colors["red"], full_char="", charge_char="", discharge_char="", empty_char="", unknown_char="", show_short_text=False),
+                widget.Battery(format="{percent:2.0%}",background=colors["aqua"], foreground=colors["black"], low_foreground=colors["red"], show_short_text=False),
                 widget.TextBox("\u25e2", foreground=colors["yellow"], background=colors["aqua"], fontsize=64, padding=-0.1),
 
                 # Thermal
