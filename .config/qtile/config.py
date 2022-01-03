@@ -69,9 +69,21 @@ screens = [
                 ),
                 widget.Spacer(),
 
-                # Clock
+                # Systray
                 widget.Systray(icon_size=18, padding=8),
-                widget.TextBox("\u25e2", foreground=colors["blue"], background=colors["black"],fontsize=64, padding=-0.1),
+
+                # Bluetooth
+                widget.TextBox("\u25e2", foreground=colors["aqua"], background=colors["black"],fontsize=64, padding=-0.1),
+                widget.TextBox("", foreground=colors["black"], background=colors["aqua"], fontsize=18, padding=16),
+                widget.Bluetooth(background=colors["aqua"], foreground=colors["black"]),
+
+                # Disk
+                widget.TextBox("\u25e2", foreground=colors["green"], background=colors["aqua"],fontsize=64, padding=-0.1),
+                widget.TextBox("", foreground=colors["black"], background=colors["green"], fontsize=18, padding=16),
+                widget.DF(format="{r:.1f}%",background=colors["green"], foreground=colors["black"], visible_on_warn=False),
+
+                # Clock
+                widget.TextBox("\u25e2", foreground=colors["blue"], background=colors["green"],fontsize=64, padding=-0.1),
                 widget.TextBox("", foreground=colors["black"], background=colors["blue"], fontsize=18, padding=16),
                 widget.Clock(format='%H:%M', background=colors["blue"], foreground=colors["black"]),
                 widget.Sep(padding=16, background=colors["blue"], foreground=colors["blue"]),
@@ -84,7 +96,7 @@ screens = [
                 # Wi-Fi
                 widget.Sep(padding=16, background=colors["blue"], foreground=colors["blue"]),
                 widget.TextBox("", fontsize=18, background=colors["blue"], foreground=colors["black"], padding=16),
-                widget.Wlan(format="{essid}", foreground=colors["black"], background=colors["blue"], interface="wlp2s0"),
+                # widget.Wlan(format="{essid}", foreground=colors["black"], background=colors["blue"], interface="wlp2s0"),
 
                 # Uploadl Speed
                 widget.TextBox("\u25e3", foreground=colors["blue"], background=colors["green"], fontsize=64, padding=-1),
@@ -174,7 +186,7 @@ screens = [
             ],
             24,
             background=colors["black"]
-        ),
+        ) if device != "mobile" else None
     ),
     Screen(
         top=bar.Bar(
@@ -237,7 +249,7 @@ screens = [
             ],
             24,
             background=colors["black"]
-        ),
+        ) if device != "mobile" else None,
     ),
 ]
 
