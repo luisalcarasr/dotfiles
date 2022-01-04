@@ -17,8 +17,12 @@ layouts = [
         border_focus=colors["sky"],
         border_normal=colors["dark"],
         margin=16,
-        # single_margin=0,
-        # single_border_width=0
+    ),
+    layout.VerticalTile(
+        border_focus=colors["sky"],
+        border_normal=colors["dark"],
+        margin=8,
+        border_width=2
     ),
     layout.Max(),
 ]

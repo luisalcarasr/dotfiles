@@ -34,9 +34,9 @@ from shortcuts import keys, mouse
 from workspaces import groups, layouts, floating_layout
 
 widget_defaults = dict(
-    font='CaskaydiaCove Nerd Font',
+    font='BlexMono Nerd Font',
     fontsize=14,
-    padding=0,
+    padding=8,
     foreground=colors["white"]
 )
 extension_defaults = widget_defaults.copy()
@@ -46,15 +46,11 @@ screens = [
         top=bar.Bar(
             [
                 # Arch Logo
-                widget.Sep(padding=16, background=colors["blue"], foreground=colors["blue"]),
-                widget.TextBox("", fontsize=18, background=colors["blue"], foreground=colors["black"], padding=8),
-                widget.TextBox("luis@arch", background=colors["blue"], foreground=colors["black"], padding=8),
+                widget.Sep(padding=16, foreground=colors["black"]),
+                widget.TextBox("", foreground=colors["blue"], fontsize=18),
 
                 # Laucher
-                widget.TextBox("\u25e3", foreground=colors["blue"], background=colors["green"], fontsize=64, padding=-1),
-                widget.TextBox("", fontsize=18, background=colors["green"], foreground=colors["black"], padding=8),
-                widget.Prompt(prompt=' ', background=colors["green"], foreground=colors['black'], cursor_color=colors['black']),
-                widget.TextBox("\u25e3", foreground=colors["green"], background=colors["black"],fontsize=64, padding=-1),
+                widget.Prompt(prompt='> '),
 
                 widget.Spacer(),
                 widget.GroupBox(
@@ -65,107 +61,115 @@ screens = [
                     urgent_text=colors["red"],
                     inactive=colors["white"],
                     active=colors["blue"],
-                    fontsize=16
+                    fontsize=16,
+                    padding=0
                 ),
                 widget.Spacer(),
 
                 # Systray
-                widget.Systray(icon_size=18, padding=8),
-
-                # Bluetooth
-                widget.TextBox("\u25e2", foreground=colors["aqua"], background=colors["black"],fontsize=64, padding=-0.1),
-                widget.TextBox("", foreground=colors["black"], background=colors["aqua"], fontsize=18, padding=16),
-                widget.Bluetooth(background=colors["aqua"], foreground=colors["black"]),
-
-                # Disk
-                widget.TextBox("\u25e2", foreground=colors["green"], background=colors["aqua"],fontsize=64, padding=-0.1),
-                widget.TextBox("", foreground=colors["black"], background=colors["green"], fontsize=18, padding=16),
-                widget.DF(format="{r:.1f}%",background=colors["green"], foreground=colors["black"], visible_on_warn=False),
-
+                widget.WidgetBox(
+                    widgets=[
+                        widget.Systray(icon_size=20),
+                    ],
+                    text_open="",
+                    text_closed="",
+                ),
+                
                 # Clock
-                widget.TextBox("\u25e2", foreground=colors["blue"], background=colors["green"],fontsize=64, padding=-0.1),
-                widget.TextBox("", foreground=colors["black"], background=colors["blue"], fontsize=18, padding=16),
-                widget.Clock(format='%H:%M', background=colors["blue"], foreground=colors["black"]),
-                widget.Sep(padding=16, background=colors["blue"], foreground=colors["blue"]),
+                widget.Sep(padding=8, foreground=colors["black"]),
+                widget.TextBox("", fontsize=18),
+                widget.Clock(format='%H:%M'),
+                widget.Sep(padding=16, foreground=colors["black"]),
             ],
             24,
             background=colors["black"]
         ),
         bottom=bar.Bar(
             [
-                # Wi-Fi
-                widget.Sep(padding=16, background=colors["blue"], foreground=colors["blue"]),
-                widget.TextBox("", fontsize=18, background=colors["blue"], foreground=colors["black"], padding=16),
-                # widget.Wlan(format="{essid}", foreground=colors["black"], background=colors["blue"], interface="wlp2s0"),
-                Wireless(foreground=colors["black"], background=colors["blue"], interface="wlo1"),
-
-                # Uploadl Speed
-                widget.TextBox("\u25e3", foreground=colors["blue"], background=colors["green"], fontsize=64, padding=-1),
-                widget.TextBox("", fontsize=18, background=colors["green"], foreground=colors["black"], padding=16),
-                widget.Net(format="{up}/s", foreground=colors["black"], background=colors["green"]),
-
-                # Download Speed
-                widget.TextBox("\u25e3", foreground=colors["green"], background=colors["yellow"],fontsize=64, padding=-1),
-                widget.TextBox("", fontsize=18, background=colors["yellow"], foreground=colors["black"], padding=16),
-                widget.Net(format="{down}/s", foreground=colors["black"], background=colors["yellow"]),
-
-                # IP
-                widget.TextBox("\u25e3", foreground=colors["yellow"], background=colors["aqua"], fontsize=64, padding=-1),
-                widget.TextBox("歷", foreground=colors["black"], background=colors["aqua"],fontsize=18, padding=16),
-                widget.TextBox(extract_ip(), foreground=colors["black"], background=colors["aqua"]),
-                widget.TextBox("\u25e3", foreground=colors["aqua"], fontsize=64, padding=-1),
-
-                widget.Spacer(),
-                widget.Spacer(),
-
-                # Battery
-                widget.TextBox("\u25e2", foreground=colors["aqua"], background=colors["black"], fontsize=64, padding=-0.1),
-                widget.Battery(format="{char}", fontsize=18, padding=16, background=colors["aqua"], foreground=colors["black"], low_foreground=colors["red"], full_char="", charge_char="", discharge_char="", empty_char="", unknown_char="", show_short_text=False),
-                widget.Battery(format="{percent:2.0%}",background=colors["aqua"], foreground=colors["black"], low_foreground=colors["red"], show_short_text=False),
-                widget.TextBox("\u25e2", foreground=colors["yellow"], background=colors["aqua"], fontsize=64, padding=-0.1),
-
-                # Thermal
-                widget.TextBox("", foreground=colors["black"], background=colors["yellow"],fontsize=18, padding=16),
-                widget.ThermalSensor(foreground=colors["black"], background=colors["yellow"]),
-                widget.TextBox("\u25e2", foreground=colors["green"], background=colors["yellow"],fontsize=64, padding=-0.1),
-
-                # RAM
-                widget.TextBox("", foreground=colors["black"], background=colors["green"], fontsize=18, padding=16),
-                widget.Memory(format="{MemPercent}%", foreground=colors["black"], background=colors["green"]),
-                widget.TextBox("\u25e2", foreground=colors["blue"], background=colors["green"],fontsize=64, padding=-0.1),
+                # CPU Label
+                widget.TextBox("CPU:"),
 
                 # CPU
-                widget.TextBox("﬙", foreground=colors["black"], background=colors["blue"], fontsize=18, padding=16),
-                widget.CPU(format="{load_percent}%",background=colors["blue"], foreground=colors["black"]),
-                widget.Sep(padding=16, background=colors["blue"], foreground=colors["blue"]),
+                widget.TextBox("﬙", fontsize=18, padding=16),
+                widget.CPU(format="{load_percent}%"),
+
+                # Thermal
+                widget.TextBox("", fontsize=18, padding=16),
+                widget.ThermalSensor(),
+
+                # RAM
+                widget.TextBox("", fontsize=18, padding=16),
+                widget.Memory(format="{MemPercent}%"),
+
+                widget.Spacer(),
+
+                # GPU Label
+                widget.TextBox("GPU:"),
+
+                # GPU
+                widget.TextBox("﬙", fontsize=18, padding=16),
+                GPU(),
+
+                # Thermal
+                widget.TextBox("", fontsize=18, padding=16),
+                widget.NvidiaSensors(format="{temp}°C"),
+
+                # VRAM
+                widget.TextBox("", fontsize=18, padding=16),
+                VRAM(),
+
+                widget.Spacer(),
+
+                # Wireless Label
+                widget.TextBox("MISC:"),
+
+                # Disk
+                widget.TextBox("", fontsize=18, padding=16),
+                widget.DF(format="{r:.1f}%", visible_on_warn=False),
+
+                # Battery
+                # widget.TextBox("\u25e2", foreground=colors["aqua"], background=colors["black"], fontsize=64, padding=-0.1),
+                # widget.Battery(format="{char}", fontsize=18, padding=16, background=colors["aqua"], foreground=colors["black"], low_foreground=colors["red"], full_char="", charge_char="", discharge_char="", empty_char="", unknown_char="", show_short_text=False),
+                # widget.Battery(format="{percent:2.1%}",background=colors["aqua"], foreground=colors["black"], low_foreground=colors["red"], show_short_text=False),
+                # widget.TextBox("\u25e2", foreground=colors["yellow"], background=colors["aqua"], fontsize=64, padding=-0.1),
+
+                widget.Spacer(),
+
+                # Wireless Label
+                widget.TextBox("WLAN:"),
+
+                # Download Speed
+                widget.TextBox("", fontsize=18, padding=16),
+                widget.Net(format="{down}/s"),
+                
+                # Uploadl Speed
+                widget.TextBox("", fontsize=18, padding=16),
+                widget.Net(format="{up}/s"),
+
+
+                # IP
+                widget.TextBox("歷", fontsize=18, padding=16),
+                widget.TextBox(extract_ip()),
+
+                # Wi-Fi
+                widget.TextBox("", fontsize=18, padding=16),
+                widget.Wlan(format="{essid}", interface="wlp2s0"),
+                # Wireless(foreground=colors["black"], background=colors["blue"], interface="wlo1"),
+
+                # Bluetooth
+                widget.TextBox("", fontsize=18, padding=16),
+                widget.Bluetooth(),
+
+
+
             ],
             24,
             background=colors["black"]
-        ) if device == "mobile" else None,
+        ),
     ),
     Screen(
         top=bar.Bar(
             [
-                # Intel Logo
-                widget.Sep(padding=16, background=colors["light"], foreground=colors["light"]),
-                widget.Image(filename='~/intel.svg', background=colors["light"], margin=5),
-
-                # CPU
-                widget.TextBox("\u25e3", foreground=colors["light"], background=colors["blue"], fontsize=64, padding=-1),
-                widget.TextBox("﬙", foreground=colors["black"], background=colors["blue"], fontsize=18, padding=16),
-                widget.CPU(format="{load_percent}%",background=colors["blue"], foreground=colors["black"]),
-
-                # Thermal
-                widget.TextBox("\u25e3", foreground=colors["blue"], background=colors["yellow"],fontsize=64, padding=-1),
-                widget.TextBox("", foreground=colors["black"], background=colors["yellow"],fontsize=18, padding=16),
-                widget.ThermalSensor(foreground=colors["black"], background=colors["yellow"]),
-
-                # RAM
-                widget.TextBox("\u25e3", foreground=colors["yellow"], background=colors["aqua"], fontsize=64, padding=-1),
-                widget.TextBox("", foreground=colors["black"], background=colors["aqua"],fontsize=18, padding=16),
-                widget.Memory(format="{MemPercent}%", foreground=colors["black"], background=colors["aqua"]),
-                widget.TextBox("\u25e3", foreground=colors["aqua"], fontsize=64, padding=-0.1),
-
                 widget.Spacer(),
                 widget.GroupBox(
                     highlight_color=colors["dark"],
@@ -175,15 +179,10 @@ screens = [
                     urgent_text=colors["red"],
                     inactive=colors["white"],
                     active=colors["blue"],
-                    fontsize=16
+                    fontsize=16,
+                    padding=0,
                 ),
                 widget.Spacer(),
-
-                # Clock
-                widget.TextBox("\u25e2", foreground=colors["blue"], background=colors["black"],fontsize=64, padding=-0.1),
-                widget.TextBox("", foreground=colors["black"], background=colors["blue"], fontsize=18, padding=16),
-                widget.Clock(format='%H:%M', background=colors["blue"], foreground=colors["black"]),
-                widget.Sep(padding=16, background=colors["blue"], foreground=colors["blue"]),
             ],
             24,
             background=colors["black"]
@@ -192,27 +191,6 @@ screens = [
     Screen(
         top=bar.Bar(
             [
-                # Wi-Fi
-                widget.Sep(padding=16, background=colors["blue"], foreground=colors["blue"]),
-                widget.TextBox("  ", fontsize=18, background=colors["blue"], foreground=colors["black"]),
-                widget.Wlan(format="{essid}", foreground=colors["black"], background=colors["blue"], interface="wlp2s0"),
-
-                # Upload Speed
-                widget.TextBox("\u25e3", foreground=colors["blue"], background=colors["green"], fontsize=64, padding=-1),
-                widget.TextBox("", fontsize=18, background=colors["green"], foreground=colors["black"], padding=16),
-                widget.Net(format="{up}/s", foreground=colors["black"], background=colors["green"]),
-
-                # Download Speed
-                widget.TextBox("\u25e3", foreground=colors["green"], background=colors["yellow"],fontsize=64, padding=-1),
-                widget.TextBox("", fontsize=18, background=colors["yellow"], foreground=colors["black"], padding=16),
-                widget.Net(format="{down}/s", foreground=colors["black"], background=colors["yellow"]),
-
-                # IP
-                widget.TextBox("\u25e3", foreground=colors["yellow"], background=colors["aqua"], fontsize=64, padding=-1),
-                widget.TextBox("歷", foreground=colors["black"], background=colors["aqua"],fontsize=18, padding=16),
-                widget.TextBox(extract_ip(), foreground=colors["black"], background=colors["aqua"]),
-                widget.TextBox("\u25e3", foreground=colors["aqua"], fontsize=64, padding=-0.1),
-
                 widget.Spacer(),
                 widget.GroupBox(
                     highlight_color=colors["dark"],
@@ -222,31 +200,10 @@ screens = [
                     urgent_text=colors["red"],
                     inactive=colors["white"],
                     active=colors["blue"],
-                    fontsize=16
+                    fontsize=16,
+                    padding=0,
                 ),
                 widget.Spacer(),
-
-
-                # VRAM
-                widget.TextBox("\u25e2", foreground=colors["aqua"], fontsize=64, padding=-0.1),
-                widget.TextBox("", foreground=colors["black"], background=colors["aqua"],fontsize=18, padding=16),
-                VRAM(foreground=colors["black"], background=colors["aqua"]),
-                widget.TextBox("\u25e2", foreground=colors["yellow"], background=colors["aqua"], fontsize=64, padding=-0.1),
-
-                # Thermal
-                widget.TextBox("", foreground=colors["black"], background=colors["yellow"],fontsize=18, padding=16),
-                widget.NvidiaSensors(format="{temp}°C", foreground=colors["black"], background=colors["yellow"]),
-                widget.TextBox("\u25e2", foreground=colors["green"], background=colors["yellow"],fontsize=64, padding=-0.1),
-
-                # GPU
-                widget.TextBox("﬙", foreground=colors["black"], background=colors["green"], fontsize=18, padding=16),
-                # widget.NvidiaSensors(format="{temp}°C " + str(get_used_gpu()) + "%", foreground=colors["black"], background=colors["yellow"]),
-                GPU(foreground=colors["black"], background=colors["green"]),
-                widget.TextBox("\u25e2", foreground=colors["light"], background=colors["green"],fontsize=64, padding=-0.1),
-
-                # Nvidia Logo
-                widget.Image(filename='~/nvidia.svg', background=colors["light"], margin=5),
-                widget.Sep(padding=16, background=colors["light"], foreground=colors["light"]),
             ],
             24,
             background=colors["black"]
