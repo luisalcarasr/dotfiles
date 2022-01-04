@@ -48,11 +48,10 @@ screens = [
                 # Arch Logo
                 widget.Sep(padding=16, foreground=colors["black"]),
                 widget.TextBox("", foreground=colors["blue"], fontsize=18),
+               
+                widget.TextBox("", padding=16, foreground=colors["light"]),
 
-                # Laucher
-                widget.Prompt(prompt='> '),
-
-                widget.Spacer(),
+                # Workspaces
                 widget.GroupBox(
                     highlight_color=colors["dark"],
                     highlight_method="line",
@@ -64,30 +63,15 @@ screens = [
                     fontsize=16,
                     padding=0
                 ),
+
+                widget.Sep(padding=16, foreground=colors["black"]),
+
+                # Laucher
+                widget.Prompt(prompt='> '),
                 widget.Spacer(),
 
-                # Systray
-                widget.WidgetBox(
-                    widgets=[
-                        widget.Systray(icon_size=20),
-                    ],
-                    text_open="",
-                    text_closed="",
-                ),
-                
-                # Clock
-                widget.Sep(padding=8, foreground=colors["black"]),
-                widget.TextBox("", fontsize=18),
-                widget.Clock(format='%H:%M'),
-                widget.Sep(padding=16, foreground=colors["black"]),
-            ],
-            24,
-            background=colors["black"]
-        ),
-        bottom=bar.Bar(
-            [
                 # CPU Label
-                widget.TextBox("CPU:"),
+                widget.TextBox("SYS:"),
 
                 # CPU
                 widget.TextBox("﬙", fontsize=18, padding=16),
@@ -101,7 +85,21 @@ screens = [
                 widget.TextBox("", fontsize=18, padding=16),
                 widget.Memory(format="{MemPercent}%"),
 
-                widget.Spacer(),
+                # Disk
+                widget.TextBox("", fontsize=18, padding=16),
+                widget.DF(format="{r:.1f}%", visible_on_warn=False),
+                
+                # Battery
+                # widget.Battery(format="{char}", fontsize=18, padding=16, background=colors["aqua"], foreground=colors["black"], low_foreground=colors["red"], full_char="", charge_char="", discharge_char="", empty_char="", unknown_char="", show_short_text=False),
+                # widget.Battery(format="{percent:2.1%}",background=colors["aqua"], foreground=colors["black"], low_foreground=colors["red"], show_short_text=False),
+
+                # Volume
+                widget.TextBox("", fontsize=18, padding=16),
+                widget.Volume(),
+
+
+
+                widget.TextBox("", padding=16, foreground=colors["light"]),
 
                 # GPU Label
                 widget.TextBox("GPU:"),
@@ -117,26 +115,11 @@ screens = [
                 # VRAM
                 widget.TextBox("", fontsize=18, padding=16),
                 VRAM(),
-
-                widget.Spacer(),
-
-                # Wireless Label
-                widget.TextBox("MISC:"),
-
-                # Disk
-                widget.TextBox("", fontsize=18, padding=16),
-                widget.DF(format="{r:.1f}%", visible_on_warn=False),
-
-                # Battery
-                # widget.TextBox("\u25e2", foreground=colors["aqua"], background=colors["black"], fontsize=64, padding=-0.1),
-                # widget.Battery(format="{char}", fontsize=18, padding=16, background=colors["aqua"], foreground=colors["black"], low_foreground=colors["red"], full_char="", charge_char="", discharge_char="", empty_char="", unknown_char="", show_short_text=False),
-                # widget.Battery(format="{percent:2.1%}",background=colors["aqua"], foreground=colors["black"], low_foreground=colors["red"], show_short_text=False),
-                # widget.TextBox("\u25e2", foreground=colors["yellow"], background=colors["aqua"], fontsize=64, padding=-0.1),
-
-                widget.Spacer(),
+                
+                widget.TextBox("", padding=16, foreground=colors["light"]),
 
                 # Wireless Label
-                widget.TextBox("WLAN:"),
+                widget.TextBox("NET:"),
 
                 # Download Speed
                 widget.TextBox("", fontsize=18, padding=16),
@@ -160,8 +143,24 @@ screens = [
                 widget.TextBox("", fontsize=18, padding=16),
                 widget.Bluetooth(),
 
+                widget.TextBox("", padding=16, foreground=colors["light"]),
 
+                # Systray
+                widget.WidgetBox(
+                    widgets=[
+                        widget.Systray(icon_size=20),
+                    ],
+                    text_open="",
+                    text_closed="",
+                ),
+                
+                widget.TextBox("", padding=16, foreground=colors["light"]),
 
+                # Clock
+                widget.Sep(padding=8, foreground=colors["black"]),
+                widget.TextBox("", fontsize=18),
+                widget.Clock(format='%H:%M'),
+                widget.Sep(padding=16, foreground=colors["black"]),
             ],
             24,
             background=colors["black"]
