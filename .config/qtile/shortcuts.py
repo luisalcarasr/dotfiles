@@ -48,7 +48,7 @@ keys = [
     Key([mod, "shift"], "r", lazy.restart(), desc="Restart Qtile"),
     Key([mod, "shift"], "q", lazy.shutdown(), desc="Shutdown Qtile"),
     # Key([mod], "space", lazy.spawn('rofi -show drun -show-icons'), desc="Spawn a command using a prompt widget"),
-    Key([mod], "space", lazy.spawncmd(''), desc="Spawn a command using a prompt widget"),
+    Key([mod], "space", lazy.spawn('rofi -show run'), desc="Spawn a command using a prompt widget"),
 
     Key([mod], '1', lazy.group['   '].toscreen()),
     Key([mod], '2', lazy.group['   '].toscreen()),

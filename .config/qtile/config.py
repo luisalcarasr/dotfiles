@@ -34,12 +34,14 @@ from shortcuts import keys, mouse
 from workspaces import groups, layouts, floating_layout
 
 widget_defaults = dict(
-    font='BlexMono Nerd Font',
+    font='Roboto',
     fontsize=14,
     padding=8,
     foreground=colors["white"]
 )
 extension_defaults = widget_defaults.copy()
+
+nerd_font = 'CaskaydiaCove Nerd Font'
 
 screens = [
     Screen(
@@ -47,9 +49,14 @@ screens = [
             [
                 # Arch Logo
                 widget.Sep(padding=16, foreground=colors["black"]),
-                widget.TextBox("", foreground=colors["blue"], fontsize=18),
+                widget.TextBox("", foreground=colors["blue"], fontsize=22, font=nerd_font),
                
-                widget.TextBox("", padding=16, foreground=colors["light"]),
+                widget.Sep(padding=16, foreground=colors["black"]),
+
+                # Laucher
+                widget.Prompt(prompt='run: ', font=nerd_font),
+
+                widget.Spacer(),
 
                 # Workspaces
                 widget.GroupBox(
@@ -61,114 +68,50 @@ screens = [
                     inactive=colors["white"],
                     active=colors["blue"],
                     fontsize=16,
-                    padding=0
+                    padding=0,
+                    font=nerd_font
                 ),
 
-                widget.Sep(padding=16, foreground=colors["black"]),
-
-                # Laucher
-                widget.Prompt(prompt='> '),
                 widget.Spacer(),
 
-                # CPU Label
-                widget.TextBox("SYS:"),
-
-                # CPU
-                widget.TextBox("﬙", fontsize=18, padding=16),
-                widget.CPU(format="{load_percent}%"),
+                # Background Applications
+                widget.Systray(icon_size=20),
+                
+                widget.Sep(padding=16, foreground=colors["black"]),
+                
+                # IP 
+                widget.TextBox("", fontsize=18, padding=16, font=nerd_font),
+                widget.TextBox(extract_ip()),
 
                 # Thermal
-                widget.TextBox("", fontsize=18, padding=16),
-                widget.ThermalSensor(),
-
-                # RAM
-                widget.TextBox("", fontsize=18, padding=16),
-                widget.Memory(format="{MemPercent}%"),
-
-                # Disk
-                widget.TextBox("", fontsize=18, padding=16),
-                widget.DF(format="{r:.1f}%", visible_on_warn=False),
+                # widget.TextBox("", fontsize=18, padding=16, font=nerd_font),
+                # widget.ThermalSensor(),
                 
                 # Battery
                 # widget.Battery(format="{char}", fontsize=18, padding=16, background=colors["aqua"], foreground=colors["black"], low_foreground=colors["red"], full_char="", charge_char="", discharge_char="", empty_char="", unknown_char="", show_short_text=False),
                 # widget.Battery(format="{percent:2.1%}",background=colors["aqua"], foreground=colors["black"], low_foreground=colors["red"], show_short_text=False),
 
                 # Volume
-                widget.TextBox("", fontsize=18, padding=16),
+                widget.TextBox("", fontsize=18, padding=16, font=nerd_font),
                 widget.Volume(),
 
-
-
-                widget.TextBox("", padding=16, foreground=colors["light"]),
-
-                # GPU Label
-                widget.TextBox("GPU:"),
-
-                # GPU
-                widget.TextBox("﬙", fontsize=18, padding=16),
-                GPU(),
-
-                # Thermal
-                widget.TextBox("", fontsize=18, padding=16),
-                widget.NvidiaSensors(format="{temp}°C"),
-
-                # VRAM
-                widget.TextBox("", fontsize=18, padding=16),
-                VRAM(),
-                
-                widget.TextBox("", padding=16, foreground=colors["light"]),
-
-                # Wireless Label
-                widget.TextBox("NET:"),
-
-                # Download Speed
-                widget.TextBox("", fontsize=18, padding=16),
-                widget.Net(format="{down}/s"),
-                
-                # Uploadl Speed
-                widget.TextBox("", fontsize=18, padding=16),
-                widget.Net(format="{up}/s"),
-
-
-                # IP
-                widget.TextBox("歷", fontsize=18, padding=16),
-                widget.TextBox(extract_ip()),
-
-                # Wi-Fi
-                widget.TextBox("", fontsize=18, padding=16),
-                widget.Wlan(format="{essid}", interface="wlp2s0"),
-                # Wireless(foreground=colors["black"], background=colors["blue"], interface="wlo1"),
-
-                # Bluetooth
-                widget.TextBox("", fontsize=18, padding=16),
-                widget.Bluetooth(),
-
-                widget.TextBox("", padding=16, foreground=colors["light"]),
-
-                # Systray
-                widget.WidgetBox(
-                    widgets=[
-                        widget.Systray(icon_size=20),
-                    ],
-                    text_open="",
-                    text_closed="",
-                ),
-                
-                widget.TextBox("", padding=16, foreground=colors["light"]),
+                widget.Sep(padding=16, foreground=colors["black"]),
 
                 # Clock
-                widget.Sep(padding=8, foreground=colors["black"]),
-                widget.TextBox("", fontsize=18),
-                widget.Clock(format='%H:%M'),
+                widget.Clock(format='%a %d, %H:%M'),
                 widget.Sep(padding=16, foreground=colors["black"]),
             ],
-            24,
+            32,
             background=colors["black"]
         ),
     ),
     Screen(
         top=bar.Bar(
             [
+                # Arch Logo
+                widget.Sep(padding=8, foreground=colors["black"]),
+                widget.TextBox("", foreground=colors["blue"], fontsize=18, font=nerd_font),
+               
                 widget.Spacer(),
                 widget.GroupBox(
                     highlight_color=colors["dark"],
@@ -180,8 +123,13 @@ screens = [
                     active=colors["blue"],
                     fontsize=16,
                     padding=0,
+                    font=nerd_font
                 ),
                 widget.Spacer(),
+
+                # Clock
+                widget.Clock(format='%a %d, %H:%M'),
+                widget.Sep(padding=8, foreground=colors["black"]),
             ],
             24,
             background=colors["black"]
@@ -190,6 +138,10 @@ screens = [
     Screen(
         top=bar.Bar(
             [
+                # Arch Logo
+                widget.Sep(padding=8, foreground=colors["black"]),
+                widget.TextBox("", foreground=colors["blue"], fontsize=18, font=nerd_font),
+               
                 widget.Spacer(),
                 widget.GroupBox(
                     highlight_color=colors["dark"],
@@ -201,8 +153,13 @@ screens = [
                     active=colors["blue"],
                     fontsize=16,
                     padding=0,
+                    font=nerd_font
                 ),
                 widget.Spacer(),
+
+                # Clock
+                widget.Clock(format='%a %d, %H:%M'),
+                widget.Sep(padding=8, foreground=colors["black"]),
             ],
             24,
             background=colors["black"]

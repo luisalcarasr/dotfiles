@@ -13,18 +13,19 @@ groups = [
 ]
 
 layouts = [
+    layout.Max(),
     layout.MonadTall(
         border_focus=colors["sky"],
         border_normal=colors["dark"],
-        margin=16,
+        margin=8,
     ),
-    layout.VerticalTile(
+    layout.Matrix(
         border_focus=colors["sky"],
         border_normal=colors["dark"],
         margin=8,
-        border_width=2
+        border_width=2,
+        columns=1,
     ),
-    layout.Max(),
 ]
 
 floating_layout = layout.Floating(

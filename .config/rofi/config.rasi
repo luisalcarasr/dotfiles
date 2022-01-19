@@ -1,5 +1,5 @@
 configuration {
-  font: "IBM Plex Mono 14";
+  font: "Roboto 14";
 }
 
-@theme "spotlight-dark"
+@theme "Arc-Dark"
