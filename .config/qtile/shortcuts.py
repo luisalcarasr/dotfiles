@@ -23,12 +23,14 @@ keys = [
         desc="Move window down"),
     Key([mod, "shift"], "k", lazy.layout.shuffle_up(), desc="Move window up"),
 
+    Key([mod, "control"], "j", lazy.layout.grow_down()),
+    Key([mod, "control"], "k", lazy.layout.grow_up()),
+    Key([mod, "control"], "h", lazy.layout.grow_left()),
+    Key([mod, "control"], "l", lazy.layout.grow_right()),
+
     # Grow windows. If current window is on the edge of screen and direction
     # will be to screen edge - window would shrink.
 
-    Key([mod], "i", lazy.to_screen(2)),
-    Key([mod], "o", lazy.to_screen(0)),
-    Key([mod], "p", lazy.to_screen(1)),
 
     Key([mod], "comma", lazy.prev_screen()),
     Key([mod], "period", lazy.next_screen()),
@@ -50,22 +52,13 @@ keys = [
     # Key([mod], "space", lazy.spawn('rofi -show drun -show-icons'), desc="Spawn a command using a prompt widget"),
     Key([mod], "space", lazy.spawn('rofi -show run'), desc="Spawn a command using a prompt widget"),
 
-    Key([mod], '1', lazy.group['   '].toscreen()),
-    Key([mod], '2', lazy.group['   '].toscreen()),
-    Key([mod], '3', lazy.group['   '].toscreen()),
-    Key([mod], '4', lazy.group['   '].toscreen()),
-    Key([mod], '5', lazy.group['   '].toscreen()),
-    Key([mod], '6', lazy.group['   '].toscreen()),
-    Key([mod], '7', lazy.group['   '].toscreen()),
+    Key([mod], "i", lazy.to_screen(2)),
+    Key([mod], "o", lazy.to_screen(0)),
+    Key([mod], "p", lazy.to_screen(1)),
 
-
-    Key([mod, "shift"], "1", lazy.window.togroup('   ')),
-    Key([mod, "shift"], "2", lazy.window.togroup('   ')),
-    Key([mod, "shift"], "3", lazy.window.togroup('   ')),
-    Key([mod, "shift"], "4", lazy.window.togroup('   ')),
-    Key([mod, "shift"], "5", lazy.window.togroup('   ')),
-    Key([mod, "shift"], "6", lazy.window.togroup('   ')),
-    Key([mod, "shift"], "7", lazy.window.togroup('   ')),
+    Key([mod, "shift"], "i", lazy.window.togroup("2")),
+    Key([mod, "shift"], "o", lazy.window.togroup("0")),
+    Key([mod, "shift"], "p", lazy.window.togroup("1")),
 ]
 
 # Drag floating layouts.

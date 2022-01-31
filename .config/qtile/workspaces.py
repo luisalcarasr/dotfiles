@@ -3,28 +3,27 @@ from libqtile.config import Group, Match
 from utils.theme import colors
 
 groups = [
-    Group('   '),
-    Group('   '),
-    Group('   '),
-    Group('   '),
-    Group('   '),
-    Group('   '),
-    Group('   '),
+    Group("0"),
+    Group("1"),
+    Group("2"),
 ]
 
 layouts = [
     layout.Max(),
+    layout.Columns(
+        border_focus=colors["sky"],
+        border_normal=colors["dark"],
+        border_width=2,
+        margin=8,
+        grow_amount=3,
+        num_columns=1,
+        margin_on_single=8,
+        border_on_single=True,
+    ),
     layout.MonadTall(
         border_focus=colors["sky"],
         border_normal=colors["dark"],
         margin=8,
-    ),
-    layout.Matrix(
-        border_focus=colors["sky"],
-        border_normal=colors["dark"],
-        margin=8,
-        border_width=2,
-        columns=1,
     ),
 ]
 

@@ -1,5 +1,5 @@
 [global]
-font = IBM Plex Sans 10.5
+font = Roboto 16
 
 # Allow a small subset of html markup:
 #   <b>bold</b>
@@ -69,7 +69,7 @@ hide_duplicate_count = no
 # The width can be negative.  In this case the actual width is the
 # screen width minus the width defined in within the geometry option.
 #geometry = "250x50-40+40"
-geometry = "350x50-15+49"
+geometry = "350x50-20+40"
 
 # Shrink window if it's smaller than the width.  Will be ignored if
 # width is 0.
@@ -154,7 +154,7 @@ max_icon_size = 60
 icon_path = /usr/share/icons/Paper/16x16/mimetypes/:/usr/share/icons/Paper/48x48/status/:/usr/share/icons/Paper/16x16/devices/:/usr/share/icons/Paper/48x48/notifications/:/usr/share/icons/Paper/48x48/emblems/
 
 frame_width = 2
-frame_color = "#358588"
+frame_color = "#000000"
 
 [shortcuts]
 
@@ -180,21 +180,21 @@ context = ctrl+shift+period
 [urgency_low]
 # IMPORTANT: colors have to be defined in quotation marks.
 # Otherwise the "#" and following would be interpreted as a comment.
-frame_color = "#3c3836"
-foreground  = "#ebdbb2"
-background = "#282828"
+frame_color = "#000000"
+foreground  = "#ffffff"
+background = "#000000"
 timeout = 10
 
 [urgency_normal]
-frame_color = "#458588"
-foreground = "#83a598"
-background = "#282828"
+frame_color = "#000000"
+foreground = "#ffffff"
+background = "#000000"
 timeout = 20
 
 [urgency_critical]
 frame_color = "#cc241d"
 foreground = "#fb4934"
-background = "#282828"
+background = "#000000"
 timeout = 60
 
 

@@ -34,9 +34,10 @@ from shortcuts import keys, mouse
 from workspaces import groups, layouts, floating_layout
 
 widget_defaults = dict(
-    font='Roboto',
+    font='Roboto SemiBold',
     fontsize=14,
     padding=8,
+    borderwidth=0,
     foreground=colors["white"]
 )
 extension_defaults = widget_defaults.copy()
@@ -53,24 +54,30 @@ screens = [
                
                 widget.Sep(padding=16, foreground=colors["black"]),
 
-                # Laucher
-                widget.Prompt(prompt='run: ', font=nerd_font),
-
                 widget.Spacer(),
 
+                # Clock
+                widget.Clock(format='%a %d, %H:%M'),
+
                 # Workspaces
-                widget.GroupBox(
-                    highlight_color=colors["dark"],
-                    highlight_method="line",
-                    highlight_border=colors["blue"],
-                    urgent_alert_method="line",
-                    urgent_text=colors["red"],
-                    inactive=colors["white"],
-                    active=colors["blue"],
-                    fontsize=16,
-                    padding=0,
-                    font=nerd_font
-                ),
+                # widget.GroupBox(
+                #     highlight_color=colors["dark"],
+                #     highlight_method="line",
+                #     highlight_border=colors["blue"],
+                #     urgent_alert_method="line",
+                #     urgent_text=colors["red"],
+                #     inactive=colors["white"],
+                #     active=colors["blue"],
+                #     this_current_screen_border=colors['blue'],
+                #     this_screen_border=colors['dark'],
+                #     other_current_screen_border=colors['blue'],
+                #     other_screen_border=colors['dark'],
+                #     disable_drag=True,
+                #     fontsize=16,
+                #     padding=0,
+                #     borderwidth=2,
+                #     font=nerd_font,
+                # ),
 
                 widget.Spacer(),
 
@@ -79,91 +86,77 @@ screens = [
                 
                 widget.Sep(padding=16, foreground=colors["black"]),
                 
-                # IP 
-                widget.TextBox("", fontsize=18, padding=16, font=nerd_font),
-                widget.TextBox(extract_ip()),
-
                 # Thermal
-                # widget.TextBox("", fontsize=18, padding=16, font=nerd_font),
-                # widget.ThermalSensor(),
+                widget.WidgetBox(
+                    text_closed="",
+                    text_open="",
+                    fontsize=18,
+                    font=nerd_font,
+                    widgets=[
+                        widget.ThermalSensor(),
+                    ],
+                ),
                 
+                widget.Sep(padding=16, foreground=colors["black"]),
+
+                # Net
+                widget.WidgetBox(
+                    text_closed="歷 ",
+                    text_open="歷 ",
+                    fontsize=18,
+                    font=nerd_font,
+                    widgets=[
+                        widget.Net(
+                            format="{down}/s ↓↑ {up}/s"
+                        ),
+                    ],
+                ),
+
+                widget.Sep(padding=8, foreground=colors["black"]),
+                # IP 
+                widget.WidgetBox(
+                    text_closed=" ",
+                    text_open=" ",
+                    fontsize=18,
+                    font=nerd_font,
+                    widgets=[
+                        widget.TextBox(extract_ip()),
+                    ],
+                ),
+                
+                widget.Sep(padding=8, foreground=colors["black"]),
+                # widget.TextBox("", fontsize=18, padding=8, font=nerd_font),
+                # widget.TextBox(extract_ip()),
+
                 # Battery
                 # widget.Battery(format="{char}", fontsize=18, padding=16, background=colors["aqua"], foreground=colors["black"], low_foreground=colors["red"], full_char="", charge_char="", discharge_char="", empty_char="", unknown_char="", show_short_text=False),
                 # widget.Battery(format="{percent:2.1%}",background=colors["aqua"], foreground=colors["black"], low_foreground=colors["red"], show_short_text=False),
 
                 # Volume
-                widget.TextBox("", fontsize=18, padding=16, font=nerd_font),
-                widget.Volume(),
+                widget.WidgetBox(
+                    text_closed=" ",
+                    text_open=" ",
+                    fontsize=18,
+                    font=nerd_font,
+                    widgets=[
+                        widget.PulseVolume(
+                            limit_max_volume=True,
+                        ),
+                    ],
+                ),
+               
+                # widget.Sep(padding=8, foreground=colors["black"]),
+                
 
-                widget.Sep(padding=16, foreground=colors["black"]),
+                # widget.Notify(),
 
-                # Clock
-                widget.Clock(format='%a %d, %H:%M'),
+                # widget.Sep(padding=10, foreground=colors["black"]),
+
                 widget.Sep(padding=16, foreground=colors["black"]),
             ],
             32,
             background=colors["black"]
         ),
-    ),
-    Screen(
-        top=bar.Bar(
-            [
-                # Arch Logo
-                widget.Sep(padding=8, foreground=colors["black"]),
-                widget.TextBox("", foreground=colors["blue"], fontsize=18, font=nerd_font),
-               
-                widget.Spacer(),
-                widget.GroupBox(
-                    highlight_color=colors["dark"],
-                    highlight_method="line",
-                    highlight_border=colors["blue"],
-                    urgent_alert_method="line",
-                    urgent_text=colors["red"],
-                    inactive=colors["white"],
-                    active=colors["blue"],
-                    fontsize=16,
-                    padding=0,
-                    font=nerd_font
-                ),
-                widget.Spacer(),
-
-                # Clock
-                widget.Clock(format='%a %d, %H:%M'),
-                widget.Sep(padding=8, foreground=colors["black"]),
-            ],
-            24,
-            background=colors["black"]
-        ) if device != "mobile" else None
-    ),
-    Screen(
-        top=bar.Bar(
-            [
-                # Arch Logo
-                widget.Sep(padding=8, foreground=colors["black"]),
-                widget.TextBox("", foreground=colors["blue"], fontsize=18, font=nerd_font),
-               
-                widget.Spacer(),
-                widget.GroupBox(
-                    highlight_color=colors["dark"],
-                    highlight_method="line",
-                    highlight_border=colors["blue"],
-                    urgent_alert_method="line",
-                    urgent_text=colors["red"],
-                    inactive=colors["white"],
-                    active=colors["blue"],
-                    fontsize=16,
-                    padding=0,
-                    font=nerd_font
-                ),
-                widget.Spacer(),
-
-                # Clock
-                widget.Clock(format='%a %d, %H:%M'),
-                widget.Sep(padding=8, foreground=colors["black"]),
-            ],
-            24,
-            background=colors["black"]
-        ) if device != "mobile" else None,
     ),
 ]
 
