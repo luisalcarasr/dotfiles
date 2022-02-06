@@ -2,4 +2,4 @@ configuration {
   font: "Roboto 14";
 }
 
-@theme "Arc-Dark"
+@theme "minimal"

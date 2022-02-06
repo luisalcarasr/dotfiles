@@ -9,22 +9,23 @@ groups = [
 ]
 
 layouts = [
-    layout.Max(),
+    layout.MonadTall(
+        border_focus=colors["sky"],
+        border_normal=colors["dark"],
+        border_width=1,
+        margin=16,
+    ),
     layout.Columns(
         border_focus=colors["sky"],
         border_normal=colors["dark"],
-        border_width=2,
-        margin=8,
+        border_width=1,
+        margin=16,
         grow_amount=3,
         num_columns=1,
         margin_on_single=8,
         border_on_single=True,
     ),
-    layout.MonadTall(
-        border_focus=colors["sky"],
-        border_normal=colors["dark"],
-        margin=8,
-    ),
+    layout.Max(),
 ]
 
 floating_layout = layout.Floating(
@@ -42,5 +43,5 @@ floating_layout = layout.Floating(
     ],
     border_focus=colors["sky"],
     border_normal=colors["dark"],
-    border_width=2,
+    border_width=1,
 )

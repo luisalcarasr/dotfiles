@@ -34,7 +34,8 @@ from shortcuts import keys, mouse
 from workspaces import groups, layouts, floating_layout
 
 widget_defaults = dict(
-    font='Roboto SemiBold',
+    # font='IBM Plex Sans Medium',
+    font='Cantarell Bold',
     fontsize=14,
     padding=8,
     borderwidth=0,
@@ -42,43 +43,27 @@ widget_defaults = dict(
 )
 extension_defaults = widget_defaults.copy()
 
-nerd_font = 'CaskaydiaCove Nerd Font'
+nerd_font = 'BlexMono Nerd Font'
 
 screens = [
     Screen(
         top=bar.Bar(
             [
                 # Arch Logo
-                widget.Sep(padding=16, foreground=colors["black"]),
-                widget.TextBox("", foreground=colors["blue"], fontsize=22, font=nerd_font),
-               
-                widget.Sep(padding=16, foreground=colors["black"]),
+                widget.Sep(padding=8, foreground=colors["black"]),
+                widget.TextBox("", foreground=colors["blue"], fontsize=18, font=nerd_font),
 
-                widget.Spacer(),
+                # Window Name
+                widget.Sep(padding=8, foreground=colors["black"]),
+                widget.TextBox("Browser"),
+                
+                # Window Name
+                widget.Sep(padding=8, foreground=colors["black"]),
+                widget.WindowName(),
 
                 # Clock
-                widget.Clock(format='%a %d, %H:%M'),
-
-                # Workspaces
-                # widget.GroupBox(
-                #     highlight_color=colors["dark"],
-                #     highlight_method="line",
-                #     highlight_border=colors["blue"],
-                #     urgent_alert_method="line",
-                #     urgent_text=colors["red"],
-                #     inactive=colors["white"],
-                #     active=colors["blue"],
-                #     this_current_screen_border=colors['blue'],
-                #     this_screen_border=colors['dark'],
-                #     other_current_screen_border=colors['blue'],
-                #     other_screen_border=colors['dark'],
-                #     disable_drag=True,
-                #     fontsize=16,
-                #     padding=0,
-                #     borderwidth=2,
-                #     font=nerd_font,
-                # ),
-
+                widget.Spacer(),
+                widget.Clock(format='%a %d  %H:%M'),
                 widget.Spacer(),
 
                 # Background Applications
@@ -90,69 +75,62 @@ screens = [
                 widget.WidgetBox(
                     text_closed="",
                     text_open="",
-                    fontsize=18,
                     font=nerd_font,
                     widgets=[
-                        widget.ThermalSensor(),
+                        widget.ThermalSensor( fontsize=12,
+                        ),
                     ],
                 ),
                 
                 widget.Sep(padding=16, foreground=colors["black"]),
-
-                # Net
-                widget.WidgetBox(
-                    text_closed="歷 ",
-                    text_open="歷 ",
-                    fontsize=18,
-                    font=nerd_font,
-                    widgets=[
-                        widget.Net(
-                            format="{down}/s ↓↑ {up}/s"
-                        ),
-                    ],
-                ),
-
-                widget.Sep(padding=8, foreground=colors["black"]),
-                # IP 
-                widget.WidgetBox(
-                    text_closed=" ",
-                    text_open=" ",
-                    fontsize=18,
-                    font=nerd_font,
-                    widgets=[
-                        widget.TextBox(extract_ip()),
-                    ],
-                ),
-                
-                widget.Sep(padding=8, foreground=colors["black"]),
-                # widget.TextBox("", fontsize=18, padding=8, font=nerd_font),
-                # widget.TextBox(extract_ip()),
-
-                # Battery
-                # widget.Battery(format="{char}", fontsize=18, padding=16, background=colors["aqua"], foreground=colors["black"], low_foreground=colors["red"], full_char="", charge_char="", discharge_char="", empty_char="", unknown_char="", show_short_text=False),
-                # widget.Battery(format="{percent:2.1%}",background=colors["aqua"], foreground=colors["black"], low_foreground=colors["red"], show_short_text=False),
 
                 # Volume
                 widget.WidgetBox(
                     text_closed=" ",
                     text_open=" ",
-                    fontsize=18,
                     font=nerd_font,
                     widgets=[
                         widget.PulseVolume(
                             limit_max_volume=True,
+                            fontsize=12,
+                        ),
+                    ],
+                ),
+
+                widget.Sep(padding=12, foreground=colors["black"]),
+                # Volume
+                widget.WidgetBox(
+                    text_closed=" ",
+                    text_open=" ",
+                    font=nerd_font,
+                    widgets=[
+                        widget.Backlight(
+                            backlight_name='intel_backlight',
+                            change_command='brightnessctl set {0}%',
+                            brightnessfile='/sys/class/backlight/intel_backlight/brightness',
+                            max_brightness_file='/sys/class/backlight/intel_backlight/max_brightness'
                         ),
                     ],
                 ),
                
-                # widget.Sep(padding=8, foreground=colors["black"]),
-                
+                widget.Sep(padding=12, foreground=colors["black"]),
 
-                # widget.Notify(),
-
-                # widget.Sep(padding=10, foreground=colors["black"]),
-
-                widget.Sep(padding=16, foreground=colors["black"]),
+                # Volume
+                widget.WidgetBox(
+                    text_closed="  ",
+                    text_open="  ",
+                    font=nerd_font,
+                    widgets=[
+                        widget.Battery(
+                            format="{percent:2.1%}",
+                            low_foreground=colors["red"],
+                            show_short_text=False,
+                            fontsize=12,
+                        ),
+                    ],
+                ),
+               
+                widget.Sep(padding=8, foreground=colors["black"]),
             ],
             32,
             background=colors["black"]

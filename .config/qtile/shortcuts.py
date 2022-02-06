@@ -49,8 +49,8 @@ keys = [
 
     Key([mod, "shift"], "r", lazy.restart(), desc="Restart Qtile"),
     Key([mod, "shift"], "q", lazy.shutdown(), desc="Shutdown Qtile"),
-    # Key([mod], "space", lazy.spawn('rofi -show drun -show-icons'), desc="Spawn a command using a prompt widget"),
-    Key([mod], "space", lazy.spawn('rofi -show run'), desc="Spawn a command using a prompt widget"),
+    Key([mod], "space", lazy.spawn('rofi -show drun -show-icons'), desc="Spawn a command using a prompt widget"),
+    # Key([mod], "space", lazy.spawn('~/.config/rofi/launchers/misc/launcher.sh'), desc="Spawn a command using a prompt widget"),
 
     Key([mod], "i", lazy.to_screen(2)),
     Key([mod], "o", lazy.to_screen(0)),

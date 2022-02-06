@@ -1,6 +1,7 @@
 font:
   normal:
-    family: RobotoMono Nerd Font
+    family: BlexMono Nerd Font
+    style: Medium
   size: 10
 colors:
   primary:
@@ -37,4 +38,4 @@ colors:
 env:
   TERM: xterm-256color
 window:
-  opacity: .99
+  opacity: .95

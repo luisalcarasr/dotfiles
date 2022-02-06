@@ -4,4 +4,5 @@ xset s noblank
 sh ~/.fehbg
 xbanish &
 autotiling &
+picom &
 xrdb -merge ~/.Xresources
