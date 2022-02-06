@@ -1,5 +1,5 @@
 [global]
-font = Roboto 16
+font = Cantarell 10
 
 # Allow a small subset of html markup:
 #   <b>bold</b>
@@ -70,6 +70,8 @@ hide_duplicate_count = no
 # screen width minus the width defined in within the geometry option.
 #geometry = "250x50-40+40"
 geometry = "350x50-20+40"
+offset = 16x48
+scale = 1
 
 # Shrink window if it's smaller than the width.  Will be ignored if
 # width is 0.
@@ -144,7 +146,7 @@ startup_notification = false
 dmenu = /usr/bin/dmenu -p dunst:
 
 # Browser for opening urls in context menu.
-browser = /usr/bin/firefox -new-tab
+browser = /bin/chrome
 
 # Align icons left/right/off
 icon_position = left 

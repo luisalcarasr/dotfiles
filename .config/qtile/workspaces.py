@@ -2,11 +2,15 @@ from libqtile import layout
 from libqtile.config import Group, Match
 from utils.theme import colors
 
-groups = [
-    Group("0"),
-    Group("1"),
-    Group("2"),
-]
+workspaces = [
+    "Home",
+    "Browser",
+    "Virtual",
+    "Logs",
+    "Social",
+];
+
+groups = map(lambda ws: Group(ws), workspaces)
 
 layouts = [
     layout.MonadTall(

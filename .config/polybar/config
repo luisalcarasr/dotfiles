@@ -29,8 +29,8 @@
 ;==========================================================
 
 [colors]
-fg = #abb2bf
-bg = #ee282c34
+fg = #ffffff
+bg = #000000
 red = #e06c75
 green = #98c379
 yellow = #e5c07b
@@ -42,7 +42,7 @@ gray = #5c6370
 [bar/main]
 ;monitor = ${env:MONITOR:HDMI-1}
 width = 100%
-height = 32
+height = 24
 ;offset-x = 1%
 ;offset-y = 1%
 radius = 0
@@ -58,18 +58,18 @@ border-size = 0
 border-color = ${colors.fg}
 
 padding-left = 4
-padding-right = 0
+padding-right = 4
 
-module-margin-left = 1
+module-margin-left = 3
 module-margin-right = 3
 
-font-0 = IBM Plex Sans:pixelsize=12;1
-font-1 = monospace:pixelsize=12;1
+font-0 = Cantarell:bold:pixelsize=11;2
+font-1 = BlexMono Nerd Font:pixelsize=12;1
 
 
 modules-left = i3
 modules-center = date
-modules-right = wlan vpn alsa cpu cputemp memory gpu gputemp vram
+modules-right = cputemp vpn wlan alsa battery
 
 tray-position = right
 tray-padding = 10
@@ -89,6 +89,14 @@ tray-padding = 10
 cursor-click = pointer
 cursor-scroll = ns-resize
 
+[module/cputemp]
+type=custom/script
+exec=sensors coretemp-isa-0000 -j | jq '."coretemp-isa-0000"."Package id 0"."temp1_input"'
+format=<label>
+format-foreground=${colors.fg}
+label="    %{F${colors.gray}%output%°C"
+interval=5
+
 [module/xwindow]
 type = internal/xwindow
 label = %title:0:30:...%
@@ -100,7 +108,7 @@ index-sort = true
 wrapping-scroll = false
 strip-wsnumbers = true
 
-ws-icon-default = 
+;ws-icon-default = 
 ;pin-workspaces = true
 
 label-mode-padding = 2
@@ -108,60 +116,46 @@ label-mode-foreground = ${colors.fg}
 label-mode-background = ${colors.yellow}
 
 ; focused = Active workspace on focused monitor
-label-focused = %name% [%index%]
-label-focused-background = ${colors.blue}
-label-focused-underline= ${colors.blue}
-label-focused-foreground= ${colors.bg}
+label-focused = "%name%"
+;label-focused-background = ${colors.blue}
+;label-focused-underline= ${colors.blue}
+label-focused-foreground= ${colors.fg}
 label-focused-padding = 2
 
 ; unfocused = Inactive workspace on any monitor
-label-unfocused = %name% [%index%]
+label-unfocused = "%name%"
 label-unfocused-padding = 2
+label-unfocused-foreground= ${colors.gray}
 
 ; visible = Active workspace on unfocused monitor
-label-visible = %name% [%index%]
+label-visible = "%name%"
 label-visible-background = ${colors.bg}
 ;label-visible-underline = ${self.label-focused-underline}
 label-visible-padding = ${self.label-unfocused-padding}
 
 ; urgent = Workspace with urgency hint set
-label-urgent = %name% [%index%]
-label-urgent-background = ${colors.red}
-label-urgent-foreground = ${colors.fg}
+label-urgent = "%name%"
+label-urgent-foreground = ${colors.red}
 label-urgent-padding = 2
 
 ; Separator in between workspaces
 ; label-separator = |
 
-[module/cpu]
-type = internal/cpu
-interval = 2
-format-prefix = "CPU: "
-format-prefix-foreground = ${colors.gray}
-label = %percentage:2%%
-
-[module/memory]
-type = internal/memory
-interval = 2
-format-prefix = "RAM: "
-format-prefix-foreground = ${colors.gray}
-label = %percentage_used%%
-
 [module/wlan]
 type = internal/network
-interface = wlp2s0
+interface = wlo1
 interval = 3.0
 
 format-connected = <label-connected>
-label-connected = ONLINE
-label-connected-foreground = ${colors.green}
+label-connected = 直    %essid%
+label-connected-foreground = ${colors.fg}
 
 ;format-disconnected =
 format-disconnected = <label-disconnected>
 ;format-disconnected-underline = ${self.format-connected-underline}
 ;label-disconnected = %ifname% disconnected
 label-disconnected-foreground = ${colors.red}
-label-disconnected = OFFLINE
+label-disconnected = 睊    Offline
 
 ramp-signal-0 = 20%
 ramp-signal-1 = 40%
@@ -174,8 +168,8 @@ ramp-signal-foreground = ${colors.gray}
 type = internal/date
 interval = 5
 
-date = ""
-date-alt = " %Y-%m-%d"
+date = "%a %d "
+date-alt = "%a %d "
 
 time = %H:%M
 time-alt = %H:%M
@@ -183,76 +177,48 @@ format-prefix-foreground = ${colors.gray}
 
 label = %date% %time%
 
+[module/battery]
+type = internal/battery
+full-at = 99
+battery = BAT0
+adapter = ADP1
+poll-interval = 5
+; Only applies if <ramp-capacity> is used
+ramp-capacity-0 = "    "
+ramp-capacity-1 = "    "
+ramp-capacity-2 = "    "
+ramp-capacity-3 = "    "
+ramp-capacity-4 = "    "
+animation-charging-0 = "    "
+animation-charging-1 = "    "
+animation-charging-2 = "    "
+animation-charging-3 = "    "
+animation-charging-4 = "    "
+animation-charging-framerate = 750
+format-discharging = <ramp-capacity> <label-discharging>
+format-charging = <animation-charging> <label-charging>
+label-full="     %percentage%%"
+
 [module/alsa]
 type = internal/alsa
 
-format-volume = <label-volume>
-label-volume = "VOL: %{F${colors.fg}%percentage%%"
-label-volume-foreground = ${colors.gray}
+format-volume =     <label-volume>
+label-volume = "%percentage%%"
+label-volume-foreground = ${colors.fg}
 
 format-muted= <label-muted>
 format-muted-foreground = ${colors.red}
-label-muted = "MUTED"
-
-[module/temperature]
-type = internal/temperature
-thermal-zone = 0
-warn-temperature = 60
-
-format = <ramp> <label>
-format-warn = <ramp> <label-warn>
-format-warn-underline = ${self.format-underline}
-
-label=%temperature-c%
-label-warn =%temperature-c%
-label-warn-foreground = ${colors.secondary}
-
-ramp-0 = TEMP:
-ramp-1 = TEMP:
-ramp-2 = TEMP:
-ramp-foreground = ${colors.gray}
+label-muted = "婢  Muted"
 
 [module/vpn]
 type=custom/script
-exec=printf "" && (nmcli -f GENERAL.STATE con show Auxita | cut -d ':' -f 2 | xargs | awk '{print toupper($0)}' && echo DOWN) | tr '\n' ' ' | xargs
+exec=printf "" && (nmcli -f GENERAL.STATE con show Auxita | cut -d ':' -f 2 | xargs | awk '{print toupper($0)}' && echo Off ) | tr '\n' ' ' | xargs
 format=<label>
-format-foreground=${colors.gray}
-label="VPN: %{F${colors.fg}%output%"
+format-foreground=${colors.fg}
+label="嬨    %{F${colors.gray}%output%"
 interval=5
 click-left=nmcli connection up Auxita
 click-right=nmcli connection down Auxita
-
-[module/cputemp]
-type=custom/script
-exec=sensors coretemp-isa-0000 -j | jq '."coretemp-isa-0000"."Package id 0"."temp1_input"'
-format=<label>
-format-foreground=${colors.gray}
-label="TEMP: %{F${colors.fg}%output%°C"
-interval=5
-
-[module/gputemp]
-type=custom/script
-exec=nvidia-smi --query-gpu=temperature.gpu --format=csv,noheader,nounits | awk '{ print $1}'
-format=<label>
-format-foreground=${colors.gray}
-label="TEMP: %{F${colors.fg}%output%°C"
-interval=5
-
-[module/gpu]
-type=custom/script
-exec=nvidia-smi --query-gpu=utilization.gpu --format=csv,noheader,nounits | awk '{ print $1}'
-format=<label>
-format-foreground=${colors.gray}
-label="GPU: %{F${colors.fg}%output%%"
-interval=5
-
-[module/vram]
-type=custom/script
-exec=echo $(($(nvidia-smi --query-gpu=memory.used --format=csv,noheader,nounits | awk '{ print $1}') * 100 / $(nvidia-smi --query-gpu=memory.total --format=csv,noheader,nounits | awk '{ print $1}')))
-format=<label>
-format-foreground=${colors.gray}
-label="VRAM: %{F${colors.fg}%output%%"
-interval=5
 
 [module/powermenu]
 type = custom/menu

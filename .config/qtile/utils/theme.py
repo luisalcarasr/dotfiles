@@ -1,6 +1,6 @@
 colors = {
     "white": "#ffffff",
-    "light": "#eeeeee",
+    "light": "#909090",
     "black": "#000000",
     "dark": "#282C34",
     "blue": "#61afef",

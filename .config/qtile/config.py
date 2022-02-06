@@ -34,7 +34,6 @@ from shortcuts import keys, mouse
 from workspaces import groups, layouts, floating_layout
 
 widget_defaults = dict(
-    # font='IBM Plex Sans Medium',
     font='Cantarell Bold',
     fontsize=14,
     padding=8,
@@ -53,37 +52,24 @@ screens = [
                 widget.Sep(padding=8, foreground=colors["black"]),
                 widget.TextBox("", foreground=colors["blue"], fontsize=18, font=nerd_font),
 
-                # Window Name
+                # Workspace
                 widget.Sep(padding=8, foreground=colors["black"]),
-                widget.TextBox("Browser"),
-                
-                # Window Name
-                widget.Sep(padding=8, foreground=colors["black"]),
-                widget.WindowName(),
-
-                # Clock
-                widget.Spacer(),
-                widget.Clock(format='%a %d  %H:%M'),
+                widget.GroupBox(
+                    highlight_method="text",
+                    urgent_text=colors["red"],
+                    foreground=colors["white"],
+                    active=colors["light"],
+                    inactive=colors["dark"],
+                    this_current_screen_border=colors["white"],
+                    other_current_screen_border=colors["white"],
+                    borderwidth=0,
+                ),
                 widget.Spacer(),
 
                 # Background Applications
                 widget.Systray(icon_size=20),
-                
                 widget.Sep(padding=16, foreground=colors["black"]),
                 
-                # Thermal
-                widget.WidgetBox(
-                    text_closed="",
-                    text_open="",
-                    font=nerd_font,
-                    widgets=[
-                        widget.ThermalSensor( fontsize=12,
-                        ),
-                    ],
-                ),
-                
-                widget.Sep(padding=16, foreground=colors["black"]),
-
                 # Volume
                 widget.WidgetBox(
                     text_closed=" ",
@@ -96,9 +82,9 @@ screens = [
                         ),
                     ],
                 ),
-
                 widget.Sep(padding=12, foreground=colors["black"]),
-                # Volume
+
+                # Brightness
                 widget.WidgetBox(
                     text_closed=" ",
                     text_open=" ",
@@ -108,14 +94,14 @@ screens = [
                             backlight_name='intel_backlight',
                             change_command='brightnessctl set {0}%',
                             brightnessfile='/sys/class/backlight/intel_backlight/brightness',
-                            max_brightness_file='/sys/class/backlight/intel_backlight/max_brightness'
+                            max_brightness_file='/sys/class/backlight/intel_backlight/max_brightness',
+                            fontsize=12,
                         ),
                     ],
                 ),
-               
                 widget.Sep(padding=12, foreground=colors["black"]),
 
-                # Volume
+                # Battery
                 widget.WidgetBox(
                     text_closed="  ",
                     text_open="  ",
@@ -129,7 +115,10 @@ screens = [
                         ),
                     ],
                 ),
-               
+                widget.Sep(padding=8, foreground=colors["black"]),
+
+                # Clock
+                widget.Clock(format='%a %d  %H:%M'),
                 widget.Sep(padding=8, foreground=colors["black"]),
             ],
             32,

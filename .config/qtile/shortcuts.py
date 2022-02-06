@@ -1,6 +1,7 @@
 from libqtile.lazy import lazy
 from libqtile.config import Key, Click, Drag 
 from libqtile.utils import guess_terminal
+from workspaces import workspaces
 
 mod = "mod4"
 
@@ -56,10 +57,18 @@ keys = [
     Key([mod], "o", lazy.to_screen(0)),
     Key([mod], "p", lazy.to_screen(1)),
 
-    Key([mod, "shift"], "i", lazy.window.togroup("2")),
-    Key([mod, "shift"], "o", lazy.window.togroup("0")),
-    Key([mod, "shift"], "p", lazy.window.togroup("1")),
+   # Key([mod, "shift"], "i", lazy.window.togroup("2")),
+   # Key([mod, "shift"], "o", lazy.window.togroup("0")),
+   # Key([mod, "shift"], "p", lazy.window.togroup("1")),
 ]
+
+keys.extend([
+    Key([mod, "shift"], str(i + 1), lazy.window.togroup(ws)) for i,ws in enumerate(workspaces)
+])
+
+keys.extend([
+    Key([mod], str(i + 1), lazy.group[ws].toscreen()) for i,ws in enumerate(workspaces)
+])
 
 # Drag floating layouts.
 mouse = [
