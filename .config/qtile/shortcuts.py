@@ -50,22 +50,28 @@ keys = [
 
     Key([mod, "shift"], "r", lazy.restart(), desc="Restart Qtile"),
     Key([mod, "shift"], "q", lazy.shutdown(), desc="Shutdown Qtile"),
-    Key([mod], "space", lazy.spawn('rofi -show drun -show-icons'), desc="Spawn a command using a prompt widget"),
-    # Key([mod], "space", lazy.spawn('~/.config/rofi/launchers/misc/launcher.sh'), desc="Spawn a command using a prompt widget"),
 
+    # Apps
+    Key([mod], "space", lazy.spawn('rofi -show drun -show-icons -theme minimal-app-menu'), desc="Spawn a command using a prompt widget"),
+
+    # Menus
+    Key([mod], 'r', lazy.spawn('python /home/luis/.config/rofi/menus/rofi_audio_input'), desc="Spawn a audio input menu"),
+    Key([mod], "t", lazy.spawn('python /home/luis/.config/rofi/menus/rofi_audio_output'), desc="Spawn a audio output menu"),
+
+    # Displays
     Key([mod], "i", lazy.to_screen(2)),
     Key([mod], "o", lazy.to_screen(0)),
     Key([mod], "p", lazy.to_screen(1)),
 
-   # Key([mod, "shift"], "i", lazy.window.togroup("2")),
-   # Key([mod, "shift"], "o", lazy.window.togroup("0")),
-   # Key([mod, "shift"], "p", lazy.window.togroup("1")),
+    # Workspaces
+    Key([mod], "y", lazy.screen.prev_group()),
+    Key([mod], "u", lazy.screen.next_group()),
 ]
 
+# Workspaces
 keys.extend([
     Key([mod, "shift"], str(i + 1), lazy.window.togroup(ws)) for i,ws in enumerate(workspaces)
 ])
-
 keys.extend([
     Key([mod], str(i + 1), lazy.group[ws].toscreen()) for i,ws in enumerate(workspaces)
 ])

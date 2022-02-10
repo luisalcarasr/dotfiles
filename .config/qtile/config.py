@@ -22,6 +22,7 @@ from os import environ
 from typing import List  # noqa: F401
 from libqtile import bar, widget
 from libqtile.config import Screen
+from libqtile.lazy import lazy
 
 
 device = environ.get("DEVICE")
@@ -44,6 +45,9 @@ extension_defaults = widget_defaults.copy()
 
 nerd_font = 'BlexMono Nerd Font'
 
+def poweroff(qtile):
+    qtile.cmd_spawn('firefox')
+
 screens = [
     Screen(
         top=bar.Bar(
@@ -62,7 +66,6 @@ screens = [
                     inactive=colors["dark"],
                     this_current_screen_border=colors["white"],
                     other_current_screen_border=colors["white"],
-                    borderwidth=0,
                 ),
                 widget.Spacer(),
 
@@ -120,12 +123,22 @@ screens = [
                 # Clock
                 widget.Clock(format='%a %d  %H:%M'),
                 widget.Sep(padding=8, foreground=colors["black"]),
+                widget.TextBox(
+                    " ",
+                    font=nerd_font,
+                    mouse_callbacks={
+                        'Button1': poweroff,
+                    },
+                ),
+
+                widget.Sep(padding=8, foreground=colors["black"]),
             ],
             32,
             background=colors["black"]
         ),
     ),
 ]
+
 
 dgroups_key_binder = None
 dgroups_app_rules = []  # type: List

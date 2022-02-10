@@ -26,7 +26,7 @@ layouts = [
         margin=16,
         grow_amount=3,
         num_columns=1,
-        margin_on_single=8,
+        margin_on_single=16,
         border_on_single=True,
     ),
     layout.Max(),
