@@ -45,8 +45,9 @@ extension_defaults = widget_defaults.copy()
 
 nerd_font = 'BlexMono Nerd Font'
 
+@lazy.function
 def poweroff(qtile):
-    qtile.cmd_spawn('firefox')
+    qtile.cmd_spawn('poweroff')
 
 screens = [
     Screen(
