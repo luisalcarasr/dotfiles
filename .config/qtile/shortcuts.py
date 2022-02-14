@@ -33,9 +33,6 @@ keys = [
     # will be to screen edge - window would shrink.
 
 
-    Key([mod], "comma", lazy.prev_screen()),
-    Key([mod], "period", lazy.next_screen()),
-
     # Toggle between split and unsplit sides of stack.
     # Split = all windows displayed
     # Unsplit = 1 window displayed, like Max layout, but still with
@@ -57,6 +54,9 @@ keys = [
     # Menus
     Key([mod], 'r', lazy.spawn('python /home/luis/.config/rofi/menus/rofi_audio_input'), desc="Spawn a audio input menu"),
     Key([mod], "t", lazy.spawn('python /home/luis/.config/rofi/menus/rofi_audio_output'), desc="Spawn a audio output menu"),
+
+    # Emoji
+    Key([mod], "period", lazy.spawn('rofi -show emoji -modi emoji -theme minimal-app-menu'), desc="Spawn a command using a prompt widget"),
 
     # Displays
     Key([mod], "i", lazy.to_screen(2)),
