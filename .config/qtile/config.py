@@ -18,15 +18,17 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from os import environ 
+from os import environ, path 
 from typing import List  # noqa: F401
 from libqtile import bar, widget
 from libqtile.config import Screen
 from libqtile.lazy import lazy
 
 
-device = environ.get("DEVICE")
 mod = "mod4"
+
+can_control_brightness = path.exists("/sys/class/backlight/intel_backlight/brightness")
+has_batery = path.exists("/sys/class/power_supply/BAT0")
 
 from utils.theme import colors
 from utils.network import extract_ip
@@ -55,10 +57,7 @@ screens = [
             [
                 # Arch Logo
                 widget.Sep(padding=8, foreground=colors["black"]),
-                widget.TextBox("", foreground=colors["blue"], fontsize=18, font=nerd_font),
-
-                # Workspace
-                widget.Sep(padding=8, foreground=colors["black"]),
+                widget.TextBox("﩯", fontsize=16, font=nerd_font),
                 widget.GroupBox(
                     highlight_method="text",
                     urgent_text=colors["red"],
@@ -67,12 +66,68 @@ screens = [
                     inactive=colors["dark"],
                     this_current_screen_border=colors["white"],
                     other_current_screen_border=colors["white"],
+                    margin=5,
                 ),
                 widget.Spacer(),
-
+                
                 # Background Applications
                 widget.Systray(icon_size=20),
                 widget.Sep(padding=16, foreground=colors["black"]),
+
+                # Pomodoro
+                widget.WidgetBox(
+                    text_closed=" ",
+                    text_open=" ",
+                    font=nerd_font,
+                    widgets=[
+                        widget.Pomodoro(
+                            prefix_inactive="0:00:00",
+                            prefix_long_break="",
+                            prefix_break="",
+                            prefix_paused="Go back to work",
+                            color_active=colors["white"],
+                            color_break=colors["green"],
+                            color_inactive=colors["red"],
+                        ),
+                    ],
+                ),
+                widget.Sep(padding=10, foreground=colors["black"]),
+
+                # Wireless
+                widget.WidgetBox(
+                    text_closed="嬨 ",
+                    text_open="嬨 ",
+                    font=nerd_font,
+                    widgets=[
+                        widget.TextBox("In Progress"),
+                    ],
+                ),
+                widget.Sep(padding=10, foreground=colors["black"]),
+                
+                # Wireless
+                widget.WidgetBox(
+                    text_closed=" ",
+                    text_open=" ",
+                    font=nerd_font,
+                    widgets=[
+                        widget.Wlan(
+                            interface='wlp3s0',
+                            format='{essid}',
+                        ),
+                    ],
+                ),
+                widget.Sep(padding=12, foreground=colors["black"]),
+                
+                # Updates 
+                widget.WidgetBox(
+                    text_closed=" ",
+                    text_open=" ",
+                    font=nerd_font,
+                    widgets=[
+                        widget.CheckUpdates(display_format="{updates}"),
+                    ],
+                ),
+                widget.Sep(padding=10, foreground=colors["black"]),
                 
                 # Volume
                 widget.WidgetBox(
@@ -102,8 +157,9 @@ screens = [
                             fontsize=12,
                         ),
                     ],
-                ),
-                widget.Sep(padding=12, foreground=colors["black"]),
+                ) if can_control_brightness else widget.TextBox(""),
+                widget.Sep(padding=12, foreground=colors["black"])
+                    if can_control_brightness else widget.TextBox(""),
 
                 # Battery
                 widget.WidgetBox(
@@ -118,12 +174,14 @@ screens = [
                             fontsize=12,
                         ),
                     ],
-                ),
-                widget.Sep(padding=8, foreground=colors["black"]),
+                ) if has_batery else widget.TextBox(""),
+                widget.Sep(padding=8, foreground=colors["black"]) if has_batery else widget.TextBox(""),
 
                 # Clock
                 widget.Clock(format='%a %d  %H:%M'),
                 widget.Sep(padding=8, foreground=colors["black"]),
+
+                # Power
                 widget.TextBox(
                     " ",
                     font=nerd_font,

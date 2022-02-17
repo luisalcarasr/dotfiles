@@ -3,11 +3,11 @@ from libqtile.config import Group, Match
 from utils.theme import colors
 
 workspaces = [
-    "Home",
-    "Browser",
-    "Virtual",
-    "Logs",
-    "Social",
+    "1",
+    "2",
+    "3",
+    "4",
+    "5",
 ];
 
 groups = map(lambda ws: Group(ws), workspaces)
@@ -17,18 +17,18 @@ layouts = [
         border_focus=colors["sky"],
         border_normal=colors["dark"],
         border_width=1,
-        margin=0,
-        single_border_width=0,
+        margin=16,
+        single_border_width=1,
     ),
     layout.Columns(
         border_focus=colors["sky"],
         border_normal=colors["dark"],
         border_width=1,
-        margin=0,
+        margin=16,
         grow_amount=3,
         num_columns=1,
-        margin_on_single=0,
-        border_on_single=False,
+        margin_on_single=16,
+        border_on_single=True,
     ),
     layout.Max(),
 ]
