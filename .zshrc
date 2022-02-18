@@ -1,16 +1,22 @@
 # Path
 export PATH=$PATH:$HOME/.local/bin:$HOME/.config/rofi/menus
 
-# Oh My Zsh
-export ZSH=$HOME/.oh-my-zsh
-export ZSH_CUSTOM=$HOME/.config/zsh
-export ZSH_THEME="powerline"
-
 # ZSH Plugin Manager
 if [[ ! -f ~/.zpm/zpm.zsh ]]; then
-  git clone --recursive https://github.com/zpm-zsh/zpm ~/.zpm
 fi
-source ~/.zpm/zpm.zsh
+source ~/.zpm/zpm.zsh 2>/dev/null || {
+  ZSH_CACHE_DIR="${TMPDIR:-/tmp}/zsh-${UID:-user}"
+  if [ ! -z "$ZSH_CACHE_DIR" ]; then
+    if [ ! -z "$(ls $ZSH_CACHE_DIR)" ]; then
+      rm -rf $ZSH_CACHE_DIR/**
+    fi
+  fi
+  printf '\033[34m'
+  echo "Cloning Zsh Plugin Manager..."
+  printf '\033[0m'
+  git clone --recursive https://github.com/zpm-zsh/zpm ~/.zpm
+  source ~/.zpm/zpm.zsh 
+}
 
 zpm load @github/zsh-users/zsh-autosuggestions
 zpm load @github/zsh-users/zsh-completions
@@ -24,7 +30,16 @@ zpm load @github/jeffreytse/zsh-vi-mode
 
 # Autoload Oh My Zsh
 autoload -U compinit && compinit
-source $ZSH/oh-my-zsh.sh
+export ZSH=$HOME/.oh-my-zsh
+export ZSH_CUSTOM=$HOME/.config/zsh
+export ZSH_THEME="powerline"
+
+
+
+source $ZSH/oh-my-zsh.sh 2>/dev/null || {
+  sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --keep-zshrc --unattended
+  source $ZSH/oh-my-zsh.sh
+}
 
 # Aliases
 alias config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
