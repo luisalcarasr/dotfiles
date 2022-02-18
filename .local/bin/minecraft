@@ -1,4 +1,0 @@
-#!/bin/sh
-
-cd ~/.minecraft
-java -jar TLauncher-2.8.jar
