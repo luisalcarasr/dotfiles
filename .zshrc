@@ -1,45 +1,31 @@
-# Path
-export PATH=$PATH:$HOME/.local/bin:$HOME/.config/rofi/menus
+ZSH_ANTIGEN=$HOME/.config/zsh/antigen.zsh
+ZSH_CUSTOM=$HOME/.config/zsh
+ZSH_THEME="powerline"
 
-# ZSH Plugin Manager
-if [[ ! -f ~/.zpm/zpm.zsh ]]; then
-fi
-source ~/.zpm/zpm.zsh 2>/dev/null || {
-  ZSH_CACHE_DIR="${TMPDIR:-/tmp}/zsh-${UID:-user}"
-  if [ ! -z "$ZSH_CACHE_DIR" ]; then
-    if [ ! -z "$(ls $ZSH_CACHE_DIR)" ]; then
-      rm -rf $ZSH_CACHE_DIR/**
-    fi
-  fi
+source $ZSH_ANTIGEN 2>/dev/null || {
   printf '\033[34m'
-  echo "Cloning Zsh Plugin Manager..."
+  echo "Installing Antigen Plugin Manager..."
   printf '\033[0m'
-  git clone --recursive https://github.com/zpm-zsh/zpm ~/.zpm
-  source ~/.zpm/zpm.zsh 
+  curl -L git.io/antigen > $ZSH_ANTIGEN
+  source $ZSH_ANTIGEN
 }
 
-zpm load @github/zsh-users/zsh-autosuggestions
-zpm load @github/zsh-users/zsh-completions
-zpm load @github/zsh-users/zsh-syntax-highlighting
-zpm load @github/zpm-zsh/colors
-zpm load @github/zuxfoucault/colored-man-pages_mod
-zpm load @github/akoenig/npm-run.plugin.zsh
-zpm load @github/g-plane/zsh-yarn-autocompletions
-zpm load @github/jessarcher/zsh-artisan
-zpm load @github/jeffreytse/zsh-vi-mode
+antigen use oh-my-zsh
 
-# Autoload Oh My Zsh
-autoload -U compinit && compinit
-export ZSH=$HOME/.oh-my-zsh
-export ZSH_CUSTOM=$HOME/.config/zsh
-export ZSH_THEME="powerline"
+antigen bundle zsh-users/zsh-autosuggestions
+antigen bundle zsh-users/zsh-completions
+antigen bundle zsh-users/zsh-syntax-highlighting
+antigen bundle zpm-zsh/colors
+antigen bundle zuxfoucault/colored-man-pages_mod
+antigen bundle akoenig/npm-run.plugin.zsh
+antigen bundle g-plane/zsh-yarn-autocompletions
+antigen bundle jessarcher/zsh-artisan
+antigen bundle jeffreytse/zsh-vi-mode
+# antigen bundle zshzoo/cd-ls
 
+antigen theme gentoo
 
-
-source $ZSH/oh-my-zsh.sh 2>/dev/null || {
-  sh -c "$(curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --keep-zshrc --unattended
-  source $ZSH/oh-my-zsh.sh
-}
+antigen apply
 
 # Aliases
 alias config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
