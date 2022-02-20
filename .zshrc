@@ -40,7 +40,7 @@ fi
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 
 # Aliases
-alias config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
+alias dotctl='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
 alias pacman='sudo pacman'
 alias ls='exa'
 alias la='exa -la'
