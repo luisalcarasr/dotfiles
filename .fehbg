@@ -1,2 +1,2 @@
 #!/bin/sh
-feh --no-fehbg --bg-fill '/home/luis/.background' 
+feh --no-fehbg --bg-fill '/usr/share/backgrounds/gnome/adwaita-night.png' 
