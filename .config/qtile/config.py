@@ -32,7 +32,7 @@ has_batery = path.exists("/sys/class/power_supply/BAT0")
 
 from utils.theme import colors
 from utils.network import extract_ip
-from lib.widgets import GPU, VRAM, Wireless
+from lib.widgets import GPU, VRAM, Wireless, VirtualPrivateNetwork
 from shortcuts import keys, mouse
 from workspaces import groups, layouts, floating_layout
 
@@ -70,65 +70,50 @@ screens = [
                 ),
                 widget.Spacer(),
                 
+                # Pomodoro
+                widget.Pomodoro(
+                    prefix_inactive="0:00:00",
+                    prefix_long_break="",
+                    prefix_break="",
+                    prefix_paused="Go back to work",
+                    color_active=colors["white"],
+                    color_break=colors["green"],
+                    color_inactive=colors["dark"],
+                ),
+
+                widget.Sep(padding=10, foreground=colors["black"]),
+                widget.Spacer(),
+
                 # Background Applications
                 widget.Systray(icon_size=20),
                 widget.Sep(padding=16, foreground=colors["black"]),
 
-                # Pomodoro
-                widget.WidgetBox(
-                    text_closed=" ",
-                    text_open=" ",
+                # Updates 
+                widget.CheckUpdates(
+                    distro="Arch_yay",
+                    display_format="",
+                    no_update_string="",
                     font=nerd_font,
-                    widgets=[
-                        widget.Pomodoro(
-                            prefix_inactive="0:00:00",
-                            prefix_long_break="",
-                            prefix_break="",
-                            prefix_paused="Go back to work",
-                            color_active=colors["white"],
-                            color_break=colors["green"],
-                            color_inactive=colors["red"],
-                        ),
-                    ],
+                    colour_no_updates=colors["dark"],
+                    execute="kitty sh -c yay -Syyu",
+                    update_interval=60,
                 ),
-                widget.Sep(padding=10, foreground=colors["black"]),
+                widget.Sep(padding=6, foreground=colors["black"]),
+                
+                # VPN
+                VirtualPrivateNetwork(
+                    vpn_name="VPN",
+                    font=nerd_font,
+                ),
+                widget.Sep(padding=8, foreground=colors["black"]),
 
                 # Wireless
-                widget.WidgetBox(
-                    text_closed="嬨 ",
-                    text_open="嬨 ",
+                Wireless(
+                    interface='wlp3s0',
                     font=nerd_font,
-                    widgets=[
-                        widget.TextBox("In Progress"),
-                    ],
                 ),
-                widget.Sep(padding=10, foreground=colors["black"]),
-                
-                # Wireless
-                widget.WidgetBox(
-                    text_closed=" ",
-                    text_open=" ",
-                    font=nerd_font,
-                    widgets=[
-                        widget.Wlan(
-                            interface='wlp3s0',
-                            format='{essid}',
-                        ),
-                    ],
-                ),
-                widget.Sep(padding=12, foreground=colors["black"]),
-                
-                # Updates 
-                widget.WidgetBox(
-                    text_closed=" ",
-                    text_open=" ",
-                    font=nerd_font,
-                    widgets=[
-                        widget.CheckUpdates(display_format="{updates}"),
-                    ],
-                ),
-                widget.Sep(padding=10, foreground=colors["black"]),
-                
+                widget.Sep(padding=15, foreground=colors["black"]),
+
                 # Volume
                 widget.WidgetBox(
                     text_closed=" ",
