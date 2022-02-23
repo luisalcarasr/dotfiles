@@ -14,16 +14,16 @@ groups = map(lambda ws: Group(ws), workspaces)
 
 layouts = [
     layout.MonadTall(
-        border_focus=colors["light"],
+        border_focus=colors["blue"],
         border_normal=colors["dark"],
-        border_width=2,
+        border_width=1,
         margin=16,
-        single_border_width=2,
+        single_border_width=1,
     ),
     layout.Columns(
-        border_focus=colors["light"],
+        border_focus=colors["blue"],
         border_normal=colors["dark"],
-        border_width=2,
+        border_width=1,
         margin=16,
         grow_amount=3,
         num_columns=1,
@@ -46,7 +46,7 @@ floating_layout = layout.Floating(
         Match(wm_class="steam_app_1182480", title="Origin"), # Origin
         Match(wm_class="steam_app_*"), # Steam Apps
     ],
-    border_focus=colors["light"],
+    border_focus=colors["blue"],
     border_normal=colors["dark"],
-    border_width=2,
+    border_width=1,
 )
