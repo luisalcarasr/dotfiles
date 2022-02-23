@@ -21,7 +21,6 @@ antigen bundle g-plane/zsh-yarn-autocompletions
 antigen bundle jessarcher/zsh-artisan
 antigen bundle jeffreytse/zsh-vi-mode
 antigen bundle jeffreytse/zsh-vi-mode
-# antigen bundle zshzoo/cd-ls
 
 antigen theme gentoo
 
@@ -49,5 +48,5 @@ alias ll='exa -l'
 # TODO: Remove this when we have a better way to do this.
 export MAIN_PROJECT=$HOME/Projects/ace
 alias main="cd $MAIN_PROJECT && git status && clear"
-alias edit="cd $MAIN_PROJECT && nvim ."
+alias edit="cd $MAIN_PROJECT && nvim"
 
