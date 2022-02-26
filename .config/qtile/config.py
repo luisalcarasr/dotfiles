@@ -20,10 +20,9 @@
 
 from os import environ, path 
 from typing import List  # noqa: F401
-from libqtile import bar, widget, hook
+from libqtile import qtile, bar, widget, hook
 from libqtile.config import Screen
 from libqtile.lazy import lazy
-
 
 mod = "mod4"
 
@@ -181,6 +180,12 @@ screens = [
         ),
     ),
 ]
+
+@hook.subscribe.startup
+def _():
+    if len(qtile.screens) > 1:
+        qtile.groups_map["4"].cmd_toscreen(2, toggle=False)
+        qtile.groups_map["5"].cmd_toscreen(1, toggle=False)
 
 dgroups_key_binder = None
 dgroups_app_rules = []  # type: List
