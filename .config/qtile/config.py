@@ -20,7 +20,7 @@
 
 from os import environ, path 
 from typing import List  # noqa: F401
-from libqtile import bar, widget
+from libqtile import bar, widget, hook
 from libqtile.config import Screen
 from libqtile.lazy import lazy
 
@@ -57,7 +57,6 @@ screens = [
             [
                 # Arch Logo
                 widget.Sep(padding=8, foreground=colors["black"]),
-                widget.TextBox("﩯", fontsize=16, font=nerd_font),
                 widget.GroupBox(
                     highlight_method="text",
                     urgent_text=colors["red"],
@@ -182,7 +181,6 @@ screens = [
         ),
     ),
 ]
-
 
 dgroups_key_binder = None
 dgroups_app_rules = []  # type: List

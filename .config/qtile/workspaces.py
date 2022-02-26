@@ -10,16 +10,7 @@ workspaces = [
     "5",
 ];
 
-groups = map(lambda ws: Group(ws), workspaces)
-
-layouts = [
-    layout.MonadTall(
-        border_focus=colors["blue"],
-        border_normal=colors["dark"],
-        border_width=1,
-        margin=16,
-        single_border_width=1,
-    ),
+vertical_screen_layouts = [
     layout.Columns(
         border_focus=colors["blue"],
         border_normal=colors["dark"],
@@ -30,7 +21,25 @@ layouts = [
         margin_on_single=16,
         border_on_single=True,
     ),
-    layout.Max(),
+]
+
+groups = [
+    Group("1", label="", init=True, persist=True),
+    Group("2", label="", init=True, persist=True),
+    Group("3", label="", init=True, persist=True),
+    Group("4", label="", init=True, persist=True, layouts=vertical_screen_layouts, screen_affinity=1),
+    Group("5", label="", init=True, persist=True, layouts=vertical_screen_layouts, screen_affinity=2),
+];
+# groups = map(lambda ws: Group(ws), workspaces)
+
+layouts = [
+    layout.MonadTall(
+        border_focus=colors["blue"],
+        border_normal=colors["dark"],
+        border_width=1,
+        margin=16,
+        single_border_width=1,
+    ),
 ]
 
 floating_layout = layout.Floating(
