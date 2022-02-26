@@ -24,11 +24,11 @@ vertical_screen_layouts = [
 ]
 
 groups = [
-    Group("1", label="", init=True, persist=True),
-    Group("2", label="", init=True, persist=True),
-    Group("3", label="", init=True, persist=True),
-    Group("4", label="", init=True, persist=True, layouts=vertical_screen_layouts, screen_affinity=1),
-    Group("5", label="", init=True, persist=True, layouts=vertical_screen_layouts, screen_affinity=2),
+    Group("1", label=""),
+    Group("2", label=""),
+    Group("3", label=""),
+    Group("4", label="", layouts=vertical_screen_layouts),
+    Group("5", label="", layouts=vertical_screen_layouts),
 ];
 # groups = map(lambda ws: Group(ws), workspaces)
 
