@@ -3,6 +3,7 @@ from lib.shortcuts import keys, mouse
 from lib.workspaces import groups, layouts, floating_layout
 from lib.defaults import defaults, mod
 from lib.screens import screens
+import lib.hooks
 
 widget_defaults = defaults.copy()
 extension_defaults = defaults.copy()

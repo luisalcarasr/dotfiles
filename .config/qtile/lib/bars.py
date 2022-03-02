@@ -40,18 +40,6 @@ main=bar.Bar(
         widget.Systray(icon_size=20),
         widget.Sep(padding=16, foreground=colors["black"]),
 
-        # Updates 
-        widget.CheckUpdates(
-            distro="Arch_yay",
-            display_format="",
-            no_update_string="",
-            font=nerd_font,
-            colour_no_updates=colors["dark"],
-            execute="kitty sh -c yay -Syyu",
-            update_interval=60,
-        ),
-        widget.Sep(padding=6, foreground=colors["black"]),
-        
         # VPN
         custom.VirtualPrivateNetwork(
             vpn_name="VPN",
@@ -116,17 +104,6 @@ main=bar.Bar(
 
         # Clock
         widget.Clock(format='%a %d  %H:%M'),
-        widget.Sep(padding=8, foreground=colors["black"]),
-
-        # Power
-        widget.TextBox(
-            " ",
-            font=nerd_font,
-            mouse_callbacks={
-                'Button1': poweroff,
-            },
-        ),
-
         widget.Sep(padding=8, foreground=colors["black"]),
     ],
     32,
