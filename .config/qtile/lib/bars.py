@@ -4,7 +4,6 @@ from utils.theme import colors
 from utils.queries import can_control_brightness, has_batery
 from lib.widgets import widgets as custom
 from lib.defaults import nerd_font
-from lib.lazies import poweroff
 
 main=bar.Bar(
     [
