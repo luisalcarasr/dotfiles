@@ -7,8 +7,9 @@ from lib.defaults import nerd_font
 
 main=bar.Bar(
     [
-        # Groups
         widget.Sep(padding=8, foreground=colors["black"]),
+
+        # Groups
         widget.GroupBox(
             highlight_method="text",
             urgent_text=colors["red"],
@@ -20,19 +21,49 @@ main=bar.Bar(
             margin=5,
         ),
         widget.Spacer(),
-        
+        widget.TextBox(" "),
+        widget.Spacer(),
+
         # Pomodoro
         widget.Pomodoro(
+            prefix_active="",
             prefix_inactive="0:00:00",
             prefix_long_break="",
             prefix_break="",
-            prefix_paused="Go back to work",
+            prefix_paused="Paused",
             color_active=colors["white"],
             color_break=colors["green"],
             color_inactive=colors["dark"],
         ),
+        
+        widget.Sep(padding=8, foreground=colors["black"]),
 
-        widget.Sep(padding=10, foreground=colors["black"]),
+        widget.Spacer(),
+        
+        # Spotify
+        widget.Mpris2(
+            name="spotify",
+            fmt="",
+            objname="org.mpris.MediaPlayer2.spotify",
+            display_metadata=[],
+            scroll_chars=None,
+            scroll_interval=0,
+            scroll_wait_intervals=0,
+            stop_pause_text='',
+            font=nerd_font,
+            padding=8,
+        ),
+        widget.Mpris2(
+            name="spotify",
+            objname="org.mpris.MediaPlayer2.spotify",
+            display_metadata=['xesam:title', 'xesam:artist'],
+            scroll_chars=20,
+            scroll_interval=0,
+            scroll_wait_intervals=0,
+            stop_pause_text='',
+            font_size=12,
+        ),
+
         widget.Spacer(),
 
         # Background Applications

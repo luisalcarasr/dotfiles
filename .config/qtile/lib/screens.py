@@ -4,6 +4,6 @@ from lib.bars import main as main_bar
 
 screens = [
     Screen(
-        bottom = main_bar,
+        top = main_bar,
     ),
 ]

@@ -8,6 +8,6 @@ defaults = dict(
     foreground=colors["white"]
 )
 
-nerd_font = 'BlexMono Nerd Font'
+nerd_font = 'BlexMono Nerd Font Bold'
 
 mod = "mod4"
