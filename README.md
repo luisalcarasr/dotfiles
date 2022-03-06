@@ -74,7 +74,7 @@ sudo pacman -Sy xcb-util-cursor
 ```
 
 ```sh
-sudo pacman -Sy kitty firefox neovim zsh 
+sudo pacman -Sy kitty firefox neovim fish
 ```
 
 ```sh
