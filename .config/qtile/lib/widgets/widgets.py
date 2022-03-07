@@ -24,7 +24,7 @@ class VRAM(base.ThreadPoolText):
     ]
 
     def __init__(self, **config):
-        auper().__init__("0.0%", **config)
+        super().__init__("0.0%", **config)
         self.add_defaults(self.defaults)
 
     def poll(self):
