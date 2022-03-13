@@ -127,6 +127,8 @@ monitor = bar.Bar(
         # Clocks
         widget.Clock(format='Calgary (%a %d  %H:%M)', font_size=12, timezone="Canada/Mountain"),
         custom.Sep(padding=8),
+        widget.Clock(format='Madrid (%a %d  %H:%M)', font_size=12, timezone="Europe/Madrid"),
+        custom.Sep(padding=8),
         widget.Clock(format='Brisbane (%a %d  %H:%M)', font_size=12, timezone="Australia/Brisbane"),
 
         widget.Spacer(),
