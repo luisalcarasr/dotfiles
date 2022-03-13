@@ -1,8 +1,12 @@
 import subprocess
-from libqtile.widget import base
+from libqtile import widget 
+from libqtile.widget import base, Sep
 from utils.nvidia import get_used_gpu, get_used_memory
 from utils.network import is_wireless_connected, is_vpn_connected
 from utils.theme import colors
+
+def Sep(color=colors['black'], padding=8):
+    return widget.Sep(padding=padding, background=color, foreground=color)
 
 class GPU(base.ThreadPoolText):
 

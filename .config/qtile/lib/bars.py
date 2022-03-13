@@ -19,6 +19,7 @@ main=bar.Bar(
             this_current_screen_border=colors["white"],
             other_current_screen_border=colors["white"],
             margin=5,
+            border=10
         ),
 
         widget.Spacer(),
@@ -36,41 +37,6 @@ main=bar.Bar(
         ),
         
         widget.Spacer(),
-        
-        # Spotify
-        widget.Mpris2(
-            name="spotify",
-            fmt="",
-            objname="org.mpris.MediaPlayer2.spotify",
-            display_metadata=[],
-            scroll_chars=None,
-            scroll_interval=0,
-            scroll_wait_intervals=0,
-            stop_pause_text='',
-            font=nerd_font,
-            padding=8,
-        ),
-        widget.Mpris2(
-            name="spotify",
-            objname="org.mpris.MediaPlayer2.spotify",
-            display_metadata=['xesam:title', 'xesam:artist'],
-            scroll_chars=20,
-            scroll_interval=0,
-            scroll_wait_intervals=0,
-            stop_pause_text='',
-            font_size=12,
-        ),
-        widget.Mpris2(
-            name="spotify",
-            fmt=" ",
-            objname="org.mpris.MediaPlayer2.spotify",
-            display_metadata=['xesam:title', 'xesam:artist'],
-            scroll_chars=20,
-            scroll_interval=0,
-            scroll_wait_intervals=0,
-            stop_pause_text='',
-            padding=32
-        ),
         
         # Background Applications
         widget.Systray(icon_size=20),
@@ -138,7 +104,6 @@ main=bar.Bar(
         ) if has_batery else widget.TextBox(""),
         widget.Sep(padding=8, foreground=colors["black"]) if has_batery else widget.TextBox(""),
 
-
         # Clock
         widget.Clock(format='%a %d  %H:%M'),
 
@@ -149,7 +114,6 @@ main=bar.Bar(
             font=nerd_font,
         ),
 
-        # 
         widget.Sep(padding=8, foreground=colors["black"]),
     ],
     32,
@@ -159,6 +123,39 @@ main=bar.Bar(
 monitor = bar.Bar(
     [
         widget.Sep(padding=8, foreground=colors["black"]),
+
+        # Clocks
+        widget.Clock(format='Calgary (%a %d  %H:%M)', font_size=12, timezone="Canada/Mountain"),
+        custom.Sep(padding=8),
+        widget.Clock(format='Brisbane (%a %d  %H:%M)', font_size=12, timezone="Australia/Brisbane"),
+
+        widget.Spacer(),
+
+        # Spotify
+        widget.Mpris2(
+            name="spotify",
+            fmt="",
+            objname="org.mpris.MediaPlayer2.spotify",
+            display_metadata=[],
+            scroll_chars=None,
+            scroll_interval=0,
+            scroll_wait_intervals=0,
+            stop_pause_text='',
+            font=nerd_font,
+            padding=8,
+        ),
+        widget.Mpris2(
+            name="spotify",
+            objname="org.mpris.MediaPlayer2.spotify",
+            display_metadata=['xesam:title', 'xesam:artist'],
+            scroll_chars=20,
+            scroll_interval=0,
+            scroll_wait_intervals=0,
+            stop_pause_text='',
+            font_size=12,
+        ),
+
+        widget.Spacer(),
 
         # CPU
         widget.TextBox("", font=nerd_font),
@@ -172,29 +169,12 @@ monitor = bar.Bar(
         widget.TextBox("", font=nerd_font, padding=6),
         widget.Net(format="{down}", fontsize=12),
 
-        widget.Spacer(),
-
-        # Clock
-        widget.Clock(format='%a %d  %H:%M'),
-
-        widget.Sep(padding=8, foreground=colors["black"]),
+        custom.Sep(),
     ],
     32,
-    background=colors["black"]
+    background=colors["black"],
 )
+#93a4c3
 
-status = bar.Bar(
-    [
-        widget.Sep(padding=8, foreground=colors["black"]),
+# accent color
 
-        widget.Spacer(),
-
-        # Clock
-        widget.Clock(format='%a %d  %H:%M'),
-        
-        widget.Sep(padding=8, foreground=colors["black"]),
-
-    ],
-    32,
-    background=colors["black"]
-)
