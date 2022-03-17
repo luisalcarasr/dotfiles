@@ -8,6 +8,8 @@ workspaces = [
     "3",
     "4",
     "5",
+    "6",
+    "7",
 ];
 
 vertical_screen_layouts = [
@@ -15,11 +17,11 @@ vertical_screen_layouts = [
         border_focus=colors["blue"],
         border_normal=colors["dark"],
         border_width=1,
-        margin=4,
+        margin=16,
         grow_amount=3,
         num_columns=1,
-        margin_on_single=0,
-        border_on_single=False,
+        margin_on_single=17,
+        border_on_single=0,
     ),
 ]
 
@@ -27,8 +29,10 @@ groups = [
     Group("1", label=""),
     Group("2", label=""),
     Group("3", label=""),
-    Group("4", label="", layouts=vertical_screen_layouts),
-    Group("5", label="", layouts=vertical_screen_layouts),
+    Group("4", label=""),
+    Group("5", label=""),
+    Group("6", label="", layouts=vertical_screen_layouts),
+    Group("7", label="", layouts=vertical_screen_layouts),
 ];
 # groups = map(lambda ws: Group(ws), workspaces)
 
@@ -37,9 +41,9 @@ layouts = [
         border_focus=colors["blue"],
         border_normal=colors["dark"],
         border_width=1,
-        margin=4,
+        margin=16,
         single_border_width=0,
-        single_margin=0,
+        single_margin=17,
     ),
 ]
 

@@ -70,8 +70,8 @@ hide_duplicate_count = no
 # screen width minus the width defined in within the geometry option.
 #geometry = "250x50-40+40"
 geometry = "350x50-20+40"
-offset = 0x48
-origin = top-center
+offset = 0x32
+origin = bottom-right
 scale = 1
 
 # Shrink window if it's smaller than the width.  Will be ignored if
@@ -195,10 +195,10 @@ background = "#000000"
 timeout = 20
 
 [urgency_critical]
-frame_color = "#cc241d"
-foreground = "#fb4934"
+frame_color = "#000000"
+foreground = "#ff0000"
 background = "#000000"
-timeout = 60
+timeout = 120
 
 
 # Every section that isn't one of the above is interpreted as a rules to
