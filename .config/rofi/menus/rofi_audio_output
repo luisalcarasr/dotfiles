@@ -6,13 +6,15 @@ from rofi import Rofi
 import pulsectl, sys
 
 SINK_ALIASES = {
-  'Audio Adapter (Unitek Y-247A) Analog Stereo': "蓼 Speakers",
+  'TU116 High Definition Audio Controller Digital Stereo (HDMI)': "蓼 Right Monitor",
+  'TU116 High Definition Audio Controller Digital Stereo (HDMI 2)': "蓼 Speakers",
+  'TU116 High Definition Audio Controller Digital Stereo (HDMI 3)': "蓼 Left Monitor",
   'Built-in Audio Analog Stereo': "   Headphones",
 }
 
 def main():
   pulse = pulsectl.Pulse()
-  rofi = Rofi(rofi_args=['-monitor', 'DP-4'])
+  rofi = Rofi()
 
   sinks = pulse.sink_list()
   current_default_name = pulse.server_info().default_sink_name

@@ -46,10 +46,7 @@ configuration {
 
 window {
   transparency: "real";
-  width: 256px;
-  anchor: north east;
-  location: north east;
-  margin: 32px 0px 0px 0px;
+  width: 512px;
 }
 
 mainbox {

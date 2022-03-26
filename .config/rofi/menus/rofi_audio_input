@@ -8,15 +8,26 @@ import pulsectl, sys
 SOURCE_ALIASES = {
   'GameFactor MCG601 Mono': "   Microphone",
   'HD Pro Webcam C920 Analog Stereo': "犯 Webcam",
-  'Monitor of Audio Adapter (Unitek Y-247A) Analog Stereo': "禍 External",
-  'Monitor of Built-in Audio Analog Stereo': "  Internal",
 }
+
+IGNORE = [
+    'Monitor of Built-in Audio Analog Stereo',
+    'Monitor of TU116 High Definition Audio Controller Digital Stereo (HDMI)',
+    'Monitor of TU116 High Definition Audio Controller Digital Stereo (HDMI 2)',
+    'Monitor of TU116 High Definition Audio Controller Digital Stereo (HDMI 3)',
+    'Monitor of Audio Adapter (Unitek Y-247A) Analog Stereo',
+]
 
 def main():
   pulse = pulsectl.Pulse()
-  rofi = Rofi(rofi_args=['-monitor', 'DP-4'])
+  rofi = Rofi()
 
-  sources = pulse.source_list()
+  def check(source):
+    if not source.description in IGNORE:
+      return True
+    return False
+
+  sources = list(filter(lambda s: not s.description in IGNORE, pulse.source_list()))
   current_default_name = pulse.server_info().default_source_name
   current_default = None
   for i, s in enumerate(sources):
