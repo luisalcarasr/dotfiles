@@ -37,14 +37,14 @@ keys = [
     Key([mod], "c", lazy.window.kill()),
 
     # Apps
-    Key([mod], "space", lazy.spawn('rofi -show drun -show-icons -theme minimal-app-menu')),
+    Key([mod], "space", lazy.spawn('rofi -show drun -show-icons')),
 
     # Menus
     Key([mod], 'r', lazy.spawn('python /home/luis/.config/rofi/menus/rofi_audio_input')),
     Key([mod], "t", lazy.spawn('python /home/luis/.config/rofi/menus/rofi_audio_output')),
 
     # Emoji
-    Key([mod], "period", lazy.spawn('rofi -show emoji -modi emoji -theme minimal-app-menu')),
+    Key([mod], "period", lazy.spawn('rofi -show emoji -modi emoji')),
 
     # Displays
     Key([mod], "i", lazy.to_screen(2)),

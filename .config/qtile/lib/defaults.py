@@ -1,7 +1,7 @@
 from utils.theme import colors
 
 defaults = dict(
-    font='Cantarell Bold',
+    font='IBM Plex Sans Bold',
     fontsize=14,
     padding=8,
     borderwidth=0,

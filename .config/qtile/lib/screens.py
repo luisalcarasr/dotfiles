@@ -3,5 +3,5 @@ from libqtile.config import Screen
 from lib.bars import main
 
 screens = [
-    Screen(bottom = main),
+    Screen(top = main),
 ]
