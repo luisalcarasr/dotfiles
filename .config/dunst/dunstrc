@@ -71,7 +71,7 @@ hide_duplicate_count = no
 #geometry = "250x50-40+40"
 geometry = "350x50-20+40"
 offset = 0x32
-origin = bottom-right
+origin = top-center
 scale = 1
 
 # Shrink window if it's smaller than the width.  Will be ignored if
