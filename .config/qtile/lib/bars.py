@@ -49,6 +49,14 @@ main=bar.Bar(
         ),
         widget.Sep(padding=8, foreground=colors["black"]),
 
+        # Bluetooth
+        custom.Bluetooth(
+            hci='/dev_44_16_22_6F_8F_0C',
+            font=nerd_font,
+            fontsize=16,
+        ),
+        widget.Sep(padding=0, foreground=colors["black"]),
+
         # Wireless
         custom.Wireless(
             interface='wlp3s0',

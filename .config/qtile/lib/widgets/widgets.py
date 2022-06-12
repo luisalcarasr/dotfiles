@@ -1,9 +1,10 @@
 import subprocess
-from libqtile import widget 
+from libqtile import widget, qtile
 from libqtile.widget import base, Sep
 from utils.nvidia import get_used_gpu, get_used_memory
 from utils.network import is_wireless_connected, is_vpn_connected
 from utils.theme import colors
+from libqtile.lazy import lazy
 
 def Sep(color=colors['black'], padding=8):
     return widget.Sep(padding=padding, background=color, foreground=color)
@@ -58,6 +59,10 @@ class VirtualPrivateNetwork(base.ThreadPoolText):
     defaults = [
         ('update_interval', 1, 'Update interval in seconds.'),
         ('vpn_name', 'vpn', 'Network Interface.'),
+        (
+            'mouse_callbacks',
+            'Mouse callbacks'
+        )
     ]
 
     vpn_name= "vpn"
@@ -71,3 +76,26 @@ class VirtualPrivateNetwork(base.ThreadPoolText):
     def poll(self):
         self.foreground = colors["white"] if is_vpn_connected() else colors["dark"]
         return self.icon
+
+class Bluetooth(widget.Bluetooth):
+
+    def __init__(self, **config):
+        widget.Bluetooth.__init__(self, **config)
+        self.add_defaults(Bluetooth.defaults)
+
+    def update_text(self):
+        text = ""
+        self.foreground = colors["white"] if self.powered else colors["dark"]
+        if not self.powered:
+            text = ""
+            self.mouse_callbacks = {"Button1": lambda: qtile.cmd_spawn('bluetoothctl power on')}
+        else:
+            self.mouse_callbacks = {"Button1": lambda: qtile.cmd_spawn('bluetoothctl power off')}
+            if not self.connected:
+                text = ""
+            else:
+                if self.device == "Xbox Wireless Controller":
+                    text = "調" 
+                else:
+                    text = ""
+        self.update(text)
