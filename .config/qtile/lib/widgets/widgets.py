@@ -3,6 +3,7 @@ from libqtile import widget, qtile
 from libqtile.widget import base, Sep
 from utils.nvidia import get_used_gpu, get_used_memory
 from utils.network import is_wireless_connected, is_vpn_connected
+from utils.bluetooth import get_hci
 from utils.theme import colors
 from libqtile.lazy import lazy
 
@@ -78,6 +79,14 @@ class VirtualPrivateNetwork(base.ThreadPoolText):
         return self.icon
 
 class Bluetooth(widget.Bluetooth):
+
+    defaults = [
+        (
+            "hci",
+            get_hci(),
+            "hci0 device path.",
+        )
+    ]
 
     def __init__(self, **config):
         widget.Bluetooth.__init__(self, **config)

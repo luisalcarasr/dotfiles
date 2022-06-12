@@ -51,7 +51,6 @@ main=bar.Bar(
 
         # Bluetooth
         custom.Bluetooth(
-            hci='/dev_44_16_22_6F_8F_0C',
             font=nerd_font,
             fontsize=16,
         ),
