@@ -2,6 +2,7 @@ from libqtile.lazy import lazy
 from libqtile.config import Key, Click, Drag 
 from libqtile.utils import guess_terminal
 from lib.workspaces import workspaces
+from lib.menus.projects import launch_project
 
 mod = "mod4"
 
@@ -45,6 +46,9 @@ keys = [
 
     # Emoji
     Key([mod], "period", lazy.spawn('rofi -show emoji -modi emoji')),
+
+    # Projects
+    Key([mod], "comma", lazy.function(launch_project)),
 
     # Displays
     Key([mod], "i", lazy.to_screen(2)),
