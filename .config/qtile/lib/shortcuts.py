@@ -3,6 +3,7 @@ from libqtile.config import Key, Click, Drag
 from libqtile.utils import guess_terminal
 from lib.workspaces import workspaces
 from lib.menus.projects import launch_project
+from lib.menus.games import launch_game
 
 mod = "mod4"
 
@@ -49,6 +50,9 @@ keys = [
 
     # Projects
     Key([mod], "comma", lazy.function(launch_project)),
+
+    # Games
+    Key([mod], "m", lazy.function(launch_game)),
 
     # Displays
     Key([mod], "i", lazy.to_screen(2)),

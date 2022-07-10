@@ -4,3 +4,4 @@ iwlib >= 1.7.0
 psutil >= 5.9.0
 pulsectl >= 22.1.3
 python-rofi >= 1.0.1
+vdf >= 3.4
