@@ -117,7 +117,7 @@ main=bar.Bar(
         # Apps
         widget.TextBox(
             (" "),
-            mouse_callbacks = {"Button1": lambda: qtile.cmd_spawn('rofi -show drun -show-icons -theme minimal-app-menu')},
+            mouse_callbacks = {"Button1": lambda: qtile.cmd_spawn('rofi -show drun')},
             font=nerd_font,
         ),
 
