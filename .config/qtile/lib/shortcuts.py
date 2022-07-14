@@ -29,6 +29,9 @@ keys = [
     # Open Terminal
     Key([mod], "Return", lazy.spawn(guess_terminal())),
 
+    # Browser
+    Key([mod], "backslash", lazy.spawn('firefox')),
+
     # Toggle between different layouts as defined below
     Key([mod], "Tab", lazy.next_layout()),
     Key([mod], "f", lazy.layout.toggle_split()),
