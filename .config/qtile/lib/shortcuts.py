@@ -75,11 +75,11 @@ keys = [
 ]
 
 keys.extend([
-    Key([mod, "shift"], str(i + 1), lazy.window.togroup(ws)) for i,ws in enumerate(workspaces)
+    Key([mod, "shift"], ws, lazy.window.togroup(ws)) for ws in workspaces
 ])
 
 keys.extend([
-    Key([mod], str(i + 1), lazy.group[ws].toscreen()) for i,ws in enumerate(workspaces)
+    Key([mod], ws, lazy.group[ws].toscreen()) for ws in workspaces
 ])
 # Drag floating layouts.
 mouse = [
