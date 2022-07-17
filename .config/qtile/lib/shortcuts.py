@@ -25,6 +25,8 @@ keys = [
     Key([mod, "control"], "k", lazy.layout.grow_up()),
     Key([mod, "control"], "h", lazy.layout.grow_left()),
     Key([mod, "control"], "l", lazy.layout.grow_right()),
+    Key([mod], 'm', lazy.layout.maximize()),
+    Key([mod], 'n', lazy.layout.normalize()),
 
     # Open Terminal
     Key([mod], "Return", lazy.spawn(guess_terminal())),
@@ -55,7 +57,7 @@ keys = [
     Key([mod], "comma", lazy.function(launch_project)),
 
     # Games
-    Key([mod], "m", lazy.function(launch_game)),
+    Key([mod], "g", lazy.function(launch_game)),
 
     # Displays
     Key([mod], "i", lazy.to_screen(2)),
