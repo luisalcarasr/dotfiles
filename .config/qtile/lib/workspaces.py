@@ -1,7 +1,7 @@
 from libqtile import layout
 from libqtile.config import Group, Match
 from utils.theme import colors
-from lib.layouts.vertical import VerticalTile
+from lib.layouts.vertical import CustomVerticalTile
 
 workspaces = list(map(lambda n: str(n + 1) if n + 1 != 10 else str(0), range(10)))
 
@@ -29,17 +29,7 @@ layouts = [
         single_border_width=0,
         single_margin=0,
     ),
-    # layout.Columns(
-    #     border_focus=colors["blue"],
-    #     border_normal=colors["dark"],
-    #     border_width=1,
-    #     margin=16,
-    #     grow_amount=3,
-    #     num_columns=1,
-    #     border_on_single=0,
-    #     margin_on_single=0,
-    # ),
-    VerticalTile(
+    CustomVerticalTile(
         border_focus=colors["blue"],
         border_normal=colors["dark"],
         border_width=1,
