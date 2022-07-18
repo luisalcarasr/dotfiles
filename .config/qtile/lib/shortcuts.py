@@ -4,6 +4,8 @@ from libqtile.utils import guess_terminal
 from lib.workspaces import workspaces
 from lib.menus.projects import launch_project
 from lib.menus.games import launch_game
+from lib.menus.audio.input import select_audio_input
+from lib.menus.audio.output import select_audio_output
 
 mod = "mod4"
 
@@ -47,8 +49,8 @@ keys = [
     Key([mod], "space", lazy.spawn('rofi -show drun -show-icons')),
 
     # Menus
-    Key([mod], 'r', lazy.spawn('python /home/luis/.config/rofi/menus/rofi_audio_input')),
-    Key([mod], "t", lazy.spawn('python /home/luis/.config/rofi/menus/rofi_audio_output')),
+    Key([mod], "r", lazy.function(select_audio_input)),
+    Key([mod], "t", lazy.function(select_audio_output)),
 
     # Emoji
     Key([mod], "period", lazy.spawn('rofi -show emoji -modi emoji')),

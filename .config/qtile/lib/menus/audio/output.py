@@ -1,9 +1,5 @@
-#!/usr/bin/env python3
-
-#Uses libraries python-rofi and pulsectl
-
 from rofi import Rofi
-import pulsectl, sys
+import pulsectl
 
 SINK_ALIASES = {
   'TU116 High Definition Audio Controller Digital Stereo (HDMI)': "蓼 Right Monitor",
@@ -12,7 +8,7 @@ SINK_ALIASES = {
   'Built-in Audio Analog Stereo': "   Headphones",
 }
 
-def main():
+def select_audio_output(qtile):
   pulse = pulsectl.Pulse()
   rofi = Rofi()
 
@@ -31,7 +27,3 @@ def main():
     return
 
   pulse.default_set(sinks[sink_index])
-
-
-if __name__ == '__main__':
-  main()

@@ -1,9 +1,5 @@
-#!/usr/bin/env python3
-
-#Uses libraries python-rofi and pulsectl
-
 from rofi import Rofi
-import pulsectl, sys
+import pulsectl
 
 SOURCE_ALIASES = {
   'GameFactor MCG601 Mono': "   Microphone",
@@ -18,7 +14,7 @@ IGNORE = [
     'Monitor of Audio Adapter (Unitek Y-247A) Analog Stereo',
 ]
 
-def main():
+def select_audio_input(qtile):
   pulse = pulsectl.Pulse()
   rofi = Rofi()
 
@@ -43,7 +39,3 @@ def main():
     return
 
   pulse.default_set(sources[source_index])
-
-
-if __name__ == '__main__':
-  main()
