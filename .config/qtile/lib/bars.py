@@ -2,7 +2,7 @@ from typing import List  # noqa: F401
 from libqtile import bar, widget, qtile
 from utils.theme import colors
 from utils.queries import can_control_brightness, has_batery
-from lib.widgets import widgets as custom
+from lib import widgets as custom
 from lib.defaults import nerd_font
 
 main=bar.Bar(
@@ -21,6 +21,8 @@ main=bar.Bar(
             margin=5,
             border=10
         ),
+
+        widget.Sep(padding=8, foreground=colors["black"]),
 
         widget.Spacer(),
 
@@ -61,21 +63,11 @@ main=bar.Bar(
             interface='wlp3s0',
             font=nerd_font,
         ),
-        widget.Sep(padding=15, foreground=colors["black"]),
+        widget.Sep(padding=4, foreground=colors["black"]),
 
         # Volume
-        widget.WidgetBox(
-            text_closed=" ",
-            text_open=" ",
-            font=nerd_font,
-            widgets=[
-                widget.PulseVolume(
-                    limit_max_volume=True,
-                    fontsize=12,
-                ),
-            ],
-        ),
-        widget.Sep(padding=12, foreground=colors["black"]),
+        custom.Volumen(),
+        widget.Sep(padding=8, foreground=colors["black"]),
 
         # Brightness
         widget.WidgetBox(

@@ -1,6 +1,6 @@
-from libqtile.layout import VerticalTile
+from libqtile.layout.verticaltile import VerticalTile as BaseVerticalTile
 
-class CustomVerticalTile(VerticalTile):
+class VerticalTile(BaseVerticalTile):
     def configure(self, window, screen_rect):
         if self.clients and window in self.clients:
             n = len(self.clients)
