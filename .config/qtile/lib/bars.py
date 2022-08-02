@@ -13,6 +13,13 @@ decor = {
     ],
 }
 
+try:
+    volumen = custom.Volumen(
+        **decor
+    )
+except:
+    volumen = widget.TextBox("")
+
 main=bar.Bar(
     [
         widget.Sep(padding=8, foreground=colors["black"]),
@@ -42,7 +49,7 @@ main=bar.Bar(
         widget.Spacer(),
 
         # Background Applications
-        widget.Systray(icon_size=20),
+        widget.Systray(icon_size=18),
         widget.Sep(padding=16, foreground=colors["black"]),
 
         # Pomodoro
@@ -54,7 +61,7 @@ main=bar.Bar(
             prefix_paused="PAUSED",
             color_active=colors["white"],
             color_break=colors["green"],
-            color_inactive=colors["white"],
+            color_inactive=colors["dark"],
             fontsize=14,
             **decor
         ),
@@ -67,6 +74,7 @@ main=bar.Bar(
             font=nerd_font,
             **decor
         ),
+        widget.Sep(padding=8, foreground=colors["black"]),
 
         # Bluetooth
         custom.Bluetooth(
@@ -85,9 +93,7 @@ main=bar.Bar(
         widget.Sep(padding=8, foreground=colors["black"]),
 
         # Volume
-        custom.Volumen(
-            **decor
-        ),
+        volumen,
         widget.Sep(padding=8, foreground=colors["black"]),
 
         # Brightness
