@@ -10,7 +10,7 @@ class Wireless(base.ThreadPoolText):
     ]
 
     interface = "wlo1"
-    icon = ""
+    icon = " "
 
     def __init__(self, interface, **config):
         super().__init__(self.icon, **config)

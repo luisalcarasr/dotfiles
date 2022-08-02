@@ -11,7 +11,7 @@ class VirtualPrivateNetwork(base.ThreadPoolText):
     ]
 
     vpn_name= "vpn"
-    icon = "嬨"
+    icon = "嬨 "
 
     def __init__(self, vpn_name, **config):
         super().__init__(self.icon, **config)

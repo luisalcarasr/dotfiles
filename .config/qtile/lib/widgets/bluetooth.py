@@ -1,4 +1,4 @@
-from libqtile import widget
+from libqtile import qtile, widget
 from utils.bluetooth import get_hci
 from utils.theme import colors
 
