@@ -16,6 +16,10 @@ decor = {
 main=bar.Bar(
     [
         widget.Sep(padding=8, foreground=colors["black"]),
+        
+        # Logo
+        widget.TextBox(" ", font=nerd_font, **decor),
+        widget.Sep(padding=8, foreground=colors["black"]),
 
         # Groups
         widget.GroupBox(
@@ -37,34 +41,32 @@ main=bar.Bar(
 
         widget.Spacer(),
 
-        # Pomodoro
-        widget.Pomodoro(
-            prefix_active=" ",
-            prefix_inactive=" 0:00:00",
-            prefix_long_break=" ",
-            prefix_break=" ",
-            prefix_paused="Paused",
-            color_active=colors["white"],
-            color_break=colors["green"],
-            color_inactive=colors["white"],
-            font=nerd_font,
-            **decor
-        ),
-        
-        # widget.Spacer(),
-        
         # Background Applications
         widget.Systray(icon_size=20),
         widget.Sep(padding=16, foreground=colors["black"]),
+
+        # Pomodoro
+        widget.Pomodoro(
+            prefix_active="",
+            prefix_inactive="0:00:00",
+            prefix_long_break="",
+            prefix_break="",
+            prefix_paused="PAUSED",
+            color_active=colors["white"],
+            color_break=colors["green"],
+            color_inactive=colors["white"],
+            fontsize=14,
+            **decor
+        ),
+        
+        widget.Sep(padding=8, foreground=colors["black"]),
 
         # VPN
         custom.VirtualPrivateNetwork(
             vpn_name="VPN",
             font=nerd_font,
-            margin=5,
             **decor
         ),
-        widget.Sep(padding=8, foreground=colors["black"]),
 
         # Bluetooth
         custom.Bluetooth(
