@@ -1,7 +1,9 @@
 from libqtile.widget.base import _TextBox 
-from lib.defaults import nerd_font
 from utils.audio import OuputAudio
 from utils.theme import colors
+
+ICON_DEFAULT = ""
+ICON_MUTED = ""
 
 class Volumen(_TextBox):
 
@@ -10,7 +12,6 @@ class Volumen(_TextBox):
     def __init__(self, **config):
         super().__init__(self.icon, **config)
         self.add_defaults(Volumen.defaults)
-        self.font = nerd_font
         self.update_foreground()
         self.output.on_init(self.mouse_leave)
         self.add_callbacks(
@@ -23,11 +24,10 @@ class Volumen(_TextBox):
 
     @property
     def icon(self):
-        return " " if self.output.is_muted() else " "
+        return ICON_MUTED if self.output.is_muted() else ICON_DEFAULT
 
     def draw_volume(self):
         self.font = _TextBox.font
-        self.fontsize = 10,
         self.update_foreground()
         self.update(self.icon + " " + str(int(self.output.volume * 100)) + "%")
 
@@ -35,8 +35,6 @@ class Volumen(_TextBox):
         self.draw_volume()
 
     def mouse_leave(self, *args, **kwargs):
-        self.font = self.nerd_font
-        self.fontsize = 14
         self.update_foreground()
         self.update(self.icon)
 

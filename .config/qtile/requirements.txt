@@ -1,8 +1,10 @@
 DateTime >= 4.4
 dbus-next >= 0.2.3
+pydbus
 iwlib >= 1.7.0
 psutil >= 5.9.0
 pulsectl >= 22.1.3
+pulsectl-asyncio
 python-rofi >= 1.0.1
 vdf >= 3.4
 git+https://github.com/elParaguayo/qtile-extras

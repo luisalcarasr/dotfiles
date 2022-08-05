@@ -6,7 +6,7 @@ def launch_game(qtile):
   rofi = Rofi()
   file = os.path.expanduser('~/.steam/steam/steamapps/libraryfolders.vdf');
   libraries = vdf.load(open(file))["libraryfolders"];
-  shared = ["228980", "1391110", "1493710"]
+  shared = ["228980", "1391110", "1493710", "1826330"]
   names = []
   games = {}
   for key in libraries:
