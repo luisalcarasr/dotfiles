@@ -3,3 +3,5 @@
 	name = Luis Alcaras
 [init]
 	defaultBranch = main
+[push]
+	autoSetupRemote = true
