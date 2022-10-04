@@ -6,8 +6,12 @@ from lib.menus.projects import launch_project
 from lib.menus.games import launch_game
 from lib.menus.audio.input import select_audio_input
 from lib.menus.audio.output import select_audio_output
+from utils.audio import OuputAudio
 
 mod = "mod4"
+
+
+output = OuputAudio()
 
 keys = [
     # Switch between windows
@@ -44,6 +48,11 @@ keys = [
 
     # Close current window
     Key([mod], "c", lazy.window.kill()),
+
+    # Media
+    Key([], "XF86AudioRaiseVolume", lazy.function(lambda _: output.volume_up())),
+    Key([], "XF86AudioLowerVolume", lazy.function(lambda _: output.volume_down())),
+    Key([], "XF86AudioMute", lazy.function(lambda _: output.toggle_mute())),
 
     # Apps
     Key([mod], "space", lazy.spawn('rofi -show drun -show-icons')),

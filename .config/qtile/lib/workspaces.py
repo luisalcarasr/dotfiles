@@ -13,8 +13,8 @@ vertical_screen_layouts = [
         margin=16,
         grow_amount=3,
         num_columns=1,
-        border_on_single=0,
-        margin_on_single=0,
+        border_on_single=1,
+        margin_on_single=16,
     ),
 ]
 
@@ -26,16 +26,16 @@ layouts = [
         border_normal=colors["dark"],
         border_width=1,
         margin=16,
-        single_border_width=0,
-        single_margin=0,
+        single_border_width=1,
+        single_margin=16,
     ),
     VerticalTile(
         border_focus=colors["blue"],
         border_normal=colors["dark"],
         border_width=1,
         margin=16,
-        single_border_width=0,
-        single_margin=0,
+        single_border_width=1,
+        single_margin=16,
     ),
 ]
 
