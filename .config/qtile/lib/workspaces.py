@@ -5,19 +5,6 @@ from lib.layouts.vertical import VerticalTile
 
 workspaces = list(map(lambda n: str(n + 1) if n + 1 != 10 else str(0), range(10)))
 
-vertical_screen_layouts = [
-    layout.Columns(
-        border_focus=colors["blue"],
-        border_normal=colors["dark"],
-        border_width=1,
-        margin=16,
-        grow_amount=3,
-        num_columns=1,
-        border_on_single=1,
-        margin_on_single=16,
-    ),
-]
-
 groups = map(lambda ws: Group(ws, label=""), workspaces)
 
 layouts = [
@@ -26,16 +13,16 @@ layouts = [
         border_normal=colors["dark"],
         border_width=1,
         margin=16,
-        single_border_width=1,
-        single_margin=16,
+        single_border_width=0,
+        single_margin=0,
     ),
     VerticalTile(
         border_focus=colors["blue"],
         border_normal=colors["dark"],
         border_width=1,
         margin=16,
-        single_border_width=1,
-        single_margin=16,
+        single_border_width=0,
+        single_margin=0,
     ),
 ]
 
