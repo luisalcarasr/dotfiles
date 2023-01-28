@@ -1,0 +1,6 @@
+git:
+  commitPrefixes:
+    finx:
+      pattern: ".*/([A-Z]+[\\-][0-9]+).*"
+      replace: "$1 "
+
