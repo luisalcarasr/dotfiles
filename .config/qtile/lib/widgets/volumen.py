@@ -2,8 +2,8 @@ from libqtile.widget.base import _TextBox
 from utils.audio import OuputAudio
 from utils.theme import colors
 
-ICON_DEFAULT = ""
-ICON_MUTED = ""
+ICON_DEFAULT = " "
+ICON_MUTED = " "
 
 class Volumen(_TextBox):
 

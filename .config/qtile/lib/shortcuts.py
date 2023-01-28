@@ -57,6 +57,9 @@ keys = [
     # Apps
     Key([mod], "space", lazy.spawn('rofi -show drun -show-icons')),
 
+    # Windows
+    Key([mod], "w", lazy.spawn('rofi -show window')),
+
     # Menus
     Key([mod], "r", lazy.function(select_audio_input)),
     Key([mod], "t", lazy.function(select_audio_output)),

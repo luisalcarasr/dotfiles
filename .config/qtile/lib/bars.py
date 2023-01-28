@@ -1,14 +1,17 @@
 from typing import List  # noqa: F401
+
 from libqtile import bar, qtile
-from utils.theme import colors
-from utils.queries import can_control_brightness, has_batery
-from lib import widgets as custom
 from qtile_extras import widget
-from qtile_extras.widget import decorations 
+from qtile_extras.widget import decorations
+
+from lib import widgets as custom
+from utils.queries import can_control_brightness, has_batery
+from utils.theme import colors
 
 decor = {
     "decorations": [
-        decorations.RectDecoration(colour="#111111", radius=5, filled=True, padding_y=5)
+        decorations.RectDecoration(
+            colour="#111111", radius=5, filled=True, padding_y=5)
     ],
 }
 
@@ -19,12 +22,8 @@ try:
 except:
     volumen = widget.TextBox("")
 
-main=bar.Bar(
+main = bar.Bar(
     [
-        widget.Sep(padding=8, foreground=colors["black"]),
-        
-        # Logo
-        widget.TextBox(" ", **decor),
         widget.Sep(padding=8, foreground=colors["black"]),
 
         # Groups
@@ -36,7 +35,7 @@ main=bar.Bar(
             inactive=colors["dark"],
             this_current_screen_border=colors["white"],
             other_current_screen_border=colors["white"],
-            margin_x=5,
+            margin_x=0,
             margin_y=3,
             border=10,
             **decor
@@ -62,14 +61,14 @@ main=bar.Bar(
             color_inactive=colors["dark"],
             **decor
         ),
-        
+
         widget.Sep(padding=8, foreground=colors["black"]),
 
         # VPN
-        custom.VirtualPrivateNetwork(
-            **decor
-        ),
-        widget.Sep(padding=8, foreground=colors["black"]),
+        # custom.VirtualPrivateNetwork(
+        #     **decor
+        # ),
+        # widget.Sep(padding=8, foreground=colors["black"]),
 
         # Bluetooth
         custom.Bluetooth(
@@ -102,7 +101,7 @@ main=bar.Bar(
             ],
         ) if can_control_brightness else widget.TextBox(""),
         widget.Sep(padding=12, foreground=colors["black"])
-            if can_control_brightness else widget.TextBox(""),
+        if can_control_brightness else widget.TextBox(""),
 
         # Battery
         widget.WidgetBox(
@@ -116,21 +115,18 @@ main=bar.Bar(
                 ),
             ],
         ) if has_batery else widget.TextBox(""),
-        widget.Sep(padding=8, foreground=colors["black"]) if has_batery else widget.TextBox(""),
+        widget.Sep(
+            padding=8, foreground=colors["black"]) if has_batery else widget.TextBox(""),
+
+        # Date
+        # widget.Clock(format='%a %d', **decor),
+        # widget.Sep(padding=8, foreground=colors["black"]),
 
         # Clock
-        widget.Clock(format='%a %d  %H:%M', **decor),
-        widget.Sep(padding=8, foreground=colors["black"]),
-
-        # Apps
-        widget.TextBox(
-            (""),
-            mouse_callbacks = {"Button1": lambda: qtile.cmd_spawn('poweroff')},
-            **decor
-        ),
+        widget.Clock(format='%H:%M', **decor),
         widget.Sep(padding=8, foreground=colors["black"]),
     ],
-    32,
+    28,
     background=colors["black"],
-    border_width=5
+    border_width=1
 )
