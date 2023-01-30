@@ -53,6 +53,23 @@ keys = [
     Key([], "XF86AudioRaiseVolume", lazy.function(lambda _: output.volume_up())),
     Key([], "XF86AudioLowerVolume", lazy.function(lambda _: output.volume_down())),
     Key([], "XF86AudioMute", lazy.function(lambda _: output.toggle_mute())),
+    Key([], 'XF86AudioPlay',
+        lazy.spawn(
+            'dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify '
+            '/org/mpris/MediaPlayer2 '
+            'org.mpris.MediaPlayer2.Player.PlayPause')),
+    Key([], 'XF86AudioStop',
+        lazy.spawn(
+            'dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify '
+            '/org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Stop')),
+    Key([], 'XF86AudioNext',
+        lazy.spawn(
+            'dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify '
+            '/org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Next')),
+    Key([], 'XF86AudioPrev',
+        lazy.spawn(
+            'dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify '
+            '/org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Previous')),
 
     # Apps
     Key([mod], "space", lazy.spawn('rofi -show drun -show-icons')),
