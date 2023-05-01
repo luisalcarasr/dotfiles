@@ -25,6 +25,11 @@ require("awful.hotkeys_popup.keys")
 -- another config (This code will only ever execute for the fallback config)
 require("error_handling")
 -- }}}
+--
+
+-- {{{ appearance
+
+-- }}}
 
 -- {{{ Variable definitions
 -- Themes define colours, icons, font and wallpapers.
@@ -33,7 +38,7 @@ beautiful.init(gears.filesystem.get_configuration_dir() .. "theme.lua")
 --
 -- This is used later as the default terminal and editor to run.
 terminal = "kitty"
-editor = os.getenv("EDITOR") or "nano"
+editor = "nvim"
 editor_cmd = terminal .. " -e " .. editor
 
 -- Default modkey.

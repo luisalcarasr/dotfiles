@@ -2,51 +2,35 @@
 local gears = require("gears")
 local awful = require("awful")
 require("awful.autofocus")
--- Widget and layout library
 local wibox = require("wibox")
--- Theme handling library
 local beautiful = require("beautiful")
--- Notification library
-local naughty = require("naughty")
 local menubar = require("menubar")
-local hotkeys_popup = require("awful.hotkeys_popup")
 local xresources = require("beautiful.xresources")
-local dpi = xresources.apply_dpi
-
--- {{{ Menu
--- Create a launcher widget and a main menu
-local myawesomemenu = {
-    {
-        "hotkeys",
-        function()
-            hotkeys_popup.show_help(nil, awful.screen.focused())
-        end,
-    },
-    { "manual", terminal .. " -e man awesome" },
-    { "edit config", editor_cmd .. " " .. awesome.conffile },
-    { "restart", awesome.restart },
-    { "quit", awesome.quit },
-}
-
-local mymainmenu = awful.menu({
-    items = {
-        { "awesome", myawesomemenu, beautiful.awesome_icon },
-        { "open terminal", terminal },
-    },
-})
-
-local mylauncher = awful.widget.launcher({
-    image = beautiful.awesome_icon,
-    menu = mymainmenu,
-})
 
 -- Menubar configuration
 menubar.utils.terminal = terminal -- Set the terminal for applications that require it
 -- }}}
+--
+
+local function margin(widget, left, right, top, bottom)
+    local dpi = xresources.apply_dpi
+    left = left
+    right = right or left
+    top = top or left
+    bottom = bottom or left
+    return wibox.layout.margin(
+        widget,
+        dpi(left),
+        dpi(right),
+        dpi(top),
+        dpi(bottom)
+    )
+end
 
 -- {{{ Wibar
 -- Create a textclock widget
-local mytextclock = wibox.widget.textclock("%a %d, %H:%M")
+local clock = wibox.widget.textclock("%a %d, %H:%M")
+local systray = wibox.widget.systray()
 
 -- Create a wibox for each screen and add it
 local taglist_buttons = gears.table.join(
@@ -72,44 +56,12 @@ local taglist_buttons = gears.table.join(
     end)
 )
 
-local tasklist_buttons = gears.table.join(
-    awful.button({}, 1, function(c)
-        if c == client.focus then
-            c.minimized = true
-        else
-            c:emit_signal("request::activate", "tasklist", { raise = true })
-        end
-    end),
-    awful.button({}, 3, function()
-        awful.menu.client_list({ theme = { width = 250 } })
-        local dpi = xresources.apply_dpi
-    end),
-    awful.button({}, 4, function()
-        awful.client.focus.byidx(1)
-    end),
-    awful.button({}, 5, function()
-        awful.client.focus.byidx(-1)
-    end)
-)
-
-local function set_wallpaper(s)
-    -- Wallpaper
-    if beautiful.wallpaper then
-        local wallpaper = beautiful.wallpaper
-        -- If wallpaper is a function, call it with the screen
-        if type(wallpaper) == "function" then
-            wallpaper = wallpaper(s)
-        end
-        gears.wallpaper.maximized(wallpaper, s, true)
-    end
-end
-
 -- Re-set wallpaper when a screen's geometry changes (e.g. different resolution)
 -- screen.connect_signal("property::geometry", set_wallpaper)
 
 awful.screen.connect_for_each_screen(function(s)
     -- Wallpaper
-    set_wallpaper(s)
+    gears.wallpaper.maximized(beautiful.wallpaper, s, false)
 
     -- Each screen has its own tag table.
     awful.tag(
@@ -144,39 +96,26 @@ awful.screen.connect_for_each_screen(function(s)
         buttons = taglist_buttons,
     })
 
-    -- Create a tasklist widget
-    s.mytasklist = awful.widget.tasklist({
-        screen = s,
-        filter = awful.widget.tasklist.filter.currenttags,
-        buttons = tasklist_buttons,
-    })
-
     -- Create the wibox
     s.mywibox = awful.wibar({ position = "top", screen = s })
 
-    local mysystray = wibox.widget.systray()
-    -- Add widgets to the wibox
     s.mywibox:setup({
         layout = wibox.layout.align.horizontal,
         expand = "none",
         { -- Left widgets
             layout = wibox.layout.fixed.horizontal,
-            mylauncher,
-            wibox.layout.margin(s.mytaglist, 6, 6, 6, 6),
+            margin(wibox.widget.imagebox(beautiful.awesome_icon, true), 6),
+            margin(s.mytaglist, 6),
             s.mypromptbox,
         },
         {
             layout = wibox.layout.align.horizontal,
-            mytextclock,
+            clock,
         }, -- s.mytasklist, -- Middle widget
         { -- Right widgets
             layout = wibox.layout.fixed.horizontal,
-            margins = 12,
-            -- mykeyboardlayout,
-            -- mysystray,
-            wibox.layout.margin(wibox.widget.systray(), 6, 6, 6, 6),
-            wibox.layout.margin(s.mylayoutbox, 6, 6, 6, 6),
+            margin(systray, 6, 0, 6, 6),
+            margin(s.mylayoutbox, 6, 8, 8, 8),
         },
     })
 end)
--- }}}

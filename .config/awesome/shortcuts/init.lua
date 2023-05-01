@@ -58,9 +58,6 @@ globalkeys = gears.table.join(
     awful.key({ modkey }, "k", function()
         awful.client.focus.byidx(-1)
     end, { description = "focus previous by index", group = "client" }),
-    awful.key({ modkey }, "w", function()
-        mymainmenu:show()
-    end, { description = "show main menu", group = "awesome" }),
 
     -- Layout manipulation
     awful.key({ modkey, "Shift" }, "j", function()
@@ -110,6 +107,14 @@ globalkeys = gears.table.join(
         { description = "quit awesome", group = "awesome" }
     ),
 
+    awful.key({ modkey, "Control", "Shift" }, "q", function()
+        awful.spawn("poweroff")
+    end, { description = "poweroff", group = "awesome" }),
+
+    awful.key({ modkey, "Control", "Shift" }, "r", function()
+        awful.spawn("reboot")
+    end, { description = "reboot", group = "awesome" }),
+
     awful.key({ modkey }, "l", function()
         awful.tag.incmwfact(0.05)
     end, { description = "increase master width factor", group = "layout" }),
@@ -153,10 +158,17 @@ globalkeys = gears.table.join(
         end
     end, { description = "restore minimized", group = "client" }),
 
-    -- Prompt
     awful.key({ modkey }, "space", function()
-        awful.screen.focused().mypromptbox:run()
-    end, { description = "run prompt", group = "launcher" }),
+        awful.spawn("rofi -show drun")
+    end, { description = "run application", group = "launcher" }),
+
+    awful.key({ modkey }, "period", function()
+        awful.spawn("rofi -show emoji")
+    end, { description = "show emojis", group = "launcher" }),
+
+    awful.key({ modkey }, "w", function()
+        awful.spawn("rofi -show window")
+    end, { description = "show emojis", group = "launcher" }),
 
     awful.key({ modkey }, "x", function()
         awful.prompt.run({
@@ -177,7 +189,7 @@ clientkeys = gears.table.join(
         c.fullscreen = not c.fullscreen
         c:raise()
     end, { description = "toggle fullscreen", group = "client" }),
-    awful.key({ modkey, "Shift" }, "c", function(c)
+    awful.key({ modkey }, "c", function(c)
         c:kill()
     end, { description = "close", group = "client" }),
     awful.key(
@@ -269,6 +281,9 @@ clientbuttons = gears.table.join(
     awful.button({}, 1, function(c)
         c:emit_signal("request::activate", "mouse_click", { raise = true })
     end),
+    awful.button({ modkey }, 2, function(c)
+        c:kill()
+    end),
     awful.button({ modkey }, 1, function(c)
         c:emit_signal("request::activate", "mouse_click", { raise = true })
         awful.mouse.client.move(c)
@@ -279,6 +294,4 @@ clientbuttons = gears.table.join(
     end)
 )
 
--- Set keys
 root.keys(globalkeys)
--- }}}
