@@ -10,3 +10,4 @@ alias py=python
 alias htb='nmcli c up HTB && sudo route del -net default gw 10.10.14.1 netmask 0.0.0.0 dev tun0'
 alias gg=lazygit
 alias gr='cd $(git rev-parse --show-toplevel)'
+alias luarocks='luarocks --tree lua_modules'
