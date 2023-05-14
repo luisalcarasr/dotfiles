@@ -16,7 +16,9 @@ local dpi = xresources.apply_dpi
 client.connect_signal("manage", function(c)
     -- Set the windows at the slave,
     -- i.e. put it at the end of others instead of setting it master.
-    -- if not awesome.startup then awful.client.setslave(c) end
+    if not awesome.startup then
+        awful.client.setslave(c)
+    end
 
     if
         awesome.startup
