@@ -12,13 +12,12 @@ local menubar = require("menubar")
 local hotkeys_popup = require("awful.hotkeys_popup")
 local xresources = require("beautiful.xresources")
 local dpi = xresources.apply_dpi
+local menus = require("menus")
 
 -- {{{ Mouse bindings
 root.buttons(
     gears.table.join(
-        awful.button({}, 3, function()
-            mymainmenu:toggle()
-        end),
+        awful.button({}, 3, function() end),
         awful.button({}, 4, awful.tag.viewnext),
         awful.button({}, 5, awful.tag.viewprev)
     )
@@ -51,6 +50,26 @@ globalkeys = gears.table.join(
         awful.tag.history.restore,
         { description = "go back", group = "tag" }
     ),
+
+    awful.key({}, "XF86AudioRaiseVolume", function()
+        awful.spawn.with_shell("pactl set-sink-volume @DEFAULT_SINK@ +5%")
+    end, { description = "volume up", group = "audio" }),
+    awful.key({}, "XF86AudioLowerVolume", function()
+        awful.spawn.with_shell("pactl set-sink-volume @DEFAULT_SINK@ -5%")
+    end, { description = "volume down", group = "audio" }),
+
+    awful.key({ modkey }, "XF86AudioRaiseVolume", function()
+        awful.spawn.with_shell(
+            "pactl set-default-sink "
+                .. "$(pactl list short sinks | tail -n 1 | awk '{print $1}')"
+        )
+    end, { description = "use speakers", group = "audio" }),
+    awful.key({ modkey }, "XF86AudioLowerVolume", function()
+        awful.spawn.with_shell(
+            "pactl set-default-sink "
+                .. "$(pactl list short sinks | head -n 1 | awk '{print $1}')"
+        )
+    end, { description = "use headphones", group = "audio" }),
 
     awful.key({ modkey }, "j", function()
         awful.client.focus.byidx(1)
@@ -178,7 +197,6 @@ globalkeys = gears.table.join(
             history_path = awful.util.get_cache_dir() .. "/history_eval",
         })
     end, { description = "lua execute prompt", group = "awesome" }),
-    -- Menubar
     awful.key({ modkey }, "p", function()
         menubar.show()
     end, { description = "show the menubar", group = "launcher" })
