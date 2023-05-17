@@ -54,4 +54,8 @@ theme.awesome_icon = "/usr/share/pixmaps/archlinux-logo.svg"
 
 theme.icon_theme = nil
 
+theme.notification_width = dpi(256 * 1.5)
+theme.notification_icon_size = dpi(64)
+theme.notification_font = "IBM Plex Sans 11"
+
 return theme
