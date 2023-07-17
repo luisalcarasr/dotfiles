@@ -12,7 +12,7 @@ local menubar = require("menubar")
 local hotkeys_popup = require("awful.hotkeys_popup")
 local xresources = require("beautiful.xresources")
 local dpi = xresources.apply_dpi
-local menus = require("menus")
+-- local menus = require("menus")
 
 -- {{{ Mouse bindings
 root.buttons(
