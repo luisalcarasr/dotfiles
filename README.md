@@ -45,6 +45,23 @@ dotctl checkout
 dotctl config --local status.showUntrackedFiles no
 ```
 
+## Troubleshooting and Enhacements
+
+### Disabling mouse acceleration
+
+To completely disable any sort of acceleration/deceleration, create the following file:
+`/etc/X11/xorg.conf.d/50-mouse-acceleration.conf`
+
+```conf
+Section "InputClass"
+	Identifier "My Mouse"
+	MatchIsPointer "yes"
+	Option "AccelerationProfile" "-1"
+	Option "AccelerationScheme" "none"
+	Option "AccelSpeed" "-1"
+EndSection
+```
+
 ## References
 
 - https://www.atlassian.com/git/tutorials/dotfiles
