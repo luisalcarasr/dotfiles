@@ -49,9 +49,16 @@ dotctl config --local status.showUntrackedFiles no
 
 ### Fisher
 
+Plugins for fish shell.
 ```sh
-curl -sL https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish | source && fisher install jorgebucaran/fisher
+# Plugin Manager installation.
+curl -sL https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish | source
+fisher install jorgebucaran/fisher
+
+# Prompt
 fisher install IlanCosman/tide@v5
+
+# Node Version Manager
 fisher install jorgebucaran/nvm.fish
 set --universal nvm_default_packages yarn npm
 set --universal nvm_default_version lts/gallium
@@ -61,7 +68,10 @@ nvm install lts/gallium
 ### Disabling mouse acceleration
 
 To completely disable any sort of acceleration/deceleration, create the following file:
-`/etc/X11/xorg.conf.d/50-mouse-acceleration.conf`
+
+```sh
+vi /etc/X11/xorg.conf.d/50-mouse-acceleration.conf
+```
 
 ```conf
 Section "InputClass"
