@@ -24,7 +24,7 @@ rm -rf yay-bin
 
 _Dependencies_
 ```sh
-yay -Sy ttf-symbola-free spotify notion-app slack-desktop
+yay -Sy ttf-symbola-free spotify notion-app slack-desktop protonup-rs
 ```
 
 ### Implementation
@@ -46,6 +46,17 @@ dotctl config --local status.showUntrackedFiles no
 ```
 
 ## Troubleshooting and Enhacements
+
+### Fisher
+
+```sh
+curl -sL https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish | source && fisher install jorgebucaran/fisher
+fisher install IlanCosman/tide@v5
+fisher install jorgebucaran/nvm.fish
+set --universal nvm_default_packages yarn npm
+set --universal nvm_default_version lts/gallium
+nvm install lts/gallium
+```
 
 ### Disabling mouse acceleration
 
