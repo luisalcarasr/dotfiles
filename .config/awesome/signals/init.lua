@@ -16,10 +16,15 @@ local dpi = xresources.apply_dpi
 client.connect_signal("manage", function(c)
     -- Set the windows at the slave,
     -- i.e. put it at the end of others instead of setting it master.
-    if not awesome.startup then awful.client.setslave(c) end
+    if not awesome.startup then
+        awful.client.setslave(c)
+    end
 
-    if awesome.startup and not c.size_hints.user_position and
-        not c.size_hints.program_position then
+    if
+        awesome.startup
+        and not c.size_hints.user_position
+        and not c.size_hints.program_position
+    then
         -- Prevent clients from being unreachable after screen count changes.
         awful.placement.no_offscreen(c)
     end
@@ -27,12 +32,30 @@ end)
 
 -- Enable sloppy focus, so that focus follows mouse.
 client.connect_signal("mouse::enter", function(c)
-    c:emit_signal("request::activate", "mouse_enter", {raise = false})
+    c:emit_signal("request::activate", "mouse_enter", { raise = false })
 end)
 
-client.connect_signal("focus",
-                      function(c) c.border_color = beautiful.border_focus end)
-client.connect_signal("unfocus",
-                      function(c) c.border_color = beautiful.border_normal end)
--- }}}
---
+client.connect_signal("focus", function(c)
+    c.border_color = beautiful.border_focus
+end)
+client.connect_signal("unfocus", function(c)
+    c.border_color = beautiful.border_normal
+end)
+
+client.connect_signal("mouse::leave", function(c)
+    if c.fullscreen then
+        local cg = c:geometry() -- get window size
+        local mg = mouse.coords() -- get current mouse position
+
+        -- quick and dirty calculate for mouse position correction
+        local newx = mg.x <= cg.x and cg.x + 5
+            or mg.x >= (cg.x + cg.width) and cg.x + cg.width - 5
+            or mg.x
+        local newy = mg.y <= cg.y and cg.y + 5
+            or mg.y >= (cg.y + cg.height) and cg.y + cg.height - 5
+            or mg.y
+
+        -- set mouse to new position
+        mouse.coords({ x = newx, y = newy })
+    end
+end)
