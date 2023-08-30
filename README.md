@@ -8,40 +8,29 @@ The instructions intended for Arch Linux.
 
 **Arch Official Repository**
 ```sh
-sudo pacstrap /mnt awesome axel base base-devel bluez bluez-utils btop cpupower discord docker efibootmgr exa firefox fish git gnome-backgrounds gnome-keyring grub inkscape intel-ucode kitty lazygit lightdm-gtk-greeter linux linux-firmware linux-headers lua-language-server neofetch neovim networkmanager nvidia nvidia-settings openssh pacman-contrib pavucontrol picom pipewire-alsa pipewire-jack pipewire-pulse ripgrep rofi rofi-emoji rust-analyzer steam ttf-ibm-plex ttf-ibmplex-mono-nerd ttf-joypixels unzip xclip xdotool xorg-xrdb xorg-xset
+sudo pacstrap /mnt awesome axel base base-devel bluez bluez-utils btop cpupower discord docker efibootmgr exa firefox fish git gnome-backgrounds gnome-keyring grub inkscape intel-ucode kitty lazygit lightdm-gtk-greeter linux linux-firmware linux-headers lua-language-server neofetch neovim networkmanager nvidia nvidia-settings openssh pacman-contrib pavucontrol picom pipewire-alsa pipewire-jack pipewire-pulse ripgrep rofi rofi-emoji rust-analyzer steam ttf-ibm-plex ttf-ibmplex-mono-nerd ttf-joypixels unzip xclip xdotool xorg-xrdb xorg-xset 
 ```
 
 **Arch User Repository**
 
-_An AUR Helper Written in Go_
-```sh
+```fish
+# An AUR Helper Written in Go
 git clone https://aur.archlinux.org/yay-bin.git
 cd yay-bin
 makepkg -si
 cd ..
 rm -rf yay-bin
-```
 
-_Dependencies_
-```sh
+# Dependencies
 yay -Sy ttf-symbola-free spotify notion-app slack-desktop protonup-rs
 ```
 
 ### Implementation
 
-```sh
+```fish
 git clone --bare --recursive git@github.com:luisalcarasr/dotfiles.git $HOME/.cfg
-```
-
-```sh
 alias dotctl='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
-```
-
-```sh
 dotctl checkout
-```
-
-```sh
 dotctl config --local status.showUntrackedFiles no
 ```
 
@@ -50,7 +39,7 @@ dotctl config --local status.showUntrackedFiles no
 ### Fisher
 
 Plugins for fish shell.
-```sh
+```fish
 # Plugin Manager installation.
 curl -sL https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish | source
 fisher install jorgebucaran/fisher
@@ -69,7 +58,7 @@ nvm install lts/gallium
 
 To completely disable any sort of acceleration/deceleration, create the following file:
 
-```sh
+```fish
 vi /etc/X11/xorg.conf.d/50-mouse-acceleration.conf
 ```
 
