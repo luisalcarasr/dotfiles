@@ -159,12 +159,21 @@ globalkeys = gears.table.join(
         awful.tag.incncol(-1, nil, true)
     end, { description = "decrease the number of columns", group = "layout" }),
     awful.key({ modkey }, "Tab", function()
-        awful.layout.inc(1)
-    end, { description = "select next", group = "layout" }),
-    awful.key({ modkey, "Shift" }, "space", function()
-        awful.layout.inc(-1)
-    end, { description = "select previous", group = "layout" }),
+        local focused_screen = awful.screen.focused()
+        local next_screen = focused_screen.index + 1
+        if next_screen > screen.count() then
+            next_screen = 1
+        end
 
+        awful.screen.focus(screen[next_screen])
+
+        -- Move cursor to the center of the screen
+        local new_screen_geometry = awful.screen.focused().geometry
+        mouse.coords({
+            x = new_screen_geometry.x + new_screen_geometry.width / 2,
+            y = new_screen_geometry.y + new_screen_geometry.height / 2,
+        })
+    end, { description = "focus next screen", group = "layout" }),
     awful.key({ modkey, "Control" }, "n", function()
         local c = awful.client.restore()
         -- Focus restored client
@@ -219,7 +228,7 @@ clientkeys = gears.table.join(
     awful.key({ modkey, "Control" }, "Return", function(c)
         c:swap(awful.client.getmaster())
     end, { description = "move to master", group = "client" }),
-    awful.key({ modkey }, "o", function(c)
+    awful.key({ modkey, "Shift" }, "Tab", function(c)
         c:move_to_screen()
     end, { description = "move to screen", group = "client" }),
     awful.key({ modkey }, "t", function(c)
