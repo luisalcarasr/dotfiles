@@ -48,11 +48,11 @@ client.connect_signal("mouse::leave", function(c)
         local mg = mouse.coords() -- get current mouse position
 
         -- quick and dirty calculate for mouse position correction
-        local newx = mg.x <= cg.x and cg.x + 5
-            or mg.x >= (cg.x + cg.width) and cg.x + cg.width - 5
+        local newx = mg.x <= cg.x and cg.x
+            or mg.x >= (cg.x + cg.width) and cg.x + cg.width
             or mg.x
-        local newy = mg.y <= cg.y and cg.y + 5
-            or mg.y >= (cg.y + cg.height) and cg.y + cg.height - 5
+        local newy = mg.y <= cg.y and cg.y
+            or mg.y >= (cg.y + cg.height) and cg.y + cg.height
             or mg.y
 
         -- set mouse to new position

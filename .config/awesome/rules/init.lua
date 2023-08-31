@@ -70,5 +70,44 @@ awful.rules.rules = {
             fullscreen = true,
         },
     },
+    {
+        rule = {
+            fullscreen = true,
+        },
+        callback = function(c)
+            c.screen = screen[1]
+            local g = c:geometry()
+            local x = g.x + g.width / 2
+            local y = g.y + g.height / 2
+            mouse.coords({ x = x, y = y })
+            c:emit_signal("request::activate", "mouse_enter", { raise = false })
+        end,
+    },
+    -- Set apps on proper screen.
+    {
+        properties = {
+            screen = 2,
+            tag = "1",
+        },
+        rule_any = {
+            class = {
+                "Slack",
+                "discord",
+                "Microsoft-edge",
+            },
+        },
+    },
+    {
+        properties = {
+            screen = 2,
+            tag = "3",
+        },
+        rule_any = {
+            class = {
+                "Spotify",
+                "steam",
+            },
+        },
+    },
 }
 -- }}}

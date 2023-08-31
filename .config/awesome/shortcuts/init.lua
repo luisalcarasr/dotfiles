@@ -111,8 +111,22 @@ globalkeys = gears.table.join(
 
     -- Standard program
     awful.key({ modkey }, "Return", function()
+        awful.screen.focus(1)
         awful.spawn(terminal)
     end, { description = "open a terminal", group = "launcher" }),
+    -- spawn terminal on screen 2 tag 2
+    awful.key({ modkey }, "backslash", function()
+        awful.screen.focus(2)
+        local screen = awful.screen.focused()
+        local tag = screen.tags[2]
+        if tag then
+            tag:view_only()
+        end
+        awful.spawn(terminal)
+    end, {
+        description = "open a terminal on secondary screen",
+        group = "launcher",
+    }),
     awful.key(
         { modkey, "Control" },
         "r",
