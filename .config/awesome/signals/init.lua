@@ -38,8 +38,17 @@ end)
 client.connect_signal("focus", function(c)
     c.border_color = beautiful.border_focus
 end)
+
 client.connect_signal("unfocus", function(c)
     c.border_color = beautiful.border_normal
+end)
+
+client.connect_signal("request::geometry", function(c)
+    if c.maximized or c.fullscreen then
+        c.border_width = 0
+    else
+        c.border_width = beautiful.border_width
+    end
 end)
 
 client.connect_signal("mouse::leave", function(c)

@@ -31,7 +31,7 @@ theme.border_marked = "#535d6c"
 
 theme.systray_icon_spacing = dpi(6)
 
-theme.wallpaper = "/usr/share/backgrounds/gnome/symbolic-d.webp"
+theme.wallpaper = "/usr/share/backgrounds/archlinux/simple.png"
 
 theme.layout_fairh = themes_path .. "default/layouts/fairhw.png"
 theme.layout_fairv = themes_path .. "default/layouts/fairvw.png"

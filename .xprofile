@@ -3,3 +3,6 @@ xset -dpms
 xset s noblank
 xrdb -merge ~/.Xresources
 picom &
+xrandr --output DP-1 --mode 2560x1440 --rate 144 --primary
+xrandr --output HDMI-1 --mode 1920x1080 --rate 75 --left-of DP-1 --pos 0x360
+

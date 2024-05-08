@@ -36,8 +36,8 @@ local layout = {
 
 -- Table of layouts to cover with awful.layout.inc, order matters.
 awful.layout.layouts = {
-    layout.auto,
-    -- awful.layout.suit.tile,
+    -- layout.auto,
+    awful.layout.suit.tile,
     -- awful.layout.suit.tile.left,
     -- awful.layout.suit.tile.bottom,
     -- awful.layout.suit.tile.top,
