@@ -1,9 +1,9 @@
 set fish_greeting
 
 # Aliases
-alias ls='exa --group-directories-first'
-alias ll='exa -l --group-directories-first'
-alias la='exa -la --group-directories-first'
+alias ls='eza --group-directories-first'
+alias ll='eza -l --group-directories-first'
+alias la='eza -la --group-directories-first'
 alias gd='cd $(git rev-parse --show-toplevel)'
 
 # Google Cloud SDK.
