@@ -1,8 +1,0 @@
-git:
-  commitPrefixes:
-    finx:
-      pattern: ".*/([A-Z]+[\\-][0-9]+).*"
-      replace: "$1: "
-    j2inn-ui:
-      pattern: ".*/([A-Z]+[\\-][0-9]+).*"
-      replace: "$1: "
