@@ -1,0 +1,31 @@
+#!/usr/bin/env fish
+
+set command $argv[1]
+
+switch $command
+    case commit
+        set diff (git diff --cached)
+
+        if test -z "$diff"
+            echo "No staged changes to commit."
+        end
+
+        set msg (echo "$diff" | ollama run gemma3:4b "
+            Generate a single-line git commit message following Conventional Commits.
+            Types: feat, fix, build, chore, ci, docs, style, refactor, perf, test
+            Constraints:
+            - Min 65 characters.
+            - Max 72 characters.
+            - No line breaks.
+            - Based strictly on the given git diff.
+            - Must use present perfect tense
+            - Use lowercase in the message, except for proper nouns
+            Template: 'type: this is an example message'
+        ")
+
+        if test -z "$msg"
+            echo "No commit message generated."
+        end
+
+        git commit -m "$msg"
+end
