@@ -2,6 +2,8 @@
 
 set command $argv[1]
 
+
+
 switch $command
     case commit
         set diff (git diff --cached)
@@ -10,7 +12,8 @@ switch $command
             echo "No staged changes to commit."
         end
 
-        set msg (echo "$diff" | ollama run gemma3:4b "
+        set msg (echo "$diff" | ollama run gemma3:4b "Output: max 72 chars, not overthink" "
+            You're not a chatbot, you are a generator of short commit messages.
             Generate a single-line git commit message following Conventional Commits.
             Types: feat, fix, build, chore, ci, docs, style, refactor, perf, test
             Constraints:
@@ -20,7 +23,7 @@ switch $command
             - Based strictly on the given git diff.
             - Must use present perfect tense
             - Use lowercase in the message, except for proper nouns
-            Template: 'type: this is an example message'
+            Template: '<type>: <message>'
         ")
 
         if test -z "$msg"
