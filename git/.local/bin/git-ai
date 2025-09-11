@@ -6,7 +6,7 @@ set command $argv[1]
 
 switch $command
     case commit
-        set diff (git diff --cached)
+        set diff (git diff --U99999 --cached)
 
         if test -z "$diff"
             echo "No staged changes to commit."
