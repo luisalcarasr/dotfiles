@@ -5,6 +5,7 @@ alias ls='eza --group-directories-first'
 alias ll='eza -l --group-directories-first'
 alias la='eza -la --group-directories-first'
 alias gd='cd $(git rev-parse --show-toplevel)'
+alias ai='ollama run gemma3:4b --'
 
 # Google Cloud SDK.
 if [ -f '/Users/l.alcaras/.google-cllooud-sdk/google-cloud-sdk/path.fish.inc' ]
