@@ -1,0 +1,81 @@
+{
+  "layer": "top",
+  "position": "top",
+  "modules-left": ["cpu", "memory", "custom/gpu", "custom/vram", "disk", "vram"],
+  "modules-center": ["hyprland/workspaces"],
+  "modules-right": ["tray", "network", "wifi", "pulseaudio", "battery", "bluetooth", "clock"],
+
+  "hyprland/workspaces": {
+    "format": "{icon}",
+    "format-icons": {
+      "active": "",
+      "default": ""
+    },
+    "persistent-workspaces": {
+      "*": 10
+    }
+  },
+
+  "cpu": {
+    "format": " {usage}%"
+  },
+
+  "memory": {
+    "format": " {used:0.1f}G/{total:0.1f}G"
+  },
+
+  "disk": {
+    "format": " {used}/{total}"
+  },
+
+  "custom/gpu": {
+    "exec": "nvidia-smi --query-gpu=utilization.gpu --format=csv,noheader,nounits | awk -F, '{ printf \"%s\", $1 }'",
+    "interval": 1,
+    "return-type": "string",
+    "format": "󰘚 {}%",
+    "tooltip": true
+  },
+
+  "custom/vram": {
+    "exec": "nvidia-smi --query-gpu=memory.used,memory.total --format=csv,noheader,nounits | sed 's#,#M/#' | sed 's# ##g'",
+    "interval": 1,
+    "return-type": "string",
+    "format": " {}M",
+    "tooltip": true
+  },
+
+  "wifi": {
+    "format": "  {essid} ({signalStrength}%)"
+  },
+
+  "network": {
+    "format-wifi": "  {essid} ({signalStrength}%)",
+    "format-ethernet": "󰈁 {ifname}",
+    "format-disconnected": "睊"
+  },
+
+  "bluetooth": {
+    "format": " {status}"
+  },
+
+  "clock": {
+    "format": "{:%a %d %b %H:%M}"
+  },
+
+  "pulseaudio": {
+    "format": "  {volume}%",
+    "format-muted": " Muted"
+  },
+
+  "battery": {
+    "format": "  {capacity}%",
+    "format-charging": " {capacity}%"
+  },
+
+  "custom/power": {
+    "format": "⏻",
+    "tooltip": false,
+    "on-click": "systemctl poweroff"
+  }
+}
+

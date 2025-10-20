@@ -1,0 +1,64 @@
+* {
+    font-family: "IBM Plex Mono", "monospace";
+    font-size: 14px;
+    color: #abb2bf;
+    background-color: #282c34;
+}
+
+#window {
+    background-color: #282c34;
+    border: 2px solid #3e4451;
+    border-radius: 6px;
+}
+
+#outer-box {
+    margin: 10px;
+    padding: 5px;
+    background-color: #282c34;
+}
+
+#input {
+    margin: 5px;
+    padding: 8px 10px;
+    border: none;
+    border-radius: 4px;
+    background-color: #21252b;
+    color: #abb2bf;
+}
+
+#input:focus {
+    border: none;
+    outline: none;
+    background-color: #2c313c;
+}
+
+#scroll {
+    margin-top: 10px;
+}
+
+#entry {
+    padding: 8px 10px;
+    border-radius: 4px;
+}
+
+#entry:selected {
+    background-color: #3e4451;
+    color: #ffffff;
+}
+
+#text {
+    color: #abb2bf;
+}
+
+#text:selected {
+    color: #ffffff;
+}
+
+#unselected {
+    background-color: #282c34;
+}
+
+#selected {
+    background-color: #3e4451;
+}
+
