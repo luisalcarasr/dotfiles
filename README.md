@@ -48,7 +48,7 @@ The instructions intended for Arch Linux.
 
 **Arch Official Repository**
 ```sh
-sudo pacstrap /mnt awesome axel base base-devel bluez bluez-utils btop cpupower discord docker efibootmgr exa firefox fish git gnome-backgrounds gnome-keyring grub inkscape intel-ucode kitty lazygit lightdm-gtk-greeter linux linux-firmware linux-headers lua-language-server neofetch neovim networkmanager nvidia nvidia-settings openssh pacman-contrib pavucontrol picom pipewire-alsa pipewire-jack pipewire-pulse ripgrep rofi rofi-emoji rust-analyzer steam stow ttf-ibm-plex ttf-ibmplex-mono-nerd ttf-joypixels unzip xclip xdotool xorg-xrdb xorg-xset 
+sudo pacstrap /mnt awesome axel base base-devel bluez bluez-utils btop cpupower docker efibootmgr exa firefox fish git gnome-keyring grub hyprland intel-ucode kitty lazygit sddm linux linux-firmware linux-headers fastfetch neovim networkmanager nvidia openssh pacman-contrib pipewire-alsa pipewire-jack pipewire-pulse ripgrep wofi steam stow ttf-ibm-plex ttf-ibmplex-mono-nerd unzip waybar
 ```
 
 **Arch User Repository**
