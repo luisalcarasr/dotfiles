@@ -10,15 +10,21 @@ switch $command
             echo "No staged changes to commit."
         end
 
-        set msg (ollama run gemma3:4b "
-            You're not a chatbot, you are a text-plain generator of short commit messages.
-            Generate a single-line git commit message following Conventional Commits.
-            Types: feat, fix, build, chore, ci, docs, style, refactor, perf, test
-            Max 72 characters.
-            Format: '<type>: <short message>'
+        set msg (ollama run codellama --think=false "
+            Rules:
+            - Answer only with the conventional commit in plain-text.
+            - You're not a chatbot, you are a text-plain generator of short and very descriptive commit messages.
+            - Generate a single-line git commit message following Conventional Commits.
+            - Types: feat, fix, build, chore, ci, docs, style, refactor, perf, test
+            - Max 72 characters.
+            - Your entire response will be passed directly into git commit.
 
-            Git Diff: $diff
-        ")
+            Output Template: '<type>: <short and descriptive message>'
+            
+            Git Diff: $diff"
+        )
+
+            
 
         if test -z "$msg"
             echo "No commit message generated."
