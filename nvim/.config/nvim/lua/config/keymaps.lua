@@ -30,3 +30,7 @@ key.set(
   "<cmd>Telescope neoclip initial_mode=normal<cr>",
   { desc = "Clipboard history", silent = true, noremap = true }
 )
+
+-- Zen Mode
+
+key.set("n", "<leader>z", "<cmd>ZenMode<cr>", { desc = "Toggle zen mode", silent = true, noremap = true })
