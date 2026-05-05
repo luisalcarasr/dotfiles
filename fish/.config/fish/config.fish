@@ -1,22 +1,43 @@
 set fish_greeting
 
-zoxide init fish | source
+# Initialize zoxide if available
+if command -v zoxide &> /dev/null
+    zoxide init fish | source
+end
 
-# Aliases
-alias ls='eza --group-directories-first'
-alias ll='eza -l --group-directories-first'
-alias la='eza -la --group-directories-first'
-alias gd='cd $(git rev-parse --show-toplevel)'
-alias ai='ollama run gemma3:4b --'
+# Aliases - only create if commands exist
+if command -v eza &> /dev/null
+    alias ls='eza --group-directories-first'
+    alias ll='eza -l --group-directories-first'
+    alias la='eza -la --group-directories-first'
+end
 
-alias vim=nvim
-alias vi=vim
+if command -v git &> /dev/null
+    alias gd='cd $(git rev-parse --show-toplevel)'
+end
 
-alias py=python3
-alias python=python3
-alias pip=pip3
+if command -v ollama &> /dev/null
+    alias ai='ollama run gemma3:4b --'
+end
 
-alias cd=z
+if command -v nvim &> /dev/null
+    alias vim=nvim
+    alias vi=vim
+end
+
+if command -v python3 &> /dev/null
+    alias py=python3
+    alias python=python3
+end
+
+if command -v pip3 &> /dev/null
+    alias pip=pip3
+end
+
+# Replace cd with zoxide only if zoxide is installed
+if command -v zoxide &> /dev/null
+    alias cd=z
+end
 
 # Google Cloud SDK.
 if [ -f '/Users/l.alcaras/.google-cllooud-sdk/google-cloud-sdk/path.fish.inc' ]
