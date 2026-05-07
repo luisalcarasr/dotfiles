@@ -39,6 +39,8 @@ if command -v zoxide &> /dev/null
     alias cd=z
 end
 
+alias compose=docker-compose
+
 # Google Cloud SDK.
 if [ -f '/Users/l.alcaras/.google-cllooud-sdk/google-cloud-sdk/path.fish.inc' ]
     . '/Users/l.alcaras/.google-cllooud-sdk/google-cloud-sdk/path.fish.inc'
@@ -48,3 +50,9 @@ end
 if [ -f '/Library/Frameworks/Python.framework/Versions/3.12/bin' ]
     set -x PATH '/Library/Frameworks/Python.framework/Versions/3.12/bin' "$PATH"
 end
+
+# opencode
+fish_add_path /Users/l.alcaras/.opencode/bin
+
+# Added by Antigravity
+fish_add_path /Users/l.alcaras/.antigravity/antigravity/bin
