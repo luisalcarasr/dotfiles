@@ -1,5 +1,5 @@
 configuration {
-  font: "Roboto 14";
+  font: "Adwaita Sans 14";
 }
 
 @theme "minimal"

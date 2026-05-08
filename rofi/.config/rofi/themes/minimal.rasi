@@ -5,11 +5,11 @@
  *
  * User: Contributors
  * Copyright: *!
-  font: "BlexMono Nerd Font Medium 11";
+  font: "AdwaitaMono Nerd Font 11";
  */
 
 configuration {
-  font: "Cantarell Bold 11";
+  font: "AdwaitaMono Nerd Font Bold 11";
 
   drun {
     display-name: ">";

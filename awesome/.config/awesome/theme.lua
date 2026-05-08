@@ -10,7 +10,7 @@ local themes_path = gfs.get_themes_dir()
 
 local theme = {}
 
-theme.font = "IBM Plex Sans Bold 11"
+theme.font = "AdwaitaMono Nerd Font Bold 11"
 
 theme.bg_normal = "#000000"
 theme.bg_focus = "#222222"
@@ -56,6 +56,6 @@ theme.icon_theme = nil
 
 theme.notification_width = dpi(256 * 1.5)
 theme.notification_icon_size = dpi(64)
-theme.notification_font = "IBM Plex Sans 11"
+theme.notification_font = "AdwaitaMono Nerd Font 11"
 
 return theme
