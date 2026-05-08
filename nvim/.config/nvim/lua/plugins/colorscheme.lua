@@ -1,9 +1,22 @@
 return {
-  "navarasu/onedark.nvim",
+  "projekt0n/github-nvim-theme",
+  lazy = false,
+  priority = 1000,
   config = function()
-    require("onedark").setup({
-      style = "darker",
+    require("github-theme").setup({
+      options = {
+        transparent = false,
+        hide_end_of_buffer = true,
+        hide_nc_statusline = true,
+        darken = {
+          floats = false,
+          sidebars = {
+            enable = true,
+            list = {},
+          },
+        },
+      },
     })
-    require("onedark").load()
+    vim.cmd("colorscheme github_dark_default")
   end,
 }
