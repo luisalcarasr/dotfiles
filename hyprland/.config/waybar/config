@@ -1,81 +1,162 @@
 {
   "layer": "top",
   "position": "top",
-  "modules-left": ["cpu", "memory", "custom/gpu", "custom/vram", "disk", "vram"],
+  "height": 34,
+  "modules-left": ["custom/distro", "custom/sep-left", "custom/ip"],
   "modules-center": ["hyprland/workspaces"],
-  "modules-right": ["tray", "network", "wifi", "pulseaudio", "battery", "bluetooth", "clock"],
+  "modules-right": ["tray", "custom/sep-right", "network", "custom/sep-right", "pulseaudio", "custom/sep-right", "battery", "custom/sep-right", "bluetooth", "custom/sep-right", "clock"],
 
   "hyprland/workspaces": {
-    "format": "{icon}",
+    "format": "{id}",
     "format-icons": {
-      "active": "",
-      "default": ""
+      "active": "●",
+      "default": "○",
+      "empty": "○",
+      "urgent": "!"
     },
+    "all-outputs": false,
     "persistent-workspaces": {
-      "*": 10
-    }
+      "DP-4": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+      "DP-3": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+      "DP-1": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+    },
+    "on-scroll-up": "hyprctl dispatch workspace e+1",
+    "on-scroll-down": "hyprctl dispatch workspace e-1"
   },
 
   "cpu": {
-    "format": " {usage}%"
+    "format": "{}%",
+    "interval": 2,
+    "tooltip": true,
+    "tooltip-format": "CPU Usage: {usage}%\nAvg Frequency: {avg_frequency}GHz"
   },
 
   "memory": {
-    "format": " {used:0.1f}G/{total:0.1f}G"
+    "format": "{used:0.1f}G/{total:0.1f}G",
+    "interval": 2,
+    "tooltip": true,
+    "tooltip-format": "RAM: {percentage}%\nUsed: {used:0.1f}GB\nAvailable: {avail:0.1f}GB"
+  },
+
+  "custom/swap": {
+    "exec": "free -b | awk '/Swap:/ {used=$3/1073741824; total=$2/1073741824; printf \"%.1fG/%.1fG\", used, total}'",
+    "interval": 5,
+    "return-type": "string",
+    "format": "{}",
+    "tooltip": true,
+    "tooltip-format": "Swap memory usage"
   },
 
   "disk": {
-    "format": " {used}/{total}"
+    "path": "/",
+    "format": "{used}/{total}",
+    "interval": 30,
+    "tooltip": true,
+    "tooltip-format": "Root: {percentage_used}%\nUsed: {used}\nFree: {free}"
+  },
+
+  "custom/home": {
+    "exec": "df -h /home | awk 'NR==2 {print $3\"/\"$2}'",
+    "interval": 30,
+    "return-type": "string",
+    "format": "{}",
+    "tooltip": true,
+    "tooltip-format": "Home partition usage"
   },
 
   "custom/gpu": {
-    "exec": "nvidia-smi --query-gpu=utilization.gpu --format=csv,noheader,nounits | awk -F, '{ printf \"%s\", $1 }'",
-    "interval": 1,
+    "exec": "nvidia-smi --query-gpu=utilization.gpu --format=csv,noheader,nounits | awk '{print int($1)}'",
+    "interval": 2,
     "return-type": "string",
-    "format": "󰘚 {}%",
-    "tooltip": true
+    "format": "{}%",
+    "tooltip": true,
+    "tooltip-format": "GPU Utilization: {}%"
   },
 
   "custom/vram": {
-    "exec": "nvidia-smi --query-gpu=memory.used,memory.total --format=csv,noheader,nounits | sed 's#,#M/#' | sed 's# ##g'",
-    "interval": 1,
+    "exec": "nvidia-smi --query-gpu=memory.used,memory.total --format=csv,noheader,nounits | awk -F, '{used=$1; total=$2; printf \"%.1fG/%.1fG\", used/1024, total/1024}'",
+    "interval": 2,
     "return-type": "string",
-    "format": " {}M",
-    "tooltip": true
+    "format": "{}",
+    "tooltip": true,
+    "tooltip-format": "Video Memory"
   },
 
-  "wifi": {
-    "format": "  {essid} ({signalStrength}%)"
+  "custom/distro": {
+    "exec": "cat /etc/os-release | grep '^NAME=' | cut -d'=' -f2 | tr -d '\"'",
+    "interval": 3600,
+    "return-type": "string",
+    "format": "{}",
+    "tooltip": false
+  },
+
+  "custom/ip": {
+    "exec": "ip -4 addr show | grep -oP '(?<=inet\\s)\\d+(\\.\\d+){3}' | grep -v '127.0.0.1' | head -1",
+    "interval": 60,
+    "return-type": "string",
+    "format": "{}",
+    "tooltip": false
+  },
+
+  "custom/sep-left": {
+    "format": "",
+    "tooltip": false
+  },
+
+  "custom/sep-right": {
+    "format": "",
+    "tooltip": false
   },
 
   "network": {
-    "format-wifi": "  {essid} ({signalStrength}%)",
-    "format-ethernet": "󰈁 {ifname}",
-    "format-disconnected": "睊"
+    "format-wifi": "{essid}",
+    "format-ethernet": "{ifname}",
+    "format-disconnected": "DISCONNECTED",
+    "tooltip": true,
+    "tooltip-format": "{ifname}: {ipaddr}\nSignal: {signalStrength}%\nSpeed: {bandwidthDownBits}"
   },
 
   "bluetooth": {
-    "format": " {status}"
+    "format": "BT",
+    "format-connected": "BT {device_alias}",
+    "format-connected-battery": "BT {device_battery_percentage}%",
+    "tooltip": true,
+    "tooltip-format": "{controller_alias}\t{controller_address}\n\n{num_connections} connected",
+    "tooltip-format-connected": "{controller_alias}\t{controller_address}\n\n{num_connections} connected\n\n{device_enumerate}",
+    "tooltip-format-enumerate-connected": "{device_alias}\t{device_address}",
+    "tooltip-format-enumerate-connected-battery": "{device_alias}\t{device_address}\t{device_battery_percentage}%"
   },
 
   "clock": {
-    "format": "{:%a %d %b %H:%M}"
+    "format": "{:%H:%M}",
+    "format-alt": "{:%a %d %b %H:%M}",
+    "tooltip": true,
+    "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>"
   },
 
   "pulseaudio": {
-    "format": "  {volume}%",
-    "format-muted": " Muted"
+    "format": "{volume}%",
+    "format-muted": "MUTE",
+    "tooltip": true,
+    "tooltip-format": "Volume: {volume}%",
+    "on-click": "pavucontrol"
   },
 
   "battery": {
-    "format": "  {capacity}%",
-    "format-charging": " {capacity}%"
+    "format": "{capacity}%",
+    "format-charging": "⚡{capacity}%",
+    "states": {
+      "warning": 30,
+      "critical": 15
+    },
+    "tooltip": true,
+    "tooltip-format": "Battery: {capacity}%\nTime: {time}\nPower: {power}W"
   },
 
-  "custom/power": {
-    "format": "⏻",
-    "tooltip": false,
-    "on-click": "systemctl poweroff"
+  "tray": {
+    "icon-size": 16,
+    "spacing": 8,
+    "show-passive-items": false,
+    "reverse-direction": false
   }
 }
-
