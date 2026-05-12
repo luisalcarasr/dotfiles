@@ -1,0 +1,118 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "mcp": {
+    "firefox-devtools": {
+      "type": "local",
+      "command": ["npx", "-y", "@mozilla/firefox-devtools-mcp-moz"],
+      "enabled": true
+    }
+  },
+  "provider": {
+    "f5ai": {
+      "npm": "@ai-sdk/openai-compatible",
+      "name": "F5 Inc",
+      "options": {
+        "baseURL": "https://f5ai.pd.f5net.com/openai/v1",
+        "apiKey": "{env:F5AI_API_KEY}"
+      },
+      "models": {
+        "gpt-4o": {
+          "name": "GPT-4o"
+        },
+        "gpt-4o-transcribe": {
+          "name": "GPT-4o Transcribe"
+        },
+        "gpt-4.1": {
+          "name": "GPT-4.1"
+        },
+        "gpt-4.1-mini": {
+          "name": "GPT-4.1 Mini"
+        },
+        "gpt-5": {
+          "name": "GPT-5"
+        },
+        "gpt-5.1": {
+          "name": "GPT-5.1"
+        },
+        "gpt-5.2": {
+          "name": "GPT-5.2"
+        },
+        "gpt-5.4": {
+          "name": "GPT-5.4"
+        },
+        "gpt-5.5": {
+          "name": "GPT-5.5"
+        },
+        "gpt-5-mini": {
+          "name": "GPT-5 Mini"
+        },
+        "gpt-5-nano": {
+          "name": "GPT-5 Nano"
+        },
+        "gpt-5-codex": {
+          "name": "GPT-5 Codex"
+        },
+        "gpt-5.1-codex-max": {
+          "name": "GPT-5.1 Codex Max"
+        },
+        "gpt-5.2-codex": {
+          "name": "GPT-5.2 Codex"
+        },
+        "gpt-5.3-codex": {
+          "name": "GPT-5.3 Codex"
+        },
+        "o1": {
+          "name": "O1"
+        },
+        "o3": {
+          "name": "O3"
+        },
+        "o3-mini": {
+          "name": "O3 Mini"
+        },
+        "o4-mini": {
+          "name": "O4 Mini"
+        },
+        "claude-opus-4-5": {
+          "name": "Claude Opus 4.5"
+        },
+        "claude-opus-4-6": {
+          "name": "Claude Opus 4.6"
+        },
+        "claude-sonnet-4-5": {
+          "name": "Claude Sonnet 4.5"
+        },
+        "claude-sonnet-4-6": {
+          "name": "Claude Sonnet 4.6"
+        },
+        "claude-haiku-4-5": {
+          "name": "Claude Haiku 4.5"
+        },
+        "grok-4": {
+          "name": "Grok 4"
+        },
+        "grok-code-fast-1": {
+          "name": "Grok Code Fast 1"
+        },
+        "Kimi-K2.5": {
+          "name": "Kimi K2.5"
+        },
+        "Kimi-K2.6": {
+          "name": "Kimi K2.6"
+        },
+        "dall-e-3": {
+          "name": "DALL-E 3"
+        },
+        "gpt-image-1": {
+          "name": "GPT Image 1"
+        },
+        "text-embedding-ada-002": {
+          "name": "Text Embedding Ada 002"
+        },
+        "text-embedding-3-large": {
+          "name": "Text Embedding 3 Large"
+        }
+      }
+    }
+  }
+}
