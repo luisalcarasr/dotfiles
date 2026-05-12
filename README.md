@@ -41,4 +41,4 @@ stow -D <package>
 
 ## Packages
 
-For distribution-specific installation instructions, see [INSTALL.md](INSTALL.md).
+For platform-specific setup instructions, see [SETUP.md](SETUP.md).
