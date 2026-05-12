@@ -47,12 +47,16 @@ if [ -f '/Users/l.alcaras/.google-cllooud-sdk/google-cloud-sdk/path.fish.inc' ]
 end
 
 # Python
-if [ -f '/Library/Frameworks/Python.framework/Versions/3.12/bin' ]
-    set -x PATH '/Library/Frameworks/Python.framework/Versions/3.12/bin' "$PATH"
+if test -d '/Library/Frameworks/Python.framework/Versions/3.12/bin'
+    fish_add_path -g '/Library/Frameworks/Python.framework/Versions/3.12/bin'
 end
 
-# opencode
-fish_add_path /Users/l.alcaras/.opencode/bin
+# opencode and antigravity paths are handled by conf.d/paths_scanner.fish
 
-# Added by Antigravity
-fish_add_path /Users/l.alcaras/.antigravity/antigravity/bin
+# If tide is installed but not configured, run tide configure
+if status is-interactive
+    if type -q tide; and not set -q tide_left_prompt_items
+        echo "Tide is not configured. Running tide configure..."
+        tide configure
+    end
+end
