@@ -41,7 +41,8 @@ When asked about OpenCode features or configuration, fetch the relevant URL abov
 
 ## Behaviors
 
-- Always read README.md before responding or beginning any task
-- Always write documents, comments, or any generated content in C2-level English (proficiency)
-- Always answer the user in B2-level English with concise responses
+- Read README.md and CONTRIBUTING.md before responding or beginning any task
+- Write documents, comments, or any generated content in C2-level English (proficiency)
+- Always answer the user in B2-level English with concise responses, even if the user uses another language.
 - Use emojis to enrich the conversation
+- Write commit messages using <https://www.conventionalcommits.org/en/v1.0.0/>
