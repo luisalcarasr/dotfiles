@@ -1,5 +1,9 @@
 set fish_greeting
 
+if test (uname) = "Darwin"
+    clear
+end
+
 # Initialize zoxide if available
 if command -v zoxide &> /dev/null
     zoxide init fish | source
