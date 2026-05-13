@@ -211,19 +211,21 @@ colima start
 
 ---
 
-## Arch Linux + [AwesomeWM](https://awesomewm.org/)
+## Arch Linux + [Hyprland](https://hyprland.org/)
 
-Setup instructions for Arch Linux.
-
-### Required Software
-
-**Arch Official Repository**
+Setup instructions for Arch Linux. Boot the live ISO and run:
 
 ```sh
-sudo pacstrap /mnt awesome axel base base-devel bluez bluez-utils btop cpupower docker efibootmgr exa firefox fish git gnome-keyring grub hyprland intel-ucode kitty lazygit sddm linux linux-firmware linux-headers fastfetch neovim networkmanager nvidia openssh pacman-contrib pipewire-alsa pipewire-jack pipewire-pulse ripgrep wofi steam stow ttf-ibm-plex ttf-ibmplex-mono-nerd unzip waybar
+bash <(curl -sL https://raw.githubusercontent.com/luisalcarasr/dotfiles/main/arch-linux-setup.sh)
 ```
 
-**Arch User Repository**
+or with wget:
+
+```sh
+bash <(wget -qO- https://raw.githubusercontent.com/luisalcarasr/dotfiles/main/arch-linux-setup.sh)
+```
+
+### Post-installation (AUR)
 
 ```fish
 # An AUR Helper Written in Go
