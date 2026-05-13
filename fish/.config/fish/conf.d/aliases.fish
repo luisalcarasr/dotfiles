@@ -41,7 +41,13 @@ if command -v zoxide &> /dev/null
 end
 
 # docker
-alias compose=docker-compose
+if command -v docker-compose &> /dev/null
+    alias compose=docker-compose
+else if command -v docker &> /dev/null
+    if docker compose --version &> /dev/null
+        alias compose='docker compose'
+    end
+end
 
 # opencode - AI coding agent
 if command -v opencode &> /dev/null
