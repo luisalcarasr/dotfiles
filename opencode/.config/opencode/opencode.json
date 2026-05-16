@@ -1,6 +1,6 @@
 {
   "$schema": "https://opencode.ai/config.json",
-  "default_agent": "chat",
+  "default_agent": "plan",
   "mcp": {
     "firefox-devtools": {
       "type": "local",
