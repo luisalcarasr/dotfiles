@@ -1,0 +1,71 @@
+# System
+base
+base-devel
+linux
+linux-headers
+linux-firmware
+intel-ucode
+grub
+efibootmgr
+cpupower
+
+# Display / GPU
+hyprland
+nvidia-open
+sddm
+wofi
+
+# Audio
+pipewire-alsa
+pipewire-jack
+pipewire-pulse
+
+# Bluetooth
+bluez
+bluez-utils
+
+# Networking
+networkmanager
+openssh
+axel
+
+# Shell & Terminal
+fish
+kitty
+quickshell
+whisker-shell-git
+less
+
+# Editor
+neovim
+
+# Development & CLI tools
+git
+lazygit
+stow
+fastfetch
+eza
+btop
+ripgrep
+unzip
+pacman-contrib
+
+# Fonts & Themes
+adw-gtk-theme
+adwaita-fonts
+ttf-adwaitamono-nerd
+
+# Containers
+podman
+distrobox
+
+# Desktop & GUI
+flatpak
+xdg-desktop-portal-gtk
+xdg-user-dirs
+gnome-keyring
+curseforge
+
+# AUR helpers (installed via yay)
+yay-bin
+opencode

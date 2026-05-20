@@ -285,8 +285,6 @@ pacstrap -K /mnt \
     pipewire-pulse \
     nvidia-open \
     hyprland \
-    waybar \
-    mako \
     wofi \
     sddm \
     kitty \
@@ -309,7 +307,12 @@ pacstrap -K /mnt \
     cpupower \
     pacman-contrib \
     adwaita-fonts \
-    ttf-adwaitamono-nerd
+    ttf-adwaitamono-nerd \
+    adw-gtk-theme \
+    xdg-desktop-portal-gtk \
+    xdg-user-dirs \
+    quickshell \
+    less
 
 info "pacstrap complete!"
 
@@ -444,3 +447,36 @@ arch-chroot /mnt grub-install --target=x86_64-efi --efi-directory=/boot --remova
 arch-chroot /mnt grub-mkconfig -o /boot/grub/grub.cfg
 
 info "GRUB installed and configured."
+
+# =============================================================================
+# Step 14: Install AUR packages via yay
+# =============================================================================
+
+info "Creating temporary user for AUR build..."
+arch-chroot /mnt useradd -m -G wheel tempuser
+echo "tempuser ALL=(ALL) NOPASSWD: ALL" >> /mnt/etc/sudoers
+
+# Install yay-bin (pre-compiled, no build needed)
+info "Installing yay-bin from AUR..."
+arch-chroot /mnt su - tempuser -c "
+    git clone --depth 1 https://aur.archlinux.org/yay-bin.git /tmp/yay-bin
+    cd /tmp/yay-bin
+    makepkg -si --noconfirm
+    rm -rf /tmp/yay-bin
+"
+
+# Install AUR packages
+info "Installing AUR packages via yay..."
+arch-chroot /mnt su - tempuser -c "
+    yay -S --noconfirm \
+        opencode \
+        whisker-shell-git \
+        curseforge
+"
+
+# Clean up temp user
+info "Cleaning up temporary user..."
+arch-chroot /mnt userdel -r tempuser
+sed -i '/^tempuser/d' /mnt/etc/sudoers
+
+info "AUR packages installed!"

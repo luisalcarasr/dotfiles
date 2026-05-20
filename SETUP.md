@@ -225,26 +225,153 @@ or with wget:
 bash <(wget -qO- https://raw.githubusercontent.com/luisalcarasr/dotfiles/main/arch-linux-setup.sh)
 ```
 
-### Post-installation (AUR)
-
-```fish
-# An AUR Helper Written in Go
-git clone https://aur.archlinux.org/yay-bin.git
-cd yay-bin
-makepkg -si
-cd ..
-rm -rf yay-bin
-
-# Dependencies
-yay -Sy ttf-symbola-free spotify notion-app slack-desktop protonup-rs
-```
-
 ### Dotfiles
 
 ```fish
 git clone git@github.com:luisalcarasr/dotfiles.git ~/.dotfiles
 cd ~/.dotfiles
 stow .
+```
+
+### Packages
+
+Explicitly installed packages (`pacman -Qe`):
+
+#### System
+
+| Package | Purpose |
+|---|---|
+| **base** | Core Arch Linux system group |
+| **base-devel** | Build tools (gcc, make, etc.) |
+| **linux** | Linux kernel |
+| **linux-headers** | Kernel headers for module compilation |
+| **linux-firmware** | Firmware for hardware devices |
+| **intel-ucode** | Intel CPU microcode updates |
+| **grub** | Bootloader |
+| **efibootmgr** | EFI boot entry manager |
+| **cpupower** | CPU frequency scaling and management |
+
+#### Display & GPU
+
+| Package | Purpose |
+|---|---|
+| **hyprland** | Wayland compositor (primary WM) |
+| **nvidia-open** | Open-source NVIDIA GPU driver |
+| **sddm** | Display manager (login screen) |
+| **wofi** | Application launcher |
+
+#### Audio
+
+| Package | Purpose |
+|---|---|
+| **pipewire-alsa** | ALSA compatibility layer for PipeWire |
+| **pipewire-jack** | JACK compatibility layer for PipeWire |
+| **pipewire-pulse** | PulseAudio compatibility layer for PipeWire |
+
+#### Bluetooth
+
+| Package | Purpose |
+|---|---|
+| **bluez** | Bluetooth protocol stack |
+| **bluez-utils** | Bluetooth CLI utilities (bluetoothctl) |
+
+#### Networking
+
+| Package | Purpose |
+|---|---|
+| **networkmanager** | Network management daemon |
+| **openssh** | SSH client and server |
+| **axel** | Accelerated downloader (multi-connection) |
+
+#### Shell & Terminal
+
+| Package | Purpose |
+|---|---|
+| **fish** | Primary shell (interactive and scripting) |
+| **kitty** | GPU-accelerated terminal emulator |
+| **quickshell** | Quick shell launcher |
+| **whisker-shell-git** | Modern shell menu (AUR/git) |
+| **less** | Terminal pager |
+
+#### Editor
+
+| Package | Purpose |
+|---|---|
+| **neovim** | Primary text editor |
+
+#### Development & CLI Tools
+
+| Package | Purpose |
+|---|---|
+| **git** | Version control system |
+| **lazygit** | TUI for Git operations |
+| **stow** | Symlink manager (dotfile deployment) |
+| **fastfetch** | System info display |
+| **eza** | Modern `ls` replacement |
+| **btop** | Interactive system monitor |
+| **ripgrep** | Fast text search (used by neovim) |
+| **unzip** | ZIP extraction utility |
+| **pacman-contrib** | Pacman contrib scripts (checkupdates, etc.) |
+
+#### Fonts & Themes
+
+| Package | Purpose |
+|---|---|
+| **adw-gtk-theme** | Libadwaita GTK theme |
+| **adwaita-fonts** | Adwaita font family |
+| **ttf-adwaitamono-nerd** | Adwaita Mono Nerd Font (nerdfont patched) |
+
+#### Containers
+
+| Package | Purpose |
+|---|---|
+| **podman** | Daemonless container engine |
+| **distrobox** | Containerized terminal environments |
+
+#### Desktop & GUI
+
+| Package | Purpose |
+|---|---|
+| **flatpak** | Application sandboxing framework |
+| **xdg-desktop-portal-gtk** | GTK portal backend |
+| **xdg-user-dirs** | Standard XDG user directories |
+| **gnome-keyring** | Credential and secret storage |
+| **curseforge** | Minecraft mod manager |
+
+#### AUR Packages
+
+| Package | Purpose |
+|---|---|
+| **yay-bin** | AUR helper (pre-compiled binary) |
+| **opencode** | AI coding agent |
+
+```fish
+sudo pacman -S --needed - < packages.txt
+```
+
+### Post-install
+
+Enable services:
+
+```fish
+sudo systemctl enable --now NetworkManager bluetooth
+```
+
+Flatpak:
+
+```fish
+flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo
+flatpak install -y flathub org.gtk.Gtk3theme.adw-gtk3-dark
+```
+
+Apply GTK settings:
+
+```fish
+gsettings set org.gnome.desktop.interface gtk-theme    "adw-gtk3-dark"
+gsettings set org.gnome.desktop.interface icon-theme   "Adwaita"
+gsettings set org.gnome.desktop.interface cursor-theme "Adwaita"
+gsettings set org.gnome.desktop.interface font-name    "Adwaita Sans 11"
+gsettings set org.gnome.desktop.interface color-scheme "prefer-dark"
 ```
 
 ## Troubleshooting and Enhancements

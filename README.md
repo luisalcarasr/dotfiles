@@ -39,6 +39,44 @@ To remove it:
 stow -D <package>
 ```
 
+## Dependencies
+
+Install system packages:
+
+```sh
+sudo pacman -S --needed - < packages.txt
+```
+
+AUR packages (via yay):
+
+```sh
+yay -S ttf-symbola-free protonup-rs
+```
+
+Flatpak theme extension:
+
+```sh
+flatpak install -y flathub org.gtk.Gtk3theme.adw-gtk3-dark
+```
+
+### Post-install
+
+Enable services:
+
+```sh
+sudo systemctl enable --now NetworkManager bluetooth
+```
+
+Apply GTK settings:
+
+```sh
+gsettings set org.gnome.desktop.interface gtk-theme    "adw-gtk3-dark"
+gsettings set org.gnome.desktop.interface icon-theme   "Adwaita"
+gsettings set org.gnome.desktop.interface cursor-theme "Adwaita"
+gsettings set org.gnome.desktop.interface font-name    "Adwaita Sans 11"
+gsettings set org.gnome.desktop.interface color-scheme "prefer-dark"
+```
+
 ## Packages
 
 For platform-specific setup instructions, see [SETUP.md](SETUP.md).

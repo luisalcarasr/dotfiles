@@ -2,3 +2,5 @@ README.md
 SETUP.md
 .git/
 .gitmodules
+packages.txt
+arch-linux-setup.sh
