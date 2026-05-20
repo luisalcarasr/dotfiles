@@ -184,7 +184,7 @@ stow fish nvim tmux kitty git btop opencode
 | `btop` | `~/.config/btop/` | Vim keys, braille graphs, transparent background. |
 | `opencode` | `~/.config/opencode/` | AI provider configuration, model definitions, custom agents and commands. |
 
-The remaining stow packages (awesome, qtile, hyprland, picom, mako, rofi, gtk, xorg, fonts, distrobox, heroic) are **Linux-only** and do not apply on macOS.
+The remaining stow packages (awesome, hyprland, picom, rofi, gtk, xorg, fonts, distrobox, heroic) are **Linux-only** and do not apply on macOS.
 
 ### Post-Installation
 
