@@ -432,7 +432,7 @@ arch-chroot /mnt systemctl enable cpupower
 arch-chroot /mnt systemctl --global enable pipewire pipewire-pulse wireplumber
 
 # Set cpupower governor to performance
-sed -i "s/^#governor=.*/governor='performance'/" /mnt/etc/default/cpupower
+sed -i "s/^#GOVERNOR='ondemand'/GOVERNOR='performance'/" /mnt/etc/default/cpupower-service.conf
 info "cpupower governor set to performance."
 
 info "All services enabled."
