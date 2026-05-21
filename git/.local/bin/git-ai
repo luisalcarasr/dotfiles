@@ -1,207 +1,280 @@
-#!/usr/bin/env fish
+#!/usr/bin/env python3
+"""git-ai — AI-powered git helpers using a local ollama model.
 
-# git-ai — AI-powered git helpers using a local ollama model
-# Usage: git ai commit [--model <model>] [--dry-run]
+Usage: git ai commit [--model <model>] [--dry-run]
+"""
 
-# Global constants — must be `set -g` so functions can read them
-set -g _GITAI_COMMIT_REGEX '^(feat|fix|build|chore|ci|docs|style|refactor|perf|test)(\([a-z0-9._/-]+\))?(!)?: .{1,68}$'
-set -g _GITAI_DEFAULT_MODEL codellama
-set -g _GITAI_MAX_DIFF_LINES 300
+import re
+import subprocess
+import sys
+from math import ceil, log
 
-# ── helpers ──────────────────────────────────────────────────────────────────
+# ── constants ─────────────────────────────────────────────────────────────────
 
-function _ai_die
-    echo "git-ai: error: $argv" >&2
-    exit 1
-end
+COMMIT_REGEX = re.compile(
+    r"^(feat|fix|build|chore|ci|docs|style|refactor|perf|test)"
+    r"(\([a-z0-9._/-]+\))?(!)?: .{1,68}$"
+)
+DEFAULT_MODEL = "codellama"
+MAX_DIFF_LINES = 300
+SUMMARY_MAX_CHARS = 75
 
-function _ai_run_ollama
-    # Usage: _ai_run_ollama <model> <prompt>
-    # Strips ANSI escape sequences from ollama output
-    set -l model $argv[1]
-    set -l prompt $argv[2]
+# ── helpers ───────────────────────────────────────────────────────────────────
 
-    set -l raw (ollama run $model --nowordwrap "$prompt" 2>/dev/null)
-    or _ai_die "ollama failed — is it running? (ollama serve)"
+def die(msg: str) -> None:
+    print(f"git-ai: error: {msg}", file=sys.stderr)
+    sys.exit(1)
 
-    # Strip ANSI/VT100 escape sequences (clear screen, cursor movement, etc.)
-    echo $raw | string replace -ra '\x1b\[[0-9;?]*[a-zA-Z]' '' | string trim
-end
 
-# ── step 1: summarise the diff into compact context ──────────────────────────
+def strip_ansi(text: str) -> str:
+    return re.sub(r"\x1b\[[0-9;?]*[a-zA-Z]", "", text)
 
-function _ai_summarise_diff
-    # Usage: _ai_summarise_diff <model> <diff>
-    set -l model $argv[1]
-    set -l diff $argv[2]
 
-    _ai_run_ollama $model "You are a code analyst. Read the git diff below and reply with a short structured summary (max 8 bullet points). Each bullet must be one concise sentence describing WHAT changed and WHY (infer intent). No file paths, no preamble, no explanation — bullets only.
+def get_repo_root() -> str:
+    result = subprocess.run(
+        ["git", "rev-parse", "--show-toplevel"],
+        capture_output=True,
+        text=True,
+        check=True,
+    )
+    return result.stdout.strip()
 
-Git diff:
-$diff"
-end
 
-# ── step 2: generate the commit from the summary ─────────────────────────────
+def run_ollama(model: str, prompt: str) -> str:
+    try:
+        result = subprocess.run(
+            ["ollama", "run", model, "--nowordwrap", prompt],
+            capture_output=True,
+            text=True,
+        )
+    except FileNotFoundError:
+        die("ollama not found in PATH")
 
-function _ai_generate_commit
-    # Usage: _ai_generate_commit <model> <summary>
-    set -l model $argv[1]
-    set -l summary $argv[2]
+    if result.returncode != 0:
+        die("ollama failed — is it running? (ollama serve)")
 
-    _ai_run_ollama $model "You are a git commit message generator. Output ONLY a single-line Conventional Commit message. No explanation, no markdown, no quotes, no code block, no newlines.
+    return strip_ansi(result.stdout).strip()
 
-Rules:
-- Format: <type>(<optional-scope>): <imperative description>
-- Types: feat, fix, build, chore, ci, docs, style, refactor, perf, test
-- Scope: short lowercase identifier (component, module, or file group). Omit if unclear.
-- Description: imperative mood, lowercase, no trailing period, max 68 chars after the prefix.
-- Total line must not exceed 72 characters.
+# ── step 1: list staged files ─────────────────────────────────────────────────
 
-Change summary:
-$summary
+def list_staged_files() -> list[str]:
+    repo_root = get_repo_root()
+    result = subprocess.run(
+        ["git", "diff", "--cached", "--name-only", "--diff-filter=ACMRT"],
+        capture_output=True,
+        text=True,
+        cwd=repo_root,
+    )
+    return [f for f in result.stdout.splitlines() if f]
 
-Conventional commit:"
-end
+# ── step 2: summarise each file diff ─────────────────────────────────────────
+
+def summarise_file_diff(model: str, file: str) -> str | None:
+    repo_root = get_repo_root()
+    result = subprocess.run(
+        ["git", "diff", "--cached", "--", file],
+        capture_output=True,
+        text=True,
+        cwd=repo_root,
+    )
+    diff = result.stdout.strip()
+
+    if not diff:
+        return None
+
+    lines = diff.splitlines()
+    if len(lines) > MAX_DIFF_LINES:
+        diff = "\n".join(lines[:MAX_DIFF_LINES]) + "\n... (diff truncated)"
+
+    prompt = (
+        f"You are a code analyst. Read the git diff below and reply with ONE single line of "
+        f"plain text summarising what changed and why (infer intent). "
+        f"Max {SUMMARY_MAX_CHARS} characters. No bullet, no prefix, no punctuation at the end, no newlines.\n\n"
+        f"File: {file}\n"
+        f"Git diff:\n{diff}\n\n"
+        f"Summary:"
+    )
+    return run_ollama(model, prompt) or None
+
+# ── step 3a: merge two summaries ─────────────────────────────────────────────
+
+def merge_summaries(model: str, a: str, b: str) -> str:
+    prompt = (
+        f"You are a code analyst. Combine the two change summaries below into ONE single line of "
+        f"plain text that captures the essence of both. "
+        f"Max {SUMMARY_MAX_CHARS} characters. No bullet, no prefix, no punctuation at the end, no newlines.\n\n"
+        f"Summary 1: {a}\n"
+        f"Summary 2: {b}\n\n"
+        f"Combined summary:"
+    )
+    return run_ollama(model, prompt)
+
+# ── step 3b: binary-tree merge ────────────────────────────────────────────────
+
+def binary_merge(model: str, summaries: list[str]) -> str:
+    if len(summaries) == 1:
+        return summaries[0]
+
+    while len(summaries) > 1:
+        next_round = []
+        for i in range(0, len(summaries), 2):
+            if i + 1 < len(summaries):
+                next_round.append(merge_summaries(model, summaries[i], summaries[i + 1]))
+            else:
+                next_round.append(summaries[i])
+        summaries = next_round
+
+    return summaries[0]
+
+# ── step 4: generate commit message ──────────────────────────────────────────
+
+def generate_commit(model: str, summary: str) -> str:
+    prompt = (
+        "You are a git commit message generator. Output ONLY a single-line Conventional Commit message. "
+        "No explanation, no markdown, no quotes, no code block, no newlines.\n\n"
+        "Rules:\n"
+        "- Format: <type>(<optional-scope>): <imperative description>\n"
+        "- Types: feat, fix, build, chore, ci, docs, style, refactor, perf, test\n"
+        "- Scope: short lowercase identifier (component, module, or file group). Omit if unclear.\n"
+        "- Description: imperative mood, lowercase, no trailing period, max 68 chars after the prefix.\n"
+        "- Total line must not exceed 72 characters.\n\n"
+        f"Change summary:\n{summary}\n\n"
+        "Conventional commit:"
+    )
+    return run_ollama(model, prompt)
 
 # ── validate and clean commit message ────────────────────────────────────────
 
-function _ai_validate_commit
-    # Usage: _ai_validate_commit <raw_msg>
-    # Prints the cleaned message and returns 0 if valid, returns 1 otherwise
-    set -l msg $argv[1]
+def validate_commit(raw: str) -> str | None:
+    msg = raw.splitlines()[0] if raw.splitlines() else raw
 
-    # Keep only the first line (model sometimes adds explanations after)
-    set msg (string split \n $msg)[1]
+    # Strip whitespace, backticks, and quotes
+    msg = msg.strip().strip("`\"'").strip()
 
-    # Strip surrounding whitespace, backticks, and quotes
-    set msg (string trim $msg)
-    set msg (string replace -r '^[`"\']+|[`"\']+$' '' $msg)
-    set msg (string trim $msg)
+    # Strip leading "commit:", "message:", etc.
+    msg = re.sub(r"(?i)^(commit message:?|message:?|output:?)\s*", "", msg).strip()
 
-    # Strip a leading "commit:" or "message:" prefix the model may add
-    set msg (string replace -r -i '^(commit message:?|message:?|output:?)\s*' '' $msg)
-    set msg (string trim $msg)
-
-    # Lowercase the first char of the description (model often capitalises it)
-    set -l parts (string match -r '^([a-z]+(\([^)]+\))?!?: )(.+)' $msg)
-    if test (count $parts) -ge 4
-        set -l prefix $parts[2]
-        set -l desc $parts[4]
-        set desc (string lower (string sub -l 1 $desc))(string sub -s 2 $desc)
-        set msg $prefix$desc
-    end
+    # Lowercase first char of description
+    m = re.match(r"^([a-z]+(\([^)]+\))?!?: )(.+)", msg)
+    if m:
+        prefix, _, desc = m.group(1), m.group(2), m.group(3)
+        desc = desc[0].lower() + desc[1:]
+        msg = prefix + desc
 
     # Strip trailing period
-    set msg (string replace -r '\.$' '' $msg)
+    msg = re.sub(r"\.$", "", msg)
 
-    # Truncate to 72 chars total (keeps prefix intact, trims description end)
-    if test (string length $msg) -gt 72
-        set msg (string sub -l 72 $msg)
-    end
+    # Truncate to 72 chars
+    if len(msg) > 72:
+        msg = msg[:72]
 
-    if string match -qr $_GITAI_COMMIT_REGEX $msg
-        echo $msg
-        return 0
-    end
-    return 1
-end
+    if COMMIT_REGEX.match(msg):
+        return msg
+    return None
 
 # ── command: commit ───────────────────────────────────────────────────────────
 
-function _cmd_commit
-    set -l model $_GITAI_DEFAULT_MODEL
-    set -l dry_run false
+def cmd_commit(args: list[str]) -> None:
+    model = DEFAULT_MODEL
+    dry_run = False
 
-    # Parse flags
-    set -l i 1
-    while test $i -le (count $argv)
-        switch $argv[$i]
-            case --model -m
-                set i (math $i + 1)
-                set model $argv[$i]
-            case --dry-run -n
-                set dry_run true
-        end
-        set i (math $i + 1)
-    end
+    i = 0
+    while i < len(args):
+        if args[i] in ("--model", "-m"):
+            i += 1
+            model = args[i]
+        elif args[i] in ("--dry-run", "-n"):
+            dry_run = True
+        i += 1
 
     # Pre-flight checks
-    command -v ollama > /dev/null
-    or _ai_die "ollama not found in PATH"
+    result = subprocess.run(["ollama", "show", model], capture_output=True)
+    if result.returncode != 0:
+        die(f"model '{model}' not found — run: ollama pull {model}")
 
-    ollama show $model > /dev/null 2>&1
-    or _ai_die "model '$model' not found — run: ollama pull $model"
+    # Step 1
+    staged_files = list_staged_files()
+    if not staged_files:
+        die("no staged changes — run: git add <files>")
 
-    # Get the staged diff
-    set -l diff (git diff --cached)
-    test -n "$diff"
-    or _ai_die "no staged changes — run: git add <files>"
+    file_count = len(staged_files)
+    print(f"git-ai: {file_count} file(s) staged for commit", file=sys.stderr)
 
-    # Truncate very large diffs to avoid overwhelming the model
-    set -l diff_lines (string split \n -- $diff | count)
-    if test $diff_lines -gt $_GITAI_MAX_DIFF_LINES
-        echo "git-ai: diff is $diff_lines lines — truncating to $_GITAI_MAX_DIFF_LINES for analysis" >&2
-        set diff (string split \n -- $diff | head -n $_GITAI_MAX_DIFF_LINES | string join \n)
-        set diff $diff\n"... (diff truncated)"
-    end
+    # Step 2
+    summaries = []
+    for idx, file in enumerate(staged_files, 1):
+        print(f"git-ai: [file {idx}/{file_count}] summarising {file}...", file=sys.stderr)
+        summary = summarise_file_diff(model, file)
+        if summary:
+            summaries.append(summary)
+        else:
+            print(f"git-ai: [file {idx}/{file_count}] skipping {file} (empty or binary diff)", file=sys.stderr)
 
-    # Step 1 — summarise diff into compact bullets
-    echo "git-ai: [1/2] analysing diff with $model..." >&2
-    set -l summary (_ai_summarise_diff $model $diff)
-    test -n "$summary"
-    or _ai_die "model returned an empty summary"
+    if not summaries:
+        die("no usable diffs found in staged files")
 
-    # Step 2 — generate commit message from the summary
-    echo "git-ai: [2/2] generating commit message..." >&2
-    set -l raw_msg (_ai_generate_commit $model $summary)
+    # Step 3
+    total = len(summaries)
+    if total == 1:
+        print("git-ai: [merge] single file — skipping merge step", file=sys.stderr)
+        final_summary = summaries[0]
+    else:
+        rounds = ceil(log(total) / log(2))
+        print(f"git-ai: [merge] reducing {total} summaries in {rounds} round(s)...", file=sys.stderr)
+        final_summary = binary_merge(model, summaries)
 
-    # Validate — retry up to 3 times
-    set -l msg ""
-    set -l attempt 0
-    set -l candidate $raw_msg
+    if not final_summary:
+        die("binary merge returned an empty summary")
 
-    while test $attempt -lt 3
-        set msg (_ai_validate_commit $candidate)
-        and break
+    print(f"git-ai: [merge] → {final_summary}", file=sys.stderr)
 
-        set attempt (math $attempt + 1)
-        echo "git-ai: attempt $attempt/3 — invalid format, retrying..." >&2
-        set candidate (_ai_generate_commit $model $summary)
-    end
+    # Step 4
+    print("git-ai: [commit] generating commit message...", file=sys.stderr)
+    raw_msg = generate_commit(model, final_summary)
 
-    if test -z "$msg"
-        echo "git-ai: could not produce a valid conventional commit after 3 attempts." >&2
-        echo "git-ai: last raw output: $raw_msg" >&2
-        exit 1
-    end
+    # Step 5 — validate with up to 3 retries
+    msg = None
+    candidate = raw_msg
+    for attempt in range(1, 4):
+        msg = validate_commit(candidate)
+        if msg:
+            break
+        print(f"git-ai: attempt {attempt}/3 — invalid format, retrying...", file=sys.stderr)
+        candidate = generate_commit(model, final_summary)
 
-    echo "git-ai: → $msg" >&2
+    if not msg:
+        print("git-ai: could not produce a valid conventional commit after 3 attempts.", file=sys.stderr)
+        print(f"git-ai: last raw output: {raw_msg}", file=sys.stderr)
+        sys.exit(1)
 
-    if test $dry_run = true
-        echo $msg
-        return 0
-    end
+    print(f"git-ai: → {msg}", file=sys.stderr)
 
-    git commit -m $msg
-end
+    if dry_run:
+        print(msg)
+        return
+
+    subprocess.run(["git", "commit", "-m", msg], check=True)
 
 # ── dispatch ──────────────────────────────────────────────────────────────────
 
-set -l _cmd $argv[1]
+def main() -> None:
+    args = sys.argv[1:]
+    cmd = args[0] if args else ""
 
-switch $_cmd
-    case commit
-        _cmd_commit $argv[2..]
-    case '' --help -h
-        echo "Usage: git ai <command> [options]" >&2
-        echo "" >&2
-        echo "Commands:" >&2
-        echo "  commit [--model <name>] [--dry-run]   Generate and apply a commit message" >&2
-        echo "" >&2
-        echo "Options:" >&2
-        echo "  --model, -m <name>   Ollama model to use (default: codellama)" >&2
-        echo "  --dry-run, -n        Print the message without committing" >&2
-        exit 0
-    case '*'
-        _ai_die "unknown command '$_cmd' — run 'git ai --help'"
-end
+    if cmd == "commit":
+        cmd_commit(args[1:])
+    elif cmd in ("", "--help", "-h"):
+        print("Usage: git ai <command> [options]", file=sys.stderr)
+        print("", file=sys.stderr)
+        print("Commands:", file=sys.stderr)
+        print("  commit [--model <name>] [--dry-run]   Generate and apply a commit message", file=sys.stderr)
+        print("", file=sys.stderr)
+        print("Options:", file=sys.stderr)
+        print("  --model, -m <name>   Ollama model to use (default: codellama)", file=sys.stderr)
+        print("  --dry-run, -n        Print the message without committing", file=sys.stderr)
+    else:
+        die(f"unknown command '{cmd}' — run 'git ai --help'")
+
+
+if __name__ == "__main__":
+    main()
