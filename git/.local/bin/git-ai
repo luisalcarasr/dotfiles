@@ -1,34 +1,190 @@
 #!/usr/bin/env fish
 
-set command $argv[1]
+# git-ai — AI-powered git helpers using a local ollama model
+# Usage: git ai commit [--model <model>] [--dry-run]
 
-switch $command
+# Global constants — must be `set -g` so functions can read them
+set -g _GITAI_COMMIT_REGEX '^(feat|fix|build|chore|ci|docs|style|refactor|perf|test)(\([a-z0-9._/-]+\))?(!)?: .{1,68}$'
+set -g _GITAI_DEFAULT_MODEL codellama
+set -g _GITAI_MAX_DIFF_LINES 300
+
+# ── helpers ──────────────────────────────────────────────────────────────────
+
+function _ai_die
+    echo "git-ai: error: $argv" >&2
+    exit 1
+end
+
+function _ai_run_ollama
+    # Usage: _ai_run_ollama <model> <prompt>
+    # Strips ANSI escape sequences from ollama output
+    set -l model $argv[1]
+    set -l prompt $argv[2]
+
+    set -l raw (ollama run $model --nowordwrap "$prompt" 2>/dev/null)
+    or _ai_die "ollama failed — is it running? (ollama serve)"
+
+    # Strip ANSI/VT100 escape sequences (clear screen, cursor movement, etc.)
+    echo $raw | string replace -ra '\x1b\[[0-9;?]*[a-zA-Z]' '' | string trim
+end
+
+# ── step 1: summarise the diff into compact context ──────────────────────────
+
+function _ai_summarise_diff
+    # Usage: _ai_summarise_diff <model> <diff>
+    set -l model $argv[1]
+    set -l diff $argv[2]
+
+    _ai_run_ollama $model "You are a code analyst. Read the git diff below and reply with a short structured summary (max 8 bullet points). Each bullet must be one concise sentence describing WHAT changed and WHY (infer intent). No file paths, no preamble, no explanation — bullets only.
+
+Git diff:
+$diff"
+end
+
+# ── step 2: generate the commit from the summary ─────────────────────────────
+
+function _ai_generate_commit
+    # Usage: _ai_generate_commit <model> <summary>
+    set -l model $argv[1]
+    set -l summary $argv[2]
+
+    _ai_run_ollama $model "You are a git commit message generator. Output ONLY a single-line Conventional Commit message. No explanation, no markdown, no quotes, no code block, no newlines.
+
+Rules:
+- Format: <type>(<optional-scope>): <imperative description>
+- Types: feat, fix, build, chore, ci, docs, style, refactor, perf, test
+- Scope: short lowercase identifier (component, module, or file group). Omit if unclear.
+- Description: imperative mood, lowercase, no trailing period, max 68 chars after the prefix.
+- Total line must not exceed 72 characters.
+
+Change summary:
+$summary
+
+Conventional commit:"
+end
+
+# ── validate and clean commit message ────────────────────────────────────────
+
+function _ai_validate_commit
+    # Usage: _ai_validate_commit <raw_msg>
+    # Prints the cleaned message and returns 0 if valid, returns 1 otherwise
+    set -l msg $argv[1]
+
+    # Keep only the first line (model sometimes adds explanations after)
+    set msg (string split \n $msg)[1]
+
+    # Strip surrounding whitespace, backticks, and quotes
+    set msg (string trim $msg)
+    set msg (string replace -r '^[`"\']+|[`"\']+$' '' $msg)
+    set msg (string trim $msg)
+
+    # Strip a leading "commit:" or "message:" prefix the model may add
+    set msg (string replace -r -i '^(commit message:?|message:?|output:?)\s*' '' $msg)
+    set msg (string trim $msg)
+
+    if string match -qr $_GITAI_COMMIT_REGEX $msg
+        echo $msg
+        return 0
+    end
+    return 1
+end
+
+# ── command: commit ───────────────────────────────────────────────────────────
+
+function _cmd_commit
+    set -l model $_GITAI_DEFAULT_MODEL
+    set -l dry_run false
+
+    # Parse flags
+    set -l i 1
+    while test $i -le (count $argv)
+        switch $argv[$i]
+            case --model -m
+                set i (math $i + 1)
+                set model $argv[$i]
+            case --dry-run -n
+                set dry_run true
+        end
+        set i (math $i + 1)
+    end
+
+    # Pre-flight checks
+    command -v ollama > /dev/null
+    or _ai_die "ollama not found in PATH"
+
+    ollama show $model > /dev/null 2>&1
+    or _ai_die "model '$model' not found — run: ollama pull $model"
+
+    # Get the staged diff
+    set -l diff (git diff --cached)
+    test -n "$diff"
+    or _ai_die "no staged changes — run: git add <files>"
+
+    # Truncate very large diffs to avoid overwhelming the model
+    set -l diff_lines (string split \n $diff | count)
+    if test $diff_lines -gt $_GITAI_MAX_DIFF_LINES
+        echo "git-ai: diff is $diff_lines lines — truncating to $_GITAI_MAX_DIFF_LINES for analysis" >&2
+        set diff (string split \n $diff | head -n $_GITAI_MAX_DIFF_LINES | string join \n)
+        set diff $diff\n"... (diff truncated)"
+    end
+
+    # Step 1 — summarise diff into compact bullets
+    echo "git-ai: [1/2] analysing diff with $model..." >&2
+    set -l summary (_ai_summarise_diff $model $diff)
+    test -n "$summary"
+    or _ai_die "model returned an empty summary"
+
+    # Step 2 — generate commit message from the summary
+    echo "git-ai: [2/2] generating commit message..." >&2
+    set -l raw_msg (_ai_generate_commit $model $summary)
+
+    # Validate — retry up to 3 times
+    set -l msg ""
+    set -l attempt 0
+    set -l candidate $raw_msg
+
+    while test $attempt -lt 3
+        set msg (_ai_validate_commit $candidate)
+        and break
+
+        set attempt (math $attempt + 1)
+        echo "git-ai: attempt $attempt/3 — invalid format, retrying..." >&2
+        set candidate (_ai_generate_commit $model $summary)
+    end
+
+    if test -z "$msg"
+        echo "git-ai: could not produce a valid conventional commit after 3 attempts." >&2
+        echo "git-ai: last raw output: $raw_msg" >&2
+        exit 1
+    end
+
+    echo "git-ai: → $msg" >&2
+
+    if test $dry_run = true
+        echo $msg
+        return 0
+    end
+
+    git commit -m $msg
+end
+
+# ── dispatch ──────────────────────────────────────────────────────────────────
+
+set -l _cmd $argv[1]
+
+switch $_cmd
     case commit
-        set diff (git diff --cached)
-
-        if test -z "$diff"
-            echo "No staged changes to commit."
-        end
-
-        set msg (ollama run codellama --think=false "
-            Rules:
-            - Answer only with the conventional commit in plain-text.
-            - You're not a chatbot, you are a text-plain generator of short and very descriptive commit messages.
-            - Generate a single-line git commit message following Conventional Commits.
-            - Types: feat, fix, build, chore, ci, docs, style, refactor, perf, test
-            - Max 72 characters.
-            - Your entire response will be passed directly into git commit.
-
-            Output Template: '<type>: <short and descriptive message>'
-            
-            Git Diff: $diff"
-        )
-
-            
-
-        if test -z "$msg"
-            echo "No commit message generated."
-        end
-
-        git commit -m "$msg"
+        _cmd_commit $argv[2..]
+    case '' --help -h
+        echo "Usage: git ai <command> [options]" >&2
+        echo "" >&2
+        echo "Commands:" >&2
+        echo "  commit [--model <name>] [--dry-run]   Generate and apply a commit message" >&2
+        echo "" >&2
+        echo "Options:" >&2
+        echo "  --model, -m <name>   Ollama model to use (default: codellama)" >&2
+        echo "  --dry-run, -n        Print the message without committing" >&2
+        exit 0
+    case '*'
+        _ai_die "unknown command '$_cmd' — run 'git ai --help'"
 end
