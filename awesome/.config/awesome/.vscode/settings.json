@@ -1,9 +1,0 @@
-{
-    "Lua.diagnostics.globals": [
-        "terminal",
-        "client",
-        "root",
-        "awesome",
-        "clientkeys"
-    ]
-}
