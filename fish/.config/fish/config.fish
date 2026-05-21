@@ -1,6 +1,6 @@
 set fish_greeting
 
-if test (uname) = "Darwin"
+if status is-interactive; and test (uname) = "Darwin"
     clear
 end
 
