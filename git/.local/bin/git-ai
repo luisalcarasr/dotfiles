@@ -13,7 +13,7 @@ from math import ceil, log
 
 COMMIT_REGEX = re.compile(
     r"^(feat|fix|build|chore|ci|docs|style|refactor|perf|test)"
-    r"(\([a-z0-9._/-]+\))?(!)?: .{1,68}$"
+    r"(\([a-z0-9._/-]+\))?(!)?: .+$"
 )
 DEFAULT_MODEL = "codellama"
 MAX_DIFF_LINES = 300
@@ -137,7 +137,7 @@ def generate_commit(model: str, summary: str) -> str:
         "- Types: feat, fix, build, chore, ci, docs, style, refactor, perf, test\n"
         "- Scope: short lowercase identifier (component, module, or file group). Omit if unclear.\n"
         "- Description: imperative mood, lowercase, no trailing period, max 68 chars after the prefix.\n"
-        "- Total line must not exceed 72 characters.\n\n"
+        "- Total line must not exceed 72 characters. Count every character carefully before outputting — do NOT truncate or cut off mid-word.\n\n"
         f"Change summary:\n{summary}\n\n"
         "Conventional commit:"
     )
@@ -163,10 +163,6 @@ def validate_commit(raw: str) -> str | None:
 
     # Strip trailing period
     msg = re.sub(r"\.$", "", msg)
-
-    # Truncate to 72 chars
-    if len(msg) > 72:
-        msg = msg[:72]
 
     if COMMIT_REGEX.match(msg):
         return msg
