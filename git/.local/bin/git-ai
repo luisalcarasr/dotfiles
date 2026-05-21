@@ -121,10 +121,10 @@ function _cmd_commit
     or _ai_die "no staged changes — run: git add <files>"
 
     # Truncate very large diffs to avoid overwhelming the model
-    set -l diff_lines (string split \n $diff | count)
+    set -l diff_lines (string split \n -- $diff | count)
     if test $diff_lines -gt $_GITAI_MAX_DIFF_LINES
         echo "git-ai: diff is $diff_lines lines — truncating to $_GITAI_MAX_DIFF_LINES for analysis" >&2
-        set diff (string split \n $diff | head -n $_GITAI_MAX_DIFF_LINES | string join \n)
+        set diff (string split \n -- $diff | head -n $_GITAI_MAX_DIFF_LINES | string join \n)
         set diff $diff\n"... (diff truncated)"
     end
 
