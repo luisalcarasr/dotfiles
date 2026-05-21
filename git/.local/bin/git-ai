@@ -82,6 +82,23 @@ function _ai_validate_commit
     set msg (string replace -r -i '^(commit message:?|message:?|output:?)\s*' '' $msg)
     set msg (string trim $msg)
 
+    # Lowercase the first char of the description (model often capitalises it)
+    set -l parts (string match -r '^([a-z]+(\([^)]+\))?!?: )(.+)' $msg)
+    if test (count $parts) -ge 4
+        set -l prefix $parts[2]
+        set -l desc $parts[4]
+        set desc (string lower (string sub -l 1 $desc))(string sub -s 2 $desc)
+        set msg $prefix$desc
+    end
+
+    # Strip trailing period
+    set msg (string replace -r '\.$' '' $msg)
+
+    # Truncate to 72 chars total (keeps prefix intact, trims description end)
+    if test (string length $msg) -gt 72
+        set msg (string sub -l 72 $msg)
+    end
+
     if string match -qr $_GITAI_COMMIT_REGEX $msg
         echo $msg
         return 0
