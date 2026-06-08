@@ -1,21 +1,8 @@
 # paths_scanner.fish
 # Dynamically finds bin directories under ~/.* (dotfiles/hidden dirs) and adds them to PATH.
-# Also ensures Homebrew paths are configured.
+# Homebrew paths are configured earlier in 00-homebrew.fish.
 
 if status is-interactive
-    # Homebrew (macOS Apple Silicon)
-    if test -d /opt/homebrew/bin
-        fish_add_path -g /opt/homebrew/bin
-    end
-    if test -d /opt/homebrew/sbin
-        fish_add_path -g /opt/homebrew/sbin
-    end
-
-    # Homebrew (Intel Mac)
-    if test -d /usr/local/bin
-        fish_add_path -g /usr/local/bin
-    end
-
     # Scan hidden directories (~/.something) for bin/ folders, max 3 levels deep
     # NOTE: fish does not expand regex-style globs like ".[^.]*", so we use
     # find from $HOME with -path "$HOME/.*" to match only hidden directories.
