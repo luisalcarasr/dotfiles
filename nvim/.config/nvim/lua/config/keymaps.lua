@@ -9,6 +9,7 @@ groups.register({
   ["<leader>"] = {
     t = { name = "terminal" }, -- Terminal
     h = { name = "clipboard history" }, -- Clipboard History
+    a = { name = "ai / opencode" }, -- AI / opencode
   },
 })
 
