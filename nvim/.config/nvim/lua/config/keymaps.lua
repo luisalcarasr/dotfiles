@@ -3,14 +3,11 @@
 -- Add any additional keymaps here
 
 local key = vim.keymap
-local groups = require("which-key")
 
-groups.register({
-  ["<leader>"] = {
-    t = { name = "terminal" }, -- Terminal
-    h = { name = "clipboard history" }, -- Clipboard History
-    a = { name = "ai / opencode" }, -- AI / opencode
-  },
+require("which-key").add({
+  { "<leader>t", group = "terminal" },
+  { "<leader>h", group = "clipboard history" },
+  { "<leader>a", group = "ai / opencode" },
 })
 
 -- Terminal
