@@ -17,3 +17,10 @@ end
 if test -d /usr/local/bin
     fish_add_path -g /usr/local/bin
 end
+
+# ImageMagick dynamic libraries for image.nvim (inline Jupyter plots).
+# On Apple Silicon, the kitty/magick backend must locate Homebrew's dylibs at
+# runtime; without this, image.nvim fails to load libMagickWand.
+if test -d /opt/homebrew/lib
+    set -gx DYLD_FALLBACK_LIBRARY_PATH /opt/homebrew/lib $DYLD_FALLBACK_LIBRARY_PATH
+end
