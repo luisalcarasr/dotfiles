@@ -3,10 +3,7 @@
   "default_agent": "plan",
   "model": "f5ai/claude-sonnet-4-6",
   "autoshare": false,
-  "plugin": [
-    "/Users/l.alcaras/.dotfiles/opencode/.config/opencode/plugins/chronicle/src/index.ts",
-    "/Users/l.alcaras/.dotfiles/opencode/.config/opencode/plugins/switchboard/src/index.ts"
-  ],
+  "plugin": [],
   "agent": {
     "build": {
       "model": "f5ai/claude-sonnet-4-6"
