@@ -1,0 +1,197 @@
+{
+  "activePreset": "f5ai-claude",
+  "activeMode": "normal",
+  "tierCaps": {
+    "fast": 8,
+    "medium": 5,
+    "heavy": 3
+  },
+  "tiers": {
+    "fast": {
+      "description": "Fast read-only exploration, search, and lookups",
+      "steps": 30,
+      "whenToUse": [
+        "Codebase search and exploration",
+        "File reads, glob, grep",
+        "Git info, log, blame",
+        "Count, exists-check, ls",
+        "Quick doc lookups and type checks"
+      ]
+    },
+    "medium": {
+      "description": "Implementation, refactor, tests, and bug fixes",
+      "steps": 50,
+      "whenToUse": [
+        "Feature implementation",
+        "Code refactoring",
+        "Writing and updating tests",
+        "Bug fixes (≤2 attempts)",
+        "Code review and edit",
+        "Build fixes, config updates",
+        "Create files, API endpoints",
+        "Database migrations"
+      ]
+    },
+    "heavy": {
+      "description": "Architecture decisions, deep debugging, security, and RCA",
+      "steps": 120,
+      "whenToUse": [
+        "Architecture design and decisions",
+        "Complex debugging (after ≥2 prior failures)",
+        "Security audit and review",
+        "Performance optimization strategy",
+        "Multi-system integration tradeoffs",
+        "Migration strategy",
+        "Root-cause analysis"
+      ]
+    },
+    "reason": {
+      "description": "Reasoning model for algorithms, math, and structured analysis",
+      "steps": 60,
+      "whenToUse": [
+        "Algorithm design and complexity analysis",
+        "Structured debugging with broad context",
+        "Tradeoff analysis with quantitative reasoning",
+        "Mathematical proofs and correctness",
+        "Data structure selection",
+        "Concurrency and race condition analysis"
+      ]
+    },
+    "codex": {
+      "description": "Pure code generation, boilerplate, and scaffolding",
+      "steps": 40,
+      "whenToUse": [
+        "Generating new functions or classes from spec",
+        "Boilerplate and scaffolding",
+        "Converting pseudocode to implementation",
+        "Generating repetitive or pattern-based code",
+        "Code translation between languages"
+      ]
+    },
+    "translate": {
+      "description": "Translation, localization, i18n, and copy review",
+      "steps": 30,
+      "whenToUse": [
+        "Translating text, UI strings, or documentation",
+        "Localization and i18n (extracting/managing string keys)",
+        "Copy review and tone adjustment",
+        "Multilingual content generation",
+        "Reviewing translated content for accuracy"
+      ]
+    }
+  },
+  "presets": {
+    "f5ai-claude": {
+      "fast":    { "primary": "f5ai/claude-haiku-4-5",  "fallback": ["f5ai/gpt-4.1-mini", "f5ai/DeepSeek-V4-Flash", "f5ai/gpt-5-nano"] },
+      "medium":  { "primary": "f5ai/claude-sonnet-4-6", "fallback": ["f5ai/gpt-4.1", "f5ai/Kimi-K2.5", "f5ai/grok-code-fast-1", "f5ai/gpt-5"] },
+      "heavy":   { "primary": "f5ai/claude-opus-4-8",   "fallback": ["f5ai/gpt-5", "f5ai/grok-4", "f5ai/Kimi-K2.6", "f5ai/DeepSeek-V4-Pro", "f5ai/o3-mini"] },
+      "reason":  { "primary": "f5ai/o4-mini",           "fallback": ["f5ai/o3-mini"] },
+      "codex":   { "primary": "f5ai/gpt-5-codex",       "fallback": ["f5ai/gpt-5.1-codex-max", "f5ai/gpt-5.2-codex", "f5ai/gpt-5.3-codex", "f5ai/claude-sonnet-4-6"] },
+      "translate": { "primary": "f5ai/gpt-4.1-mini",   "fallback": ["f5ai/gpt-5-mini", "f5ai/DeepSeek-V4-Flash", "f5ai/Kimi-K2.5"] }
+    },
+    "f5ai-gpt": {
+      "fast":    { "primary": "f5ai/gpt-5.4-mini",   "fallback": ["f5ai/gpt-4.1-mini", "f5ai/DeepSeek-V4-Flash"] },
+      "medium":  { "primary": "f5ai/gpt-5.2-codex",  "fallback": ["f5ai/gpt-5.1-codex-max", "f5ai/claude-sonnet-4-6"] },
+      "heavy":   { "primary": "f5ai/gpt-5.3-codex",  "fallback": ["f5ai/gpt-5", "f5ai/claude-opus-4-8"] },
+      "reason":  { "primary": "f5ai/o4-mini",         "fallback": ["f5ai/o3-mini"] },
+      "codex":   { "primary": "f5ai/gpt-5-codex",     "fallback": ["f5ai/gpt-5.1-codex-max", "f5ai/gpt-5.2-codex"] },
+      "translate": { "primary": "f5ai/gpt-4.1-mini", "fallback": ["f5ai/gpt-5-mini"] }
+    },
+    "f5ai-grok": {
+      "fast":    { "primary": "f5ai/grok-code-fast-1", "fallback": ["f5ai/gpt-4.1-mini"] },
+      "medium":  { "primary": "f5ai/grok-4",           "fallback": ["f5ai/claude-sonnet-4-6"] },
+      "heavy":   { "primary": "f5ai/grok-4",           "fallback": ["f5ai/claude-opus-4-8", "f5ai/gpt-5"] },
+      "reason":  { "primary": "f5ai/o4-mini",           "fallback": ["f5ai/o3-mini"] },
+      "codex":   { "primary": "f5ai/gpt-5-codex",       "fallback": ["f5ai/grok-4"] },
+      "translate": { "primary": "f5ai/gpt-4.1-mini",   "fallback": ["f5ai/Kimi-K2.5"] }
+    },
+    "f5ai-kimi": {
+      "fast":    { "primary": "f5ai/Kimi-K2.5", "fallback": ["f5ai/gpt-4.1-mini"] },
+      "medium":  { "primary": "f5ai/Kimi-K2.6", "fallback": ["f5ai/claude-sonnet-4-6"] },
+      "heavy":   { "primary": "f5ai/Kimi-K2.6", "fallback": ["f5ai/claude-opus-4-8", "f5ai/gpt-5"] },
+      "reason":  { "primary": "f5ai/o4-mini",    "fallback": ["f5ai/o3-mini"] },
+      "codex":   { "primary": "f5ai/gpt-5-codex", "fallback": ["f5ai/Kimi-K2.6"] },
+      "translate": { "primary": "f5ai/Kimi-K2.5", "fallback": ["f5ai/gpt-4.1-mini"] }
+    },
+    "f5ai-deepseek": {
+      "fast":    { "primary": "f5ai/DeepSeek-V4-Flash", "fallback": ["f5ai/gpt-4.1-mini"] },
+      "medium":  { "primary": "f5ai/DeepSeek-V4-Pro",   "fallback": ["f5ai/claude-sonnet-4-6"] },
+      "heavy":   { "primary": "f5ai/DeepSeek-V4-Pro",   "fallback": ["f5ai/claude-opus-4-8", "f5ai/gpt-5"] },
+      "reason":  { "primary": "f5ai/o4-mini",             "fallback": ["f5ai/o3-mini"] },
+      "codex":   { "primary": "f5ai/gpt-5-codex",         "fallback": ["f5ai/DeepSeek-V4-Pro"] },
+      "translate": { "primary": "f5ai/DeepSeek-V4-Flash", "fallback": ["f5ai/gpt-4.1-mini", "f5ai/Kimi-K2.5"] }
+    }
+  },
+  "taskPatterns": {
+    "fast":      "search/read/grep/git/ls/glob/count/exists/lookup",
+    "medium":    "write/edit/refactor/test/fix/build/create/config/api/migrate",
+    "heavy":     "arch/design/debug(≥2fail)/security/perf/rca/tradeoff",
+    "reason":    "algorithm/complexity/math/proof/concurrency/correctness",
+    "codex":     "generate-from-spec/boilerplate/scaffold/pseudocode-to-code",
+    "translate": "translate/i18n/localize/copy/multilingual"
+  },
+  "modes": {
+    "normal": {
+      "defaultTier": "medium",
+      "description": "Balanced quality and cost — delegates based on task complexity"
+    },
+    "budget": {
+      "defaultTier": "fast",
+      "description": "Aggressive cost savings — defaults to cheapest tier, escalates only when needed",
+      "overrideRules": [
+        "default→@fast unless edits/complex-reasoning needed",
+        "@medium ONLY: multi-file-edit/refactor/test-suite/build-fix",
+        "@heavy ONLY: user-requested OR ≥2 @medium failures",
+        "trivial(grep/read/glob)→direct,no-delegate",
+        "batch related searches→single @fast",
+        "uncertain @fast vs @medium→@fast,escalate on fail",
+        "dispatch caps (tighter): always include CAP:5 when dispatching @fast, CAP:2 for @medium, CAP:2 for @heavy",
+        "orchestrator self-cap: ≤1 direct read-only call per turn; 2nd need → dispatch @fast"
+      ]
+    },
+    "quality": {
+      "defaultTier": "medium",
+      "description": "Quality-first — uses stronger models more liberally for better results",
+      "overrideRules": [
+        "default→@medium incl exploration when deep-context matters",
+        "@heavy: arch/debug/security/multi-file-coord",
+        "@fast ONLY: trivial single-tool ops (1 grep/1 read)",
+        "prefer thoroughness over speed",
+        "dispatch caps: always include CAP:none in dispatch prompts — subagents may explore as needed for deep context",
+        "subagents still run redundancy check; CAP:none only lifts the numeric cap, not the stop-on-redundancy rule"
+      ]
+    },
+    "deep": {
+      "defaultTier": "heavy",
+      "description": "Deep analysis mode — prioritizes thorough architecture/debug work with long heavy runs",
+      "overrideRules": [
+        "default→@medium for implementation and multi-file changes",
+        "@heavy for architecture/debug/security/tradeoff-analysis by default",
+        "allow long heavy runs before fallback; avoid premature downshift",
+        "trivial(grep/read/glob)→direct,no-delegate",
+        "if task is composite: explore@fast then execute@heavy",
+        "dispatch caps: CAP:none for @heavy only; @fast=CAP:8 and @medium=CAP:5 baselines apply",
+        "subagents still run redundancy check; CAP:none only lifts the numeric cap"
+      ]
+    }
+  },
+  "fallback": {
+    "global": {
+      "f5ai-claude":   ["f5ai-gpt", "f5ai-grok", "f5ai-kimi", "f5ai-deepseek"],
+      "f5ai-gpt":      ["f5ai-claude", "f5ai-grok", "f5ai-kimi", "f5ai-deepseek"],
+      "f5ai-grok":     ["f5ai-claude", "f5ai-gpt", "f5ai-kimi", "f5ai-deepseek"],
+      "f5ai-kimi":     ["f5ai-claude", "f5ai-gpt", "f5ai-grok", "f5ai-deepseek"],
+      "f5ai-deepseek": ["f5ai-claude", "f5ai-gpt", "f5ai-grok", "f5ai-kimi"]
+    }
+  },
+  "rules": [
+    "Ambiguous request → ask ONE clarifying question before acting",
+    "Trivial (≤1 tool, no follow-up) → handle directly, skip delegation",
+    "≤2 direct read-only calls per turn; 3rd → delegate(tier=\"fast\")",
+    "Composite task → split: delegate(\"fast\") to explore, then delegate(\"medium\") to implement",
+    "Never execute @heavy work locally — always delegate to the heavy tier",
+    "Always synthesize subagent results before responding to the user",
+    "Speed-first: pick the FASTEST tier that can do the job correctly"
+  ],
+  "defaultTier": "medium"
+}

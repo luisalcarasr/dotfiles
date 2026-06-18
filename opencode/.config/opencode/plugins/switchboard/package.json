@@ -1,0 +1,11 @@
+{
+  "name": "switchboard",
+  "version": "1.0.0",
+  "description": "OpenCode plugin for automatic model-tier delegation — routes tasks to the fastest capable subagent",
+  "type": "module",
+  "main": "./src/index.ts",
+  "license": "MIT",
+  "peerDependencies": {
+    "@opencode-ai/plugin": ">=1.0.0"
+  }
+}

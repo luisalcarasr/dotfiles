@@ -1,0 +1,50 @@
+{
+  // Local storage — no cloud, no external accounts
+  "storagePath": "~/.opencode-mem/data",
+
+  // Remote embeddings via f5ai — better quality than local Xenova models
+  "embeddingModel": "text-embedding-3-large",
+  "embeddingApiUrl": "https://f5ai.pd.f5net.com/openai/v1",
+  "embeddingApiKey": "env://F5AI_API_KEY",
+
+  // Auto-capture via f5ai — haiku is fast and cheap for this
+  "opencodeProvider": "f5ai",
+  "opencodeModel": "claude-haiku-4-5",
+
+  // Auto-capture from conversations
+  "autoCaptureEnabled": true,
+  "autoCaptureLanguage": "auto",
+
+  // Inject memories only on the first message of each session
+  // to avoid bloating context on every turn
+  "chatMessage": {
+    "enabled": true,
+    "maxMemories": 5,
+    "injectOn": "first",
+    "excludeCurrentSession": true,
+    "maxAgeDays": 14
+  },
+
+  // Re-inject relevant memories after OpenCode compacts the session thread
+  "compaction": {
+    "enabled": true,
+    "memoryLimit": 8
+  },
+
+  // User profile — inject learned preferences into context
+  "injectProfile": true,
+  "maxProfileItems": 5,
+  "userProfileConfidenceDecayDays": 14,
+
+  // Hard-delete memories older than 60 days
+  "autoCleanupEnabled": true,
+  "autoCleanupRetentionDays": 60,
+
+  // Remove near-duplicate memories automatically
+  "deduplicationEnabled": true,
+  "deduplicationSimilarityThreshold": 0.9,
+
+  // Web UI to browse and manage memories
+  "webServerEnabled": true,
+  "webServerPort": 4747
+}
