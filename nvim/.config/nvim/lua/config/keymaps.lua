@@ -8,6 +8,7 @@ require("which-key").add({
   { "<leader>t", group = "terminal" },
   { "<leader>h", group = "clipboard history" },
   { "<leader>a", group = "ai / opencode" },
+  { "<leader>j", group = "jupyter" },
 })
 
 -- Terminal
