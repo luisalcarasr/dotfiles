@@ -37,7 +37,7 @@ export function parseDate(input: string): number | null {
   const now = Date.now();
   const day = 86_400_000;
 
-  if (s === "today") return now - day;
+  if (s === "today") return new Date().setHours(0, 0, 0, 0);
   if (s === "yesterday") return now - day;
   if (s === "last week" || s === "a week ago") return now - 7 * day;
   if (s === "last month" || s === "a month ago") return now - 30 * day;
@@ -215,8 +215,8 @@ export function buildTranscript(
     `Directory: ${meta.directory}`,
   ].join(" | ");
 
-  // Limit messages to maxMessagesPerSession
-  const capped = messages.slice(0, cfg.maxMessagesPerSession);
+  // Limit messages to maxMessagesPerSession (keep most recent)
+  const capped = messages.slice(-cfg.maxMessagesPerSession);
 
   const messageLines: string[] = [];
 

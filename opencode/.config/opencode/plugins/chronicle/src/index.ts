@@ -57,7 +57,7 @@ Parameters:
 - limit (optional): override the default number of sessions to search (default: ${CONFIG.maxSessions})
 
 chronicle searches only sessions run in the current directory or its subdirectories.
-Do NOT call chronicle proactively — only call it when the user's message implies a need for historical context.\`;
+Do NOT call chronicle proactively — only call it when the user's message implies a need for historical context.`;
 
 // ---------------------------------------------------------------------------
 // Plugin
@@ -69,6 +69,9 @@ const ChroniclePlugin: Plugin = async (ctx: PluginInput) => {
   }
 
   const client = ctx.client;
+  // ctx.directory is the working directory provided by OpenCode at plugin init time.
+  // Fall back to process.cwd() just in case it's undefined.
+  const cwd: string = (ctx as any).directory ?? process.cwd();
 
   return {
     // -------------------------------------------------------------------------
@@ -99,25 +102,6 @@ const ChroniclePlugin: Plugin = async (ctx: PluginInput) => {
         },
 
         async execute({ query, limit, since, until }): Promise<string> {
-          // Resolve cwd from the current session
-          let cwd: string;
-          try {
-            const sessions: any = await client.session.list({});
-            const allSessions: any[] = sessions?.data ?? [];
-            // The most recently created session that is not a subagent is the caller
-            const orchestrator = allSessions
-              .filter((s: any) => !s.parent_id && !s.parentID)
-              .sort((a: any, b: any) => {
-                const ta = a.time_updated ?? a.timeUpdated ?? 0;
-                const tb = b.time_updated ?? b.timeUpdated ?? 0;
-                return tb - ta;
-              })[0];
-
-            cwd = orchestrator?.directory ?? process.cwd();
-          } catch {
-            cwd = process.cwd();
-          }
-
           try {
             const result = await synthesize(client, CONFIG, cwd, {
               query,
@@ -134,12 +118,15 @@ const ChroniclePlugin: Plugin = async (ctx: PluginInput) => {
     },
 
     // -------------------------------------------------------------------------
-    // Track chronicle subagent sessions — skip hint injection for them
+    // Track chronicle subagent sessions — skip hint injection for them.
+    // session.created fires whenever a new session is created; subagent sessions
+    // have a parent_id set. We also tag sessions whose agent is "chronicle".
     // -------------------------------------------------------------------------
-    "chat.message": async (input: any, _output: any) => {
-      const sid: string | undefined = input?.sessionID;
-      const agent: string | undefined = input?.agent;
-      const parentID: string | undefined = input?.parentID;
+    "session.created": async (input: any) => {
+      const session = input?.data ?? input;
+      const sid: string | undefined = session?.id;
+      const parentID: string | undefined = session?.parent_id ?? session?.parentID;
+      const agent: string | undefined = session?.agent;
 
       if (!sid) return;
       if (parentID || agent === "chronicle") {
@@ -151,7 +138,7 @@ const ChroniclePlugin: Plugin = async (ctx: PluginInput) => {
     // Inject hint into orchestrator system prompt only
     // -------------------------------------------------------------------------
     "experimental.chat.system.transform": async (input: any, output: any) => {
-      const sessionID: string | undefined = input?.sessionID;
+      const sessionID: string | undefined = input?.sessionID ?? input?.data?.id;
       if (sessionID && chronicleSubagents.has(sessionID)) return;
       output.system.push(CHRONICLE_HINT);
     },

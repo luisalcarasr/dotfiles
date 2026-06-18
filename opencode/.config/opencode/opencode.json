@@ -7,6 +7,14 @@
     "/Users/l.alcaras/.dotfiles/opencode/.config/opencode/plugins/chronicle/src/index.ts",
     "/Users/l.alcaras/.dotfiles/opencode/.config/opencode/plugins/switchboard/src/index.ts"
   ],
+  "agent": {
+    "build": {
+      "model": "f5ai/claude-sonnet-4-6"
+    },
+    "plan": {
+      "model": "f5ai/claude-opus-4-8"
+    }
+  },
   "mcp": {
     "firefox-devtools": {
       "type": "local",

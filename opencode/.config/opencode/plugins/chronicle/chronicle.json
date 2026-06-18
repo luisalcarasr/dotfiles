@@ -5,7 +5,7 @@
   "enabled": true,
   "compaction": {
     "maxTokensPerSession": 8000,
-    "windowRatio": { "start": 0.3, "end": 0.7 },
+    "windowRatio": { "start": 0.2, "end": 0.4 },
     "maxToolOutputChars": 500,
     "maxMessagesPerSession": 80,
     "miniSynthesisThreshold": 20000,

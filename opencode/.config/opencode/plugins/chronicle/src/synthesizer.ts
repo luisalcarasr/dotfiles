@@ -38,19 +38,30 @@ function extractText(res: any): string {
     .trim();
 }
 
+/** Split "providerID/modelID" string into the object the SDK expects. */
+function parseModel(model: string): { providerID: string; modelID: string } {
+  const slashIdx = model.indexOf("/");
+  if (slashIdx === -1) return { providerID: model, modelID: model };
+  return {
+    providerID: model.slice(0, slashIdx),
+    modelID: model.slice(slashIdx + 1),
+  };
+}
+
 async function callModel(
   client: any,
   model: string,
   prompt: string,
 ): Promise<string> {
-  const created: any = await client.session.create({});
+  // session.create requires body: {}
+  const created: any = await client.session.create({ body: {} });
   const sid: string | undefined = created?.data?.id;
   if (!sid) throw new Error("session.create returned no id");
 
   const res: any = await client.session.prompt({
     path: { id: sid },
     body: {
-      model,
+      model: parseModel(model),
       agent: "chronicle",
       parts: [{ type: "text", text: prompt }],
     },
@@ -108,7 +119,7 @@ export async function synthesize(
   params: ChronicleQuery,
 ): Promise<string> {
   // 1. Load all sessions from the SDK
-  const allSessionsRes: any = await client.session.list({});
+  const allSessionsRes: any = await client.session.list();
   const allSessions: any[] = allSessionsRes?.data ?? [];
 
   if (allSessions.length === 0) {
@@ -137,7 +148,8 @@ export async function synthesize(
     })
     .slice(0, limit);
 
-  // 5. Load messages + parts for each session, build transcripts
+  // 5. Load messages + parts for each session via session.messages()
+  //    Returns: { info: Message, parts: Part[] }[]
   const transcripts: string[] = [];
 
   for (const session of selected) {
@@ -149,21 +161,24 @@ export async function synthesize(
       timeCreated: session.time_created ?? session.timeCreated ?? 0,
     };
 
-    // Load messages
-    const messagesRes: any = await client.message.list({
+    // Use the correct SDK method: session.messages returns { info, parts }[]
+    const messagesRes: any = await client.session.messages({
       path: { id: sessionId },
-    });
-    const messages: any[] = messagesRes?.data ?? [];
+    }).catch(() => ({ data: [] }));
 
-    if (messages.length === 0) continue;
+    const entries: any[] = messagesRes?.data ?? [];
 
-    // Load parts for all messages
+    if (entries.length === 0) continue;
+
+    // Adapt to the format buildTranscript expects:
+    // messages: Message[], allParts: Map<messageId, Part[]>
+    const messages: any[] = entries.map((e: any) => e.info ?? e);
     const allParts = new Map<string, any[]>();
-    for (const msg of messages) {
-      const partsRes: any = await client.part.list({
-        path: { id: sessionId, messageID: msg.id },
-      }).catch(() => ({ data: [] }));
-      allParts.set(msg.id, partsRes?.data ?? []);
+    for (const entry of entries) {
+      const msgId: string = (entry.info ?? entry)?.id;
+      if (msgId) {
+        allParts.set(msgId, entry.parts ?? []);
+      }
     }
 
     // Capa 1 + 2: compact the transcript
