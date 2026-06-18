@@ -156,6 +156,7 @@ PACKAGES_CLI=(
   watch    # Runs a command periodically with updated output
   btop     # Interactive system monitor (CPU, RAM, disk, network)
   poppler  # PDF utilities (pdftotext, pdfinfo, etc.)
+  imagemagick # Image processing — required by image.nvim for inline Jupyter plots
 )
 
 # Git TUI, GitLab CLI, security and dotfile management
@@ -236,6 +237,7 @@ CASKS=(
   mos      # Improves external mouse scrolling on macOS (smoothing + direction control)
   insomnia # REST and GraphQL API client — design, test and document endpoints
   gimp     # Professional open-source image editor
+  quarto   # Scientific publishing system — required by jupytext quarto style + preview
 )
 
 for cask in "${CASKS[@]}"; do
@@ -264,6 +266,29 @@ if command -v colima &>/dev/null; then
   fi
 fi
 
+# Neovim Python host for Jupyter (molten-nvim remote plugin). A dedicated venv
+# lives inside the nvim config dir and is provisioned from requirements.txt.
+# Idempotent: skips venv creation if it already exists, always syncs reqs.
+NVIM_VENV="${HOME}/.config/nvim/.venv"
+NVIM_REQS="${HOME}/.config/nvim/requirements.txt"
+if command -v python3.12 &>/dev/null; then
+  if [[ -d "$NVIM_VENV" ]]; then
+    log_skip "Neovim Python venv already exists."
+  else
+    log_info "Creating Neovim Python venv (Jupyter host)..."
+    python3.12 -m venv "$NVIM_VENV"
+    "${NVIM_VENV}/bin/pip" install --quiet --upgrade pip
+    log_ok "Neovim Python venv created."
+  fi
+  if [[ -f "$NVIM_REQS" ]]; then
+    log_info "Installing Neovim Python requirements..."
+    "${NVIM_VENV}/bin/pip" install --quiet -r "$NVIM_REQS"
+    log_ok "Neovim Python requirements installed."
+  fi
+else
+  log_skip "python3.12 not found; skipping Neovim Jupyter venv."
+fi
+
 echo ""
 log_ok "════════════════════════════════════"
 log_ok "  🍎 macOS setup complete!"
@@ -278,4 +303,7 @@ echo "       git clone git@github.com:luisalcarasr/dotfiles.git ~/.dotfiles"
 echo "       cd ~/.dotfiles && stow fish nvim tmux kitty git btop opencode"
 echo "  3. Start PostgreSQL (when needed):"
 echo "       brew services start postgresql@14"
+echo "  4. Jupyter in Neovim:"
+echo "       - Run ':UpdateRemotePlugins' once in nvim after first launch"
+echo "       - Register a kernel per project env: 'python -m ipykernel install --user'"
 echo ""
