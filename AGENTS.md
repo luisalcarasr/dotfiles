@@ -1,82 +1,35 @@
 # AGENTS.md
 
-Agent instructions for the `~/.dotfiles` repository.
+Personal dotfiles managed with **GNU Stow**. Primary platforms: Ubuntu and macOS Apple Silicon. Fedora KDE is **legacy** (kept working, lower priority). See `README.md` and `CONTRIBUTING.md`.
 
-## What this repo is
-
-GNU Stow-based dotfiles for **Fedora KDE** (primary) and **macOS** (secondary). Each top-level directory is a stow package that maps 1:1 onto `$HOME`. There is no build system, no tests, and no CI — the source of truth is the files themselves.
-
-## Stow packages and their targets
-
-| Directory   | Stow target          | Notes                                       |
-|-------------|----------------------|---------------------------------------------|
-| `fish/`     | `~/.config/fish/`    | Shell config — see bootstrap quirk below    |
-| `nvim/`     | `~/.config/nvim/`    | LazyVim; Lua only, no compiled artifacts    |
-| `kitty/`    | `~/.config/kitty/`   | Includes `macos.conf` and `linux.conf`; kitty loads the right one via `${KITTY_OS}.conf` |
-| `git/`      | `~/`                 | `.gitconfig` + `git-ai` fish script at `.local/bin/git-ai` |
-| `opencode/` | `~/.config/opencode/` + `~/.agents/` | AI config, agents, commands, skills |
-| `distrobox/`| `~/.config/distrobox/` | Linux only; suppresses container `.desktop` entries |
-
-Files excluded from stow (never symlinked into `$HOME`): see `.stow-local-ignore`. Always add new root-level scripts there.
+## Stow layout (read this first)
+- Each top-level dir (`fish/`, `nvim/`, `kitty/`, `git/`, `opencode/`, `distrobox/`) is a **stow package**. Inside, paths mirror `$HOME` (e.g. `fish/.config/fish/config.fish` -> `~/.config/fish/config.fish`).
+- Edit configs **inside the package dir**, never the symlinked `~/.config/...` target.
+- `.stow-local-ignore` lists files that are NOT symlinked (README, AGENTS.md, LICENSE, setup scripts). Any new top-level file that is not a stow package MUST be added here, or `stow .` will symlink it into `$HOME`.
 
 ## Deploy commands
-
-```bash
-stow .                              # deploy all packages
-stow fish nvim kitty git opencode   # macOS subset
-stow -D <package>                   # remove a package
-```
-
-**Do not run `stow` from inside a package subdirectory** — always from repo root.
+- Ubuntu / Fedora: `stow .` (stows everything).
+- macOS: selective — `stow fish nvim kitty git opencode` (the `macos.sh` next-steps line also names `tmux` and `btop`, but those packages do not exist in the repo; only stow packages that exist).
+- Re-link a single package: `stow <pkg>`. Remove: `stow -D <pkg>`. Preview conflicts: `stow -nv <pkg>`.
 
 ## Setup scripts
+- `ubuntu.sh` (apt + snap), `macos.sh` (brew), and legacy `fedora.sh` (dnf + flatpak) are the source of truth for installed tooling.
+- Add tools by appending to the relevant `PACKAGES_*` / `CASKS` / `SNAP_APPS` / `FLATPAK_APPS` / `TAPS` array — do not invent install steps elsewhere. Scripts are idempotent (skip already-installed).
+- `set -euo pipefail`; keep them backwards-compatible and dependency-free (see CONTRIBUTING.md).
+- Ubuntu uses **snap** for GUI apps, not Flatpak (Flatpak is Fedora-only). `ubuntu.sh` installs only dev-relevant GUI apps (Brave); gaming apps live in `fedora.sh` only.
+- Ubuntu quirks (handled by `ubuntu.sh`): `bat`/`fd-find` install as `batcat`/`fdfind` and get shimmed to `bat`/`fd` in `~/.local/bin`; `eza` (gierens apt repo) and `lazygit` (GitHub release) are installed from upstream, not the default repos.
 
-- `fedora.sh` — Fedora KDE full setup (RPM Fusion, NVIDIA open driver, DNF packages, Flatpak/Flathub apps, NVIDIA GL/GL32/VAAPI Flatpak runtimes, system services). Idempotent; runs as normal user, uses `sudo` internally.
-- `macos.sh` — macOS setup (Homebrew, taps, formulae by category, casks, colima). Idempotent.
+## Conventions
+- Commits: Conventional Commits, imperative, lowercase, no trailing period, <=72 chars. Scope = stow package or script name (e.g. `fix(fish): ...`, `docs(readme): ...`).
+- Shell style: clarity over cleverness; explicit loops over compact one-liners (CONTRIBUTING.md has the canonical example).
+- Visual theme is GitHub Dark across tools; keep it consistent.
 
-**Adding packages:** append to the relevant `PACKAGES_*` array in the script. One line per package, no other changes needed.
+## Component notes
+- `git/.local/bin/git-ai` — Python `git ai commit` helper; requires a running local **ollama** (default model `codellama`). Not a general dependency.
+- `fish/.config/fish/functions/tide/`, `nvm.fish`, `fisher.fish`, `rj.fish` are **vendored plugins** (managed by fisher / `dotfiles_bootstrap.fish`). Do not hand-edit; they are regenerated.
+- `fish/.config/fish/conf.d/` files load by numeric prefix order; `dotfiles_bootstrap.fish` installs fisher + tide/nvm/repojump on first interactive shell.
+- nvim is LazyVim-based; `lazy-lock.json` is the plugin lockfile.
 
-Both scripts use `set -euo pipefail` — they abort on first error.
-
-## Fish shell bootstrap quirk
-
-`fish/.config/fish/conf.d/dotfiles_bootstrap.fish` auto-installs fisher and plugins on first interactive shell via a universal variable flag (`__dotfiles_bootstrapped`). Plugins: `jorgebucaran/nvm.fish`, `IlanCosman/tide`, `luisalcarasr/repojump`. This only runs once per machine. Node.js is managed by `nvm.fish` — never install it via a system package manager.
-
-`paths_scanner.fish` scans `~/.*` hidden dirs (up to 4 levels) for `bin/` folders and prepends them to `$PATH`. This is how `~/.local/bin/git-ai` gets on the path.
-
-## Commit style
-
-Conventional Commits — inferred from history and enforced by `opencode/commands/commit.md`:
-
-```
-type(scope): short imperative description
-```
-
-Types: `feat`, `fix`, `docs`, `style`, `refactor`, `perf`, `test`, `build`, `ci`, `chore`. Scope is optional but used (e.g. `feat(fish):`, `fix(nvim):`, `chore(opencode):`). No period at end. Max 72 chars on subject line.
-
-The `/commit` slash command in OpenCode automates this: inspects staged diff, detects secrets, asks for confirmation, then commits.
-
-## `git-ai` command
-
-`git ai commit` — generates a Conventional Commit message from the staged diff using `ollama run codellama` locally. Requires ollama running with the `codellama` model pulled.
-
-## OpenCode config location
-
-`opencode/.config/opencode/opencode.json` — provider is **F5 AI** (internal OpenAI-compatible gateway). Requires `F5AI_API_KEY` env var. Do not commit or expose this key. The `default_agent` is `plan` (read-only by default; switches to `build` for edits).
-
-Custom agents: `opencode/.config/opencode/agents/` — `chat.md` (read-only), `browse.md` (Firefox DevTools subagent).
-
-Skills live in `opencode/.agents/skills/` and are tracked in `.skill-lock.json`.
-
-## Neovim
-
-LazyVim base with extras: `eslint`, `prettier`, `python`, `typescript`, `json`, `rust`, `markdown`, `tailwind`, `mini-hipatterns`, `mini-animate`. Custom plugins in `nvim/.config/nvim/lua/plugins/`. No compiled output — everything is plain Lua loaded at startup. `lazy-lock.json` pins plugin versions; update intentionally with `:Lazy update`.
-
-Opencode integration via `opencode.nvim`: `<C-a>` ask, `<C-x>` select action, `<C-.>` toggle. `+`/`-` replace `<C-a>`/`<C-x>` for increment/decrement since those are remapped.
-
-## Platform notes
-
-- macOS: Apple Silicon (`/opt/homebrew`) — `paths_scanner.fish` adds brew to PATH. Container runtime is colima (not Docker Desktop).
-- Fedora KDE: container runtime is podman + distrobox. `distrobox/` package suppresses auto-generated `.desktop` entries.
-- Kitty loads `macos.conf` or `linux.conf` automatically via `${KITTY_OS}.conf` — edit the right file for OS-specific font or keybinding changes.
-- The Linux-specific font is **AdwaitaMono Nerd Font**; macOS uses **Operator Mono Lig**.
+## Don't
+- Don't add cross-platform/generalisation changes (zsh, Arch, openSUSE, etc.) — out of scope per CONTRIBUTING.md. Supported platforms are Ubuntu and macOS Apple Silicon (primary) and Fedora KDE (legacy) only.
+- Don't commit `fish/.config/fish/fish_variables` machine state (gitignored).

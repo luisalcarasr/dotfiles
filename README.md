@@ -1,13 +1,13 @@
 # 🏠 Dotfiles
 
-Personal workstation configuration managed with [GNU Stow](https://www.gnu.org/software/stow/). Targets **Fedora KDE** (primary) and **macOS** (secondary), providing a reproducible, terminal-centric development environment with a consistent GitHub Dark visual theme across all tools.
+Personal workstation configuration managed with [GNU Stow](https://www.gnu.org/software/stow/). Targets **Ubuntu** and **macOS** (primary), with **Fedora KDE** kept as legacy. Provides a reproducible, terminal-centric development environment with a consistent GitHub Dark visual theme across all tools.
 
 ## 🚀 Quick Start
 
-### 🐧 Fedora
+### 🟠 Ubuntu
 
 ```bash
-bash <(curl -sL https://raw.githubusercontent.com/luisalcarasr/dotfiles/main/fedora.sh)
+bash <(curl -sL https://raw.githubusercontent.com/luisalcarasr/dotfiles/main/ubuntu.sh)
 ```
 
 ### 🍎 macOS
@@ -16,15 +16,21 @@ bash <(curl -sL https://raw.githubusercontent.com/luisalcarasr/dotfiles/main/fed
 bash <(curl -sL https://raw.githubusercontent.com/luisalcarasr/dotfiles/main/macos.sh)
 ```
 
+### 🐧 Fedora (legacy)
+
+```bash
+bash <(curl -sL https://raw.githubusercontent.com/luisalcarasr/dotfiles/main/fedora.sh)
+```
+
 ### 🔗 Dotfiles
 
 Install `stow` first:
 
 | OS      | Command                   |
 |---------|---------------------------|
-| Fedora  | `sudo dnf install stow`   |
-| macOS   | `brew install stow`       |
 | Ubuntu  | `sudo apt install stow`   |
+| macOS   | `brew install stow`       |
+| Fedora  | `sudo dnf install stow`   |
 
 Then clone and deploy:
 
@@ -34,18 +40,20 @@ git clone git@github.com:luisalcarasr/dotfiles.git ~/.dotfiles && cd ~/.dotfiles
 
 ## 📦 Packages
 
-### 🐧 Fedora
+### 🟠 Ubuntu
 
 | Group        | Packages                                                  | Description                                    |
 |--------------|-----------------------------------------------------------|------------------------------------------------|
 | 🔧 system    | stow, git, curl, wget                                     | Base tools and dotfile symlink management      |
 | 🐚 shell     | fish, zoxide, fzf, fastfetch                              | Primary shell, smart navigation, system info   |
 | 📝 editor    | neovim                                                    | LazyVim-based editor with LSP and GitHub Dark  |
-| ⚡ cli       | bat, eza, fd-find, ripgrep, tree, jq, btop, unzip         | Modern CLI replacements and system monitor     |
-| 🌿 git       | lazygit                                                   | Full-featured Git TUI                          |
+| ⚡ cli       | bat, fd-find, ripgrep, tree, jq, btop, unzip              | Modern CLI replacements and system monitor     |
+| 🌍 upstream  | eza, lazygit                                              | Tools not in default repos (apt repo / GitHub) |
 | 🐋 containers | podman, distrobox                                        | Daemonless containers and distro environments  |
 | 🐍 languages | python3, python3-pip, pipx                                | Python runtime and isolated tool installer     |
-| 📱 flatpak   | Brave, Steam, Heroic, ProtonUp-Qt                         | GUI apps via Flathub                           |
+| 📦 snap      | Brave                                                     | GUI apps via Snap (no Flatpak on Ubuntu)       |
+
+> ℹ️ On Ubuntu, `bat` installs as `batcat` and `fd-find` as `fdfind`. The setup script creates `bat` and `fd` shims in `~/.local/bin`.
 
 ### 🍎 macOS
 
@@ -61,6 +69,19 @@ git clone git@github.com:luisalcarasr/dotfiles.git ~/.dotfiles && cd ~/.dotfiles
 | 🗄️ database   | postgresql@14                                                                | Local relational database via brew services       |
 | 🔩 utils      | unzip                                                                        | System utilities                                  |
 | 🖥️ casks      | kitty, ghostty, mos, insomnia, gimp                                          | GPU terminal, API client, image editor            |
+
+### 🐧 Fedora (legacy)
+
+| Group        | Packages                                                  | Description                                    |
+|--------------|-----------------------------------------------------------|------------------------------------------------|
+| 🔧 system    | stow, git, curl, wget                                     | Base tools and dotfile symlink management      |
+| 🐚 shell     | fish, zoxide, fzf, fastfetch                              | Primary shell, smart navigation, system info   |
+| 📝 editor    | neovim                                                    | LazyVim-based editor with LSP and GitHub Dark  |
+| ⚡ cli       | bat, eza, fd-find, ripgrep, tree, jq, btop, unzip         | Modern CLI replacements and system monitor     |
+| 🌿 git       | lazygit                                                   | Full-featured Git TUI                          |
+| 🐋 containers | podman, distrobox                                        | Daemonless containers and distro environments  |
+| 🐍 languages | python3, python3-pip, pipx                                | Python runtime and isolated tool installer     |
+| 📱 flatpak   | Brave, Steam, Heroic, ProtonUp-Qt                         | GUI apps via Flathub                           |
 
 ## 🗂️ Stow Packages
 

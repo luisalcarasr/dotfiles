@@ -1,6 +1,6 @@
 # Contributing
 
-This is a personal dotfiles repository. It is public because sharing configurations openly is useful to the community, and because I enjoy seeing how others set up their environments. However, it is **not designed to be a universal solution** — it is built around one specific, opinionated setup: Fedora KDE as primary, macOS Apple Silicon as secondary, with a fixed set of tools, fonts, and workflows that suit me personally.
+This is a personal dotfiles repository. It is public because sharing configurations openly is useful to the community, and because I enjoy seeing how others set up their environments. However, it is **not designed to be a universal solution** — it is built around one specific, opinionated setup: Ubuntu and macOS Apple Silicon as primary, with Fedora KDE kept as legacy, and a fixed set of tools, fonts, and workflows that suit me personally.
 
 Before opening a pull request, please read this document in full.
 
@@ -13,7 +13,7 @@ These dotfiles are tailored to my exact machines, preferences, and habits. Confi
 **This means:**
 
 - A change that works perfectly on your machine may be intentionally absent here because it does not fit my workflow.
-- Generalisation patches (e.g. "make it work on Ubuntu", "add support for zsh") will almost certainly be declined — not because they are bad ideas, but because they are out of scope.
+- Generalisation patches (e.g. "add support for zsh", "make it work on Arch/openSUSE") will almost certainly be declined — not because they are bad ideas, but because they are out of scope.
 - Aesthetic changes driven purely by personal preference will also be declined.
 
 ---
@@ -22,9 +22,9 @@ These dotfiles are tailored to my exact machines, preferences, and habits. Confi
 
 The bar is intentional narrowness, not quality. High-quality contributions that fall outside the scope of this repo will still be declined. With that said, the following are genuinely welcome:
 
-- **Bug fixes** that affect the documented platforms (Fedora KDE, macOS Apple Silicon) and reproduce reliably.
+- **Bug fixes** that affect the primary platforms (Ubuntu, macOS Apple Silicon) and reproduce reliably. Fedora KDE is legacy — fixes are welcome but lower priority.
 - **Factual corrections** to `README.md`, `CONTRIBUTING.md`, or inline script comments.
-- **Script improvements** to `fedora.sh` or `macos.sh` that are clearly correct, backwards-compatible, and do not introduce new dependencies.
+- **Script improvements** to `ubuntu.sh`, `macos.sh`, or `fedora.sh` that are clearly correct, backwards-compatible, and do not introduce new dependencies.
 - **Fixes for broken symlinks or stow conflicts** that affect the standard deployment (`stow .`).
 
 If you are unsure whether your contribution is in scope, open an issue and ask before writing any code.
@@ -87,7 +87,7 @@ A good PR description answers:
 
 1. **What** does this change do?
 2. **Why** is it needed? What problem does it solve or what error does it fix?
-3. **Which platform** was it tested on? (Fedora KDE, macOS Apple Silicon, or both)
+3. **Which platform** was it tested on? (Ubuntu, macOS Apple Silicon, Fedora KDE, or a combination)
 4. **Are there any side effects** or caveats to be aware of?
 
 Pull requests with vague descriptions will be asked to provide more detail before review.
