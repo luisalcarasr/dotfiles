@@ -1,9 +1,11 @@
 README.md
 AGENTS.md
 LICENSE
+nvim/.config/nvim/.venv
 .git/
 .gitmodules
 packages.txt
 arch-linux-setup.sh
 fedora.sh
 macos.sh
+ubuntu.sh
