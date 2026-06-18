@@ -182,7 +182,7 @@ async function runModel(
 // Plugin — single delegate tool, zero commands, zero mutable config
 // ---------------------------------------------------------------------------
 
-const SwitchboardPlugin: Plugin = async (ctx: PluginInput) => {
+const JupiterPlugin: Plugin = async (ctx: PluginInput) => {
   const client = ctx.client;
 
   const tierList = Object.keys(TIERS).join(", ");
@@ -265,4 +265,4 @@ const SwitchboardPlugin: Plugin = async (ctx: PluginInput) => {
   };
 };
 
-export default SwitchboardPlugin;
+export default JupiterPlugin;

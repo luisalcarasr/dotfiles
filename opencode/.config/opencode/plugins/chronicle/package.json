@@ -1,0 +1,11 @@
+{
+  "name": "chronicle",
+  "version": "1.0.0",
+  "description": "OpenCode plugin for lazy session history retrieval — surfaces past work context on demand via a tool the orchestrator can call",
+  "type": "module",
+  "main": "./src/index.ts",
+  "license": "MIT",
+  "peerDependencies": {
+    "@opencode-ai/plugin": ">=1.0.0"
+  }
+}

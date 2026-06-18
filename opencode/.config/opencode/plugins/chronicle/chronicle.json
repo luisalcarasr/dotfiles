@@ -1,0 +1,14 @@
+{
+  "model": "f5ai/claude-haiku-4-5",
+  "fallbackModel": "f5ai/gpt-4.1-mini",
+  "maxSessions": 5,
+  "enabled": true,
+  "compaction": {
+    "maxTokensPerSession": 8000,
+    "windowRatio": { "start": 0.3, "end": 0.7 },
+    "maxToolOutputChars": 500,
+    "maxMessagesPerSession": 80,
+    "miniSynthesisThreshold": 20000,
+    "miniSynthesisEnabled": true
+  }
+}

@@ -4,7 +4,7 @@
   "model": "f5ai/claude-sonnet-4-6",
   "autoshare": false,
   "plugin": [
-    "opencode-mem",
+    "/Users/l.alcaras/.dotfiles/opencode/.config/opencode/plugins/chronicle/src/index.ts",
     "/Users/l.alcaras/.dotfiles/opencode/.config/opencode/plugins/switchboard/src/index.ts"
   ],
   "mcp": {
