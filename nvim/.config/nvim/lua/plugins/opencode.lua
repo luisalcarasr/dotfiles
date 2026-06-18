@@ -1,3 +1,10 @@
+-- Detect when nvim is used as a pager / git editor (stdin) so we can skip auto-open.
+vim.api.nvim_create_autocmd("StdinReadPre", {
+  callback = function()
+    vim.g.opencode_read_from_stdin = true
+  end,
+})
+
 return {
   {
     "nickjvandyke/opencode.nvim",
@@ -28,8 +35,11 @@ return {
       ---@type snacks.terminal.Opts
       local term_opts = {
         win = {
-          position = "right", -- side buffer
-          enter = false, -- KEY: keep focus on your code
+          position = "float",
+          border = "rounded",
+          width = 0.85,
+          height = 0.85,
+          enter = true, -- popup: enter on open (quake-style)
         },
       }
 
@@ -111,10 +121,10 @@ return {
       end, { desc = "Add tests for @this" })
 
       -- === Server ===
-      -- Toggle the opencode side panel (no <leader> in terminal mode = no input delay)
+      -- Toggle the opencode popup (no <leader> in terminal mode = no input delay)
       vim.keymap.set({ "n", "t" }, "<C-.>", function()
         require("snacks.terminal").toggle(opencode_cmd, term_opts)
-      end, { desc = "Toggle opencode panel" })
+      end, { desc = "Toggle opencode popup" })
 
       -- === Operator + dot-repeat to add ranges ===
       vim.keymap.set({ "n", "x" }, "go", function()
@@ -132,16 +142,14 @@ return {
         require("opencode").command("session.half.page.down")
       end, { desc = "Scroll opencode down" })
 
-      -- Auto-show the panel when a prompt is submitted
+      -- Auto-open the opencode popup on startup (only when nvim is opened with no args)
       vim.api.nvim_create_autocmd("User", {
-        pattern = { "OpencodeEvent:tui.command.execute" },
-        callback = function(args)
-          local event = args.data.event
-          if event.properties and event.properties.command == "prompt.submit" then
-            local win = require("snacks.terminal").get(opencode_cmd, { create = false })
-            if win then
-              win:show()
-            end
+        pattern = "VeryLazy",
+        callback = function()
+          local no_file_args = vim.fn.argc() == 0
+          local no_stdin = not vim.g.opencode_read_from_stdin
+          if no_file_args and no_stdin then
+            require("snacks.terminal").open(opencode_cmd, term_opts)
           end
         end,
       })
