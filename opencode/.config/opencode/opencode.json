@@ -5,10 +5,80 @@
   "autoshare": false,
   "agent": {
     "build": {
-      "model": "f5ai/claude-sonnet-4-6"
+      "model": "f5ai/claude-sonnet-4-6",
+      "permission": {
+        "bash": {
+          "*": "allow",
+          "git *": "deny",
+          "glab *": "deny"
+        },
+        "firefox-devtools_navigate_page": "deny",
+        "firefox-devtools_take_snapshot": "deny",
+        "firefox-devtools_screenshot_page": "deny",
+        "firefox-devtools_screenshot_by_uid": "deny",
+        "firefox-devtools_click_by_uid": "deny",
+        "firefox-devtools_fill_by_uid": "deny",
+        "firefox-devtools_fill_form_by_uid": "deny",
+        "firefox-devtools_hover_by_uid": "deny",
+        "firefox-devtools_new_page": "deny",
+        "firefox-devtools_close_page": "deny",
+        "firefox-devtools_list_pages": "deny",
+        "firefox-devtools_select_page": "deny",
+        "firefox-devtools_list_network_requests": "deny",
+        "firefox-devtools_get_network_request": "deny",
+        "firefox-devtools_list_console_messages": "deny",
+        "firefox-devtools_get_firefox_output": "deny",
+        "firefox-devtools_get_firefox_info": "deny",
+        "firefox-devtools_restart_firefox": "deny",
+        "firefox-devtools_install_extension": "deny",
+        "firefox-devtools_uninstall_extension": "deny",
+        "firefox-devtools_upload_file_by_uid": "deny",
+        "firefox-devtools_drag_by_uid_to_uid": "deny",
+        "firefox-devtools_resolve_uid_to_selector": "deny",
+        "firefox-devtools_set_viewport_size": "deny",
+        "firefox-devtools_accept_dialog": "deny",
+        "firefox-devtools_dismiss_dialog": "deny",
+        "firefox-devtools_clear_console_messages": "deny",
+        "firefox-devtools_clear_snapshot": "deny"
+      }
     },
     "plan": {
-      "model": "f5ai/claude-opus-4-8"
+      "model": "f5ai/claude-opus-4-8",
+      "permission": {
+        "bash": {
+          "*": "ask",
+          "git *": "deny",
+          "glab *": "deny"
+        },
+        "firefox-devtools_navigate_page": "deny",
+        "firefox-devtools_take_snapshot": "deny",
+        "firefox-devtools_screenshot_page": "deny",
+        "firefox-devtools_screenshot_by_uid": "deny",
+        "firefox-devtools_click_by_uid": "deny",
+        "firefox-devtools_fill_by_uid": "deny",
+        "firefox-devtools_fill_form_by_uid": "deny",
+        "firefox-devtools_hover_by_uid": "deny",
+        "firefox-devtools_new_page": "deny",
+        "firefox-devtools_close_page": "deny",
+        "firefox-devtools_list_pages": "deny",
+        "firefox-devtools_select_page": "deny",
+        "firefox-devtools_list_network_requests": "deny",
+        "firefox-devtools_get_network_request": "deny",
+        "firefox-devtools_list_console_messages": "deny",
+        "firefox-devtools_get_firefox_output": "deny",
+        "firefox-devtools_get_firefox_info": "deny",
+        "firefox-devtools_restart_firefox": "deny",
+        "firefox-devtools_install_extension": "deny",
+        "firefox-devtools_uninstall_extension": "deny",
+        "firefox-devtools_upload_file_by_uid": "deny",
+        "firefox-devtools_drag_by_uid_to_uid": "deny",
+        "firefox-devtools_resolve_uid_to_selector": "deny",
+        "firefox-devtools_set_viewport_size": "deny",
+        "firefox-devtools_accept_dialog": "deny",
+        "firefox-devtools_dismiss_dialog": "deny",
+        "firefox-devtools_clear_console_messages": "deny",
+        "firefox-devtools_clear_snapshot": "deny"
+      }
     },
     "explore": {
       "model": "f5ai/claude-haiku-4-5"
