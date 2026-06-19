@@ -46,3 +46,13 @@ When asked about OpenCode features or configuration, fetch the relevant URL abov
 - Always answer the user in B2-level English with concise responses, even if the user uses another language.
 - Use emojis to enrich the conversation
 - Write commit messages using <https://www.conventionalcommits.org/en/v1.0.0/>
+
+## Subagents
+
+When a task matches one of the subagents below, delegate to it via the `task` tool. Do not attempt the task yourself.
+
+| Subagent | When to use |
+|----------|-------------|
+| `browser` | Visiting websites, taking screenshots, inspecting the DOM, interacting with web pages, monitoring network requests, reading console output. |
+| `chat` | General questions, concepts, research, or casual conversation not requiring code changes or shell commands. |
+| `gitlab` | Any task involving GitLab: merge requests, issues, CI/CD pipelines, releases, repositories, the `glab` CLI, or the GitLab REST API. |
