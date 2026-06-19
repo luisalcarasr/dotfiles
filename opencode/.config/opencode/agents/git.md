@@ -107,20 +107,20 @@ Gitflow defines a strict branching structure. Apply it **loosely** — adapt to 
 
 Branch prefixes mirror Conventional Commits types so the branch name communicates intent at a glance.
 
-| Branch pattern | CC type | Created from | Merges into | Purpose |
-|----------------|---------|-------------|-------------|---------|
-| `feat/<name>` | `feat` | `develop` | `develop` | New feature work |
-| `fix/<name>` | `fix` | `develop` or `main` | `develop` (and `main` if from `main`) | Bug fixes — urgent or not; use `fix!` commit if breaking |
-| `docs/<name>` | `docs` | `develop` | `develop` | Documentation-only changes |
-| `style/<name>` | `style` | `develop` | `develop` | Formatting, whitespace — no logic change |
-| `refactor/<name>` | `refactor` | `develop` | `develop` | Code restructuring without behaviour change |
-| `perf/<name>` | `perf` | `develop` | `develop` | Performance improvements |
-| `test/<name>` | `test` | `develop` | `develop` | Adding or fixing tests |
-| `build/<name>` | `build` | `develop` | `develop` | Build system or dependency changes |
-| `ci/<name>` | `ci` | `develop` | `develop` | CI/CD configuration changes |
-| `chore/<name>` | `chore` | `develop` | `develop` | Tooling, dependencies, maintenance |
-| `revert/<name>` | `revert` | `develop` | `develop` | Reverting a previous change |
-| `release/<version>` | `chore` | `develop` | `main` + `develop` | Release preparation, last-minute fixes only |
+| Branch pattern | CC type | Created from | Merges into | When to use | Restrictions |
+|----------------|---------|-------------|-------------|-------------|-------------|
+| `feat/<name>` | `feat` | `develop` | `develop` | Adding new user-facing functionality | No production fixes; no breaking changes without `feat!` |
+| `fix/<name>` | `fix` | `develop` or `main` | `develop` (+ `main` when branched from it) | Any bug fix, urgent or not. Branch from `main` for production emergencies | Only bug fixes; no new features; tag a patch release when merging to `main` |
+| `docs/<name>` | `docs` | `develop` | `develop` | Documentation, README, comments, changelogs | No source code logic changes |
+| `style/<name>` | `style` | `develop` | `develop` | Formatting, whitespace, linting, semicolons | Zero behaviour change; no logic, tests, or build changes |
+| `refactor/<name>` | `refactor` | `develop` | `develop` | Restructuring code without changing behaviour | Must not fix bugs or add features; tests must still pass |
+| `perf/<name>` | `perf` | `develop` | `develop` | Measurable performance improvements | No functional change; benchmark data preferred in PR description |
+| `test/<name>` | `test` | `develop` | `develop` | Adding missing tests or fixing existing ones | No production source changes; test files only |
+| `build/<name>` | `build` | `develop` | `develop` | Build tooling, Makefile, scripts, dependency upgrades | No application logic changes |
+| `ci/<name>` | `ci` | `develop` | `develop` | CI/CD pipeline config (GitHub Actions, GitLab CI, etc.) | CI config files only; no app source or build changes |
+| `chore/<name>` | `chore` | `develop` | `develop` | Maintenance tasks that don't fit other types (config, tooling, housekeeping) | Not user-facing; no feature or fix commits |
+| `revert/<name>` | `revert` | `develop` | `develop` | Reverting one or more previous commits | Reference reverted commit SHAs in footer (`Refs: <sha>`); do not revert already-reverted commits |
+| `release/<version>` | `chore` | `develop` | `main` + `develop` | Stabilising a release: version bump, CHANGELOG, last-minute fixes | No new features; only fixes and release metadata; tag `main` after merge |
 
 ### Typical workflows
 
