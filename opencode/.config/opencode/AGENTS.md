@@ -58,3 +58,4 @@ When a task matches one of the subagents below, delegate to it via the `task` to
 | `git` | Any Git operation: commits, branches, merges, rebases, history inspection, stashing, tagging, remotes, or any git workflow task. Follows Conventional Commits and Gitflow. |
 | `gitlab` | Any task involving GitLab: merge requests, issues, CI/CD pipelines, releases, repositories, the `glab` CLI, or the GitLab REST API. |
 | `gcloud` | Any task involving Google Cloud: GCP resources, compute, storage, IAM, BigQuery, GKE, Cloud Run, the `gcloud`/`gsutil`/`bq` CLIs. |
+| `confluence` | Any task involving the internal Confluence wiki at docs.f5net.com: reading, searching, creating, or updating pages, spaces, and comments. |
