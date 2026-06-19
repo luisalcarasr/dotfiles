@@ -110,8 +110,7 @@ Branch prefixes mirror Conventional Commits types so the branch name communicate
 | Branch pattern | CC type | Created from | Merges into | Purpose |
 |----------------|---------|-------------|-------------|---------|
 | `feat/<name>` | `feat` | `develop` | `develop` | New feature work |
-| `fix/<name>` | `fix` | `develop` | `develop` | Non-urgent bug fixes |
-| `hotfix/<name>` | `fix!` | `main` | `main` + `develop` | Urgent production fixes (breaking patch) |
+| `fix/<name>` | `fix` | `develop` or `main` | `develop` (and `main` if from `main`) | Bug fixes — urgent or not; use `fix!` commit if breaking |
 | `release/<version>` | `chore` | `develop` | `main` + `develop` | Release preparation, last-minute fixes only |
 | `docs/<name>` | `docs` | `develop` | `develop` | Documentation-only changes |
 | `refactor/<name>` | `refactor` | `develop` | `develop` | Code restructuring without behaviour change |
@@ -134,6 +133,20 @@ git branch -d feat/my-feature
 git push origin develop
 ```
 
+**Urgent fix on production (branch off main, merge back to main + develop):**
+```bash
+git checkout main
+git pull origin main
+git checkout -b fix/critical-bug
+# fix the bug, commit with fix! if breaking
+git checkout main
+git merge --no-ff fix/critical-bug
+git tag -a v1.2.1 -m "Hotfix v1.2.1"
+git checkout develop
+git merge --no-ff fix/critical-bug
+git branch -d fix/critical-bug
+```
+
 **Create a release:**
 ```bash
 git checkout -b release/1.2.0 develop
@@ -144,18 +157,6 @@ git tag -a v1.2.0 -m "Release v1.2.0"
 git checkout develop
 git merge --no-ff release/1.2.0
 git branch -d release/1.2.0
-```
-
-**Hotfix on production:**
-```bash
-git checkout -b hotfix/critical-bug main
-# fix the bug...
-git checkout main
-git merge --no-ff hotfix/critical-bug
-git tag -a v1.2.1 -m "Hotfix v1.2.1"
-git checkout develop
-git merge --no-ff hotfix/critical-bug
-git branch -d hotfix/critical-bug
 ```
 
 > Use `--no-ff` on merges to preserve branch topology in the log. Avoid fast-forward merges on Gitflow branches.
