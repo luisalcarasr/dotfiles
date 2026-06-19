@@ -1,6 +1,7 @@
 ---
 description: Browse the internet using Firefox. Use this agent to visit websites, take screenshots, inspect the DOM, monitor network requests, read console output, and interact with web pages.
 mode: subagent
+model: f5ai/gpt-4.1-mini
 permission:
   edit: deny
   bash: deny
