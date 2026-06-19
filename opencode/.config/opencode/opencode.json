@@ -23,7 +23,7 @@
       "model": "f5ai/DeepSeek-V4-Flash"
     },
     "title": {
-      "model": "f5ai/DeepSeek-V4-Flash"
+      "model": "f5ai/gpt-5-nano"
     },
     "summary": {
       "model": "f5ai/DeepSeek-V4-Flash"
