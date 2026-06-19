@@ -9,7 +9,6 @@
       "permission": {
         "bash": {
           "*": "allow",
-          "git *": "deny",
           "glab *": "deny"
         },
         "firefox-devtools_navigate_page": "deny",
@@ -47,7 +46,6 @@
       "permission": {
         "bash": {
           "*": "ask",
-          "git *": "deny",
           "glab *": "deny"
         },
         "firefox-devtools_navigate_page": "deny",
