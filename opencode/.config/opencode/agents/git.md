@@ -105,12 +105,17 @@ Gitflow defines a strict branching structure. Apply it **loosely** — adapt to 
 
 ### Supporting branches
 
-| Branch pattern | Created from | Merges into | Purpose |
-|----------------|-------------|-------------|---------|
-| `feature/<name>` | `develop` | `develop` | New feature work |
-| `release/<version>` | `develop` | `main` + `develop` | Release preparation, bugfixes only |
-| `hotfix/<name>` | `main` | `main` + `develop` | Urgent production fixes |
-| `bugfix/<name>` | `develop` | `develop` | Non-urgent bug fixes |
+Branch prefixes mirror Conventional Commits types so the branch name communicates intent at a glance.
+
+| Branch pattern | CC type | Created from | Merges into | Purpose |
+|----------------|---------|-------------|-------------|---------|
+| `feat/<name>` | `feat` | `develop` | `develop` | New feature work |
+| `fix/<name>` | `fix` | `develop` | `develop` | Non-urgent bug fixes |
+| `hotfix/<name>` | `fix!` | `main` | `main` + `develop` | Urgent production fixes (breaking patch) |
+| `release/<version>` | `chore` | `develop` | `main` + `develop` | Release preparation, last-minute fixes only |
+| `docs/<name>` | `docs` | `develop` | `develop` | Documentation-only changes |
+| `refactor/<name>` | `refactor` | `develop` | `develop` | Code restructuring without behaviour change |
+| `chore/<name>` | `chore` | `develop` | `develop` | Tooling, dependencies, maintenance |
 
 ### Typical workflows
 
@@ -118,14 +123,14 @@ Gitflow defines a strict branching structure. Apply it **loosely** — adapt to 
 ```bash
 git checkout develop
 git pull origin develop
-git checkout -b feature/my-feature
+git checkout -b feat/my-feature
 ```
 
 **Finish a feature (merge into develop):**
 ```bash
 git checkout develop
-git merge --no-ff feature/my-feature
-git branch -d feature/my-feature
+git merge --no-ff feat/my-feature
+git branch -d feat/my-feature
 git push origin develop
 ```
 
