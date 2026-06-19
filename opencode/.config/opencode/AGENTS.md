@@ -55,4 +55,5 @@ When a task matches one of the subagents below, delegate to it via the `task` to
 |----------|-------------|
 | `browser` | Visiting websites, taking screenshots, inspecting the DOM, interacting with web pages, monitoring network requests, reading console output. |
 | `chat` | General questions, concepts, research, or casual conversation not requiring code changes or shell commands. |
+| `git` | Any Git operation: commits, branches, merges, rebases, history inspection, stashing, tagging, remotes, or any git workflow task. Follows Conventional Commits and Gitflow. |
 | `gitlab` | Any task involving GitLab: merge requests, issues, CI/CD pipelines, releases, repositories, the `glab` CLI, or the GitLab REST API. |
