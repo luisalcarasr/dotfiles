@@ -12,6 +12,21 @@
     },
     "explore": {
       "model": "f5ai/claude-haiku-4-5"
+    },
+    "general": {
+      "model": "f5ai/claude-sonnet-4-6"
+    },
+    "scout": {
+      "model": "f5ai/claude-haiku-4-5"
+    },
+    "compaction": {
+      "model": "f5ai/gpt-4.1-mini"
+    },
+    "title": {
+      "model": "f5ai/gpt-5-nano"
+    },
+    "summary": {
+      "model": "f5ai/gpt-4.1-mini"
     }
   },
   "mcp": {
