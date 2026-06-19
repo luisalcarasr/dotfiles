@@ -20,13 +20,13 @@
       "model": "f5ai/claude-haiku-4-5"
     },
     "compaction": {
-      "model": "f5ai/gpt-4.1-mini"
+      "model": "f5ai/DeepSeek-V4-Flash"
     },
     "title": {
       "model": "f5ai/gpt-5-nano"
     },
     "summary": {
-      "model": "f5ai/gpt-4.1-mini"
+      "model": "f5ai/DeepSeek-V4-Flash"
     }
   },
   "mcp": {
