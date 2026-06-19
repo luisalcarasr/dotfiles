@@ -3,13 +3,15 @@
   "default_agent": "plan",
   "model": "f5ai/claude-sonnet-4-6",
   "autoshare": false,
-  "plugin": ["./plugins/chronicle", "./plugins/switchboard"],
   "agent": {
     "build": {
       "model": "f5ai/claude-sonnet-4-6"
     },
     "plan": {
       "model": "f5ai/claude-opus-4-8"
+    },
+    "explore": {
+      "model": "f5ai/claude-haiku-4-5"
     }
   },
   "mcp": {
