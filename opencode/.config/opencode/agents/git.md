@@ -111,10 +111,16 @@ Branch prefixes mirror Conventional Commits types so the branch name communicate
 |----------------|---------|-------------|-------------|---------|
 | `feat/<name>` | `feat` | `develop` | `develop` | New feature work |
 | `fix/<name>` | `fix` | `develop` or `main` | `develop` (and `main` if from `main`) | Bug fixes — urgent or not; use `fix!` commit if breaking |
-| `release/<version>` | `chore` | `develop` | `main` + `develop` | Release preparation, last-minute fixes only |
 | `docs/<name>` | `docs` | `develop` | `develop` | Documentation-only changes |
+| `style/<name>` | `style` | `develop` | `develop` | Formatting, whitespace — no logic change |
 | `refactor/<name>` | `refactor` | `develop` | `develop` | Code restructuring without behaviour change |
+| `perf/<name>` | `perf` | `develop` | `develop` | Performance improvements |
+| `test/<name>` | `test` | `develop` | `develop` | Adding or fixing tests |
+| `build/<name>` | `build` | `develop` | `develop` | Build system or dependency changes |
+| `ci/<name>` | `ci` | `develop` | `develop` | CI/CD configuration changes |
 | `chore/<name>` | `chore` | `develop` | `develop` | Tooling, dependencies, maintenance |
+| `revert/<name>` | `revert` | `develop` | `develop` | Reverting a previous change |
+| `release/<version>` | `chore` | `develop` | `main` + `develop` | Release preparation, last-minute fixes only |
 
 ### Typical workflows
 
