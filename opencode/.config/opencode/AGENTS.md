@@ -57,3 +57,4 @@ When a task matches one of the subagents below, delegate to it via the `task` to
 | `chat` | General questions, concepts, research, or casual conversation not requiring code changes or shell commands. |
 | `git` | Any Git operation: commits, branches, merges, rebases, history inspection, stashing, tagging, remotes, or any git workflow task. Follows Conventional Commits and Gitflow. |
 | `gitlab` | Any task involving GitLab: merge requests, issues, CI/CD pipelines, releases, repositories, the `glab` CLI, or the GitLab REST API. |
+| `gcloud` | Any task involving Google Cloud: GCP resources, compute, storage, IAM, BigQuery, GKE, Cloud Run, the `gcloud`/`gsutil`/`bq` CLIs. |
