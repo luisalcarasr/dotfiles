@@ -5,10 +5,10 @@ model: f5ai/claude-sonnet-4-6
 permission:
   edit: deny
   bash:
+    "*": deny
     "gcloud *": allow
     "gsutil *": allow
     "bq *": allow
-    "*": deny
   read: allow
   glob: allow
   grep: allow

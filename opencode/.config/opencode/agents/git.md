@@ -5,8 +5,8 @@ model: f5ai/claude-haiku-4-5
 permission:
   edit: deny
   bash:
-    "git *": allow
     "*": deny
+    "git *": allow
   read: allow
   glob: allow
   grep: allow

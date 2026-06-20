@@ -5,8 +5,8 @@ model: f5ai/claude-sonnet-4-6
 permission:
   edit: deny
   bash:
-    "glab *": allow
     "*": deny
+    "glab *": allow
   read: allow
   glob: allow
   grep: allow
