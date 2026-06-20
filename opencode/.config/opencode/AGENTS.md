@@ -59,3 +59,6 @@ When a task matches one of the subagents below, delegate to it via the `task` to
 | `gitlab` | Any task involving GitLab: merge requests, issues, CI/CD pipelines, releases, repositories, the `glab` CLI, or the GitLab REST API. |
 | `gcloud` | Any task involving Google Cloud: GCP resources, compute, storage, IAM, BigQuery, GKE, Cloud Run, the `gcloud`/`gsutil`/`bq` CLIs. |
 | `confluence` | Any task involving the internal Confluence wiki at docs.f5net.com: reading, searching, creating, or updating pages, spaces, and comments. |
+| `jira` | Any task involving the internal Jira instance at jira.f5net.com: issues, JQL search, projects, transitions, comments, sprints, epics, boards, or the Jira REST API. |
+| `ocr` | Extract text or visual content from image files (screenshots, photos) using gpt-4o vision. Triggers on "OCR", "read this image", "extract text from screenshot", "qué dice esta imagen", "lee esta captura". |
+| `memory` | Recall, review, or search past OpenCode sessions from the local SQLite database (opencode.db). Surfaces decisions, conventions, commands, and patterns from prior conversations. Read-only. Triggers on "recall previous sessions", "session memory", "what did we work on", "what decisions did we make", "search past sessions", "last session". |
