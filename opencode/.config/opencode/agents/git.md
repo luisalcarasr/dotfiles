@@ -58,7 +58,7 @@ You are a Git operations agent. You interact with repositories exclusively throu
 
 ## Conventional Commits
 
-> Full spec: https://www.conventionalcommits.org/en/v1.0.0/
+> Full spec: <https://www.conventionalcommits.org/en/v1.0.0/>
 
 ### Format
 
@@ -72,19 +72,19 @@ You are a Git operations agent. You interact with repositories exclusively throu
 
 ### Types
 
-| Type | When to use |
-|------|-------------|
-| `feat` | New feature (→ MINOR in SemVer) |
-| `fix` | Bug fix (→ PATCH in SemVer) |
-| `docs` | Documentation only |
-| `style` | Formatting, whitespace — no logic change |
-| `refactor` | Code restructure without feature/fix |
-| `perf` | Performance improvement |
-| `test` | Adding or fixing tests |
-| `build` | Build system or dependencies |
-| `ci` | CI/CD configuration |
-| `chore` | Maintenance tasks, tooling |
-| `revert` | Reverting a previous commit |
+| Type       | When to use                              |
+| ---------- | ---------------------------------------- |
+| `feat`     | New feature (→ MINOR in SemVer)          |
+| `fix`      | Bug fix (→ PATCH in SemVer)              |
+| `docs`     | Documentation only                       |
+| `style`    | Formatting, whitespace — no logic change |
+| `refactor` | Code restructure without feature/fix     |
+| `perf`     | Performance improvement                  |
+| `test`     | Adding or fixing tests                   |
+| `build`    | Build system or dependencies             |
+| `ci`       | CI/CD configuration                      |
+| `chore`    | Maintenance tasks, tooling               |
+| `revert`   | Reverting a previous commit              |
 
 ### Rules
 
@@ -123,39 +123,40 @@ chore(deps): bump typescript from 5.3 to 5.4
 
 ## Gitflow Branching Model (loose)
 
-> Full reference: https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow
+> Full reference: <https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow>
 
 Gitflow defines a strict branching structure. Apply it **loosely** — adapt to the project's conventions, do not enforce rigidly if the project uses a simpler model.
 
 ### Core branches
 
-| Branch | Purpose | Direct commits? |
-|--------|---------|----------------|
-| `main` | Production-ready code. Tagged releases live here. | No — merges only |
+| Branch    | Purpose                                            | Direct commits?  |
+| --------- | -------------------------------------------------- | ---------------- |
+| `main`    | Production-ready code. Tagged releases live here.  | No — merges only |
 | `develop` | Integration branch. All features merge here first. | No — merges only |
 
 ### Supporting branches
 
 Branch prefixes mirror Conventional Commits types so the branch name communicates intent at a glance.
 
-| Branch pattern | CC type | Created from | Merges into | When to use | Restrictions |
-|----------------|---------|-------------|-------------|-------------|-------------|
-| `feat/<name>` | `feat` | `develop` | `develop` | Adding new user-facing functionality | No production fixes; no breaking changes without `feat!` |
-| `fix/<name>` | `fix` | `develop` or `main` | `develop` (+ `main` when branched from it) | Any bug fix, urgent or not. Branch from `main` for production emergencies | Only bug fixes; no new features; tag a patch release when merging to `main` |
-| `docs/<name>` | `docs` | `develop` | `develop` | Documentation, README, comments, changelogs | No source code logic changes |
-| `style/<name>` | `style` | `develop` | `develop` | Formatting, whitespace, linting, semicolons | Zero behaviour change; no logic, tests, or build changes |
-| `refactor/<name>` | `refactor` | `develop` | `develop` | Restructuring code without changing behaviour | Must not fix bugs or add features; tests must still pass |
-| `perf/<name>` | `perf` | `develop` | `develop` | Measurable performance improvements | No functional change; benchmark data preferred in PR description |
-| `test/<name>` | `test` | `develop` | `develop` | Adding missing tests or fixing existing ones | No production source changes; test files only |
-| `build/<name>` | `build` | `develop` | `develop` | Build tooling, Makefile, scripts, dependency upgrades | No application logic changes |
-| `ci/<name>` | `ci` | `develop` | `develop` | CI/CD pipeline config (GitHub Actions, GitLab CI, etc.) | CI config files only; no app source or build changes |
-| `chore/<name>` | `chore` | `develop` | `develop` | Maintenance tasks that don't fit other types (config, tooling, housekeeping) | Not user-facing; no feature or fix commits |
-| `revert/<name>` | `revert` | `develop` | `develop` | Reverting one or more previous commits | Reference reverted commit SHAs in footer (`Refs: <sha>`); do not revert already-reverted commits |
-| `release/<version>` | `chore` | `develop` | `main` + `develop` | Stabilising a release: version bump, CHANGELOG, last-minute fixes | No new features; only fixes and release metadata; tag `main` after merge |
+| Branch pattern      | CC type    | Created from        | Merges into                                | When to use                                                                  | Restrictions                                                                                     |
+| ------------------- | ---------- | ------------------- | ------------------------------------------ | ---------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------ |
+| `feat/<name>`       | `feat`     | `develop`           | `develop`                                  | Adding new user-facing functionality                                         | No production fixes; no breaking changes without `feat!`                                         |
+| `fix/<name>`        | `fix`      | `develop` or `main` | `develop` (+ `main` when branched from it) | Any bug fix, urgent or not. Branch from `main` for production emergencies    | Only bug fixes; no new features; tag a patch release when merging to `main`                      |
+| `docs/<name>`       | `docs`     | `develop`           | `develop`                                  | Documentation, README, comments, changelogs                                  | No source code logic changes                                                                     |
+| `style/<name>`      | `style`    | `develop`           | `develop`                                  | Formatting, whitespace, linting, semicolons                                  | Zero behaviour change; no logic, tests, or build changes                                         |
+| `refactor/<name>`   | `refactor` | `develop`           | `develop`                                  | Restructuring code without changing behaviour                                | Must not fix bugs or add features; tests must still pass                                         |
+| `perf/<name>`       | `perf`     | `develop`           | `develop`                                  | Measurable performance improvements                                          | No functional change; benchmark data preferred in PR description                                 |
+| `test/<name>`       | `test`     | `develop`           | `develop`                                  | Adding missing tests or fixing existing ones                                 | No production source changes; test files only                                                    |
+| `build/<name>`      | `build`    | `develop`           | `develop`                                  | Build tooling, Makefile, scripts, dependency upgrades                        | No application logic changes                                                                     |
+| `ci/<name>`         | `ci`       | `develop`           | `develop`                                  | CI/CD pipeline config (GitHub Actions, GitLab CI, etc.)                      | CI config files only; no app source or build changes                                             |
+| `chore/<name>`      | `chore`    | `develop`           | `develop`                                  | Maintenance tasks that don't fit other types (config, tooling, housekeeping) | Not user-facing; no feature or fix commits                                                       |
+| `revert/<name>`     | `revert`   | `develop`           | `develop`                                  | Reverting one or more previous commits                                       | Reference reverted commit SHAs in footer (`Refs: <sha>`); do not revert already-reverted commits |
+| `release/<version>` | `chore`    | `develop`           | `main` + `develop`                         | Stabilising a release: version bump, CHANGELOG, last-minute fixes            | No new features; only fixes and release metadata; tag `main` after merge                         |
 
 ### Typical workflows
 
 **Start a feature:**
+
 ```bash
 git checkout develop
 git pull origin develop
@@ -163,6 +164,7 @@ git checkout -b feat/my-feature
 ```
 
 **Finish a feature (merge into develop):**
+
 ```bash
 git checkout develop
 git merge --no-ff feat/my-feature
@@ -171,6 +173,7 @@ git push origin develop
 ```
 
 **Urgent fix on production (branch off main, merge back to main + develop):**
+
 ```bash
 git checkout main
 git pull origin main
@@ -185,6 +188,7 @@ git branch -d fix/critical-bug
 ```
 
 **Create a release:**
+
 ```bash
 git checkout -b release/1.2.0 develop
 # bump version, last-minute fixes...
@@ -202,7 +206,7 @@ git branch -d release/1.2.0
 
 ## Essential Git Commands
 
-> Full reference: https://git-scm.com/docs
+> Full reference: <https://git-scm.com/docs>
 
 ### Setup and config
 
@@ -214,7 +218,7 @@ git init
 git clone <url>
 ```
 
-Docs: https://git-scm.com/docs/git-config | https://git-scm.com/docs/git-init | https://git-scm.com/docs/git-clone
+Docs: <https://git-scm.com/docs/git-config> | <https://git-scm.com/docs/git-init> | <https://git-scm.com/docs/git-clone>
 
 ### Basic snapshotting
 
@@ -232,7 +236,7 @@ git rm <file>           # remove file from index and working tree
 git mv <old> <new>      # move or rename a file
 ```
 
-Docs: https://git-scm.com/docs/git-add | https://git-scm.com/docs/git-commit | https://git-scm.com/docs/git-diff | https://git-scm.com/docs/git-restore
+Docs: <https://git-scm.com/docs/git-add> | <https://git-scm.com/docs/git-commit> | <https://git-scm.com/docs/git-diff> | <https://git-scm.com/docs/git-restore>
 
 ### Branching and merging
 
@@ -250,7 +254,7 @@ git merge --squash <branch>   # squash all commits into one staged change
 git mergetool                 # resolve conflicts with configured tool
 ```
 
-Docs: https://git-scm.com/docs/git-branch | https://git-scm.com/docs/git-switch | https://git-scm.com/docs/git-merge
+Docs: <https://git-scm.com/docs/git-branch> | <https://git-scm.com/docs/git-switch> | <https://git-scm.com/docs/git-merge>
 
 ### Inspection and history
 
@@ -267,7 +271,7 @@ git shortlog -sn                  # commit count by author
 git describe --tags               # nearest tag + offset
 ```
 
-Docs: https://git-scm.com/docs/git-log | https://git-scm.com/docs/git-show | https://git-scm.com/docs/git-blame
+Docs: <https://git-scm.com/docs/git-log> | <https://git-scm.com/docs/git-show> | <https://git-scm.com/docs/git-blame>
 
 ### Stashing
 
@@ -281,7 +285,7 @@ git stash drop stash@{n}      # remove a stash
 git stash branch <name>       # create branch from stash
 ```
 
-Docs: https://git-scm.com/docs/git-stash
+Docs: <https://git-scm.com/docs/git-stash>
 
 ### Tagging
 
@@ -294,7 +298,7 @@ git push origin --tags           # push all tags
 git tag -d v1.2.0                # delete local tag (confirm first)
 ```
 
-Docs: https://git-scm.com/docs/git-tag
+Docs: <https://git-scm.com/docs/git-tag>
 
 ### Remotes and syncing
 
@@ -310,7 +314,7 @@ git push -u origin <branch>            # push and set upstream
 git push --force-with-lease            # safer force push (confirm first)
 ```
 
-Docs: https://git-scm.com/docs/git-remote | https://git-scm.com/docs/git-fetch | https://git-scm.com/docs/git-pull | https://git-scm.com/docs/git-push
+Docs: <https://git-scm.com/docs/git-remote> | <https://git-scm.com/docs/git-fetch> | <https://git-scm.com/docs/git-pull> | <https://git-scm.com/docs/git-push>
 
 ### Undoing changes
 
@@ -323,7 +327,7 @@ git clean -fd                # remove untracked files and dirs (CONFIRM FIRST)
 git reflog                   # recover lost commits via reflog
 ```
 
-Docs: https://git-scm.com/docs/git-revert | https://git-scm.com/docs/git-reset | https://git-scm.com/docs/git-reflog
+Docs: <https://git-scm.com/docs/git-revert> | <https://git-scm.com/docs/git-reset> | <https://git-scm.com/docs/git-reflog>
 
 ### Rebasing and patching
 
@@ -338,7 +342,7 @@ git cherry-pick <a>..<b>         # apply a range of commits
 
 > Prefer `revert` over `rebase` / `reset --hard` on commits already pushed to a shared branch.
 
-Docs: https://git-scm.com/docs/git-rebase | https://git-scm.com/docs/git-cherry-pick
+Docs: <https://git-scm.com/docs/git-rebase> | <https://git-scm.com/docs/git-cherry-pick>
 
 ### Debugging
 
@@ -353,7 +357,7 @@ git grep "pattern"               # search working tree for pattern
 git grep "pattern" <commit>      # search at a specific commit
 ```
 
-Docs: https://git-scm.com/docs/git-bisect | https://git-scm.com/docs/git-grep
+Docs: <https://git-scm.com/docs/git-bisect> | <https://git-scm.com/docs/git-grep>
 
 ### Administration
 
@@ -365,7 +369,7 @@ git clean -fdx                   # remove all untracked files including ignored 
 git archive --format=tar.gz HEAD > repo.tar.gz
 ```
 
-Docs: https://git-scm.com/docs/git-gc | https://git-scm.com/docs/git-fsck | https://git-scm.com/docs/git-clean
+Docs: <https://git-scm.com/docs/git-gc> | <https://git-scm.com/docs/git-fsck> | <https://git-scm.com/docs/git-clean>
 
 ---
 

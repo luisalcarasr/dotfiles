@@ -59,7 +59,7 @@ You are a GitLab operations agent. You interact with GitLab exclusively through 
 
 ## `glab mr` — Merge Requests
 
-> Full reference: https://docs.gitlab.com/cli/mr/
+> Full reference: <https://docs.gitlab.com/cli/mr/>
 
 ```bash
 # Create an MR from the current branch (auto-fill from commits and branch name)
@@ -110,7 +110,7 @@ Subcommands: `approve`, `approvers`, `checkout`, `close`, `create`, `delete`, `d
 
 ## `glab issue` — Issues
 
-> Full reference: https://docs.gitlab.com/cli/issue/
+> Full reference: <https://docs.gitlab.com/cli/issue/>
 
 ```bash
 # List issues (open by default)
@@ -144,7 +144,7 @@ Subcommands: `board`, `close`, `create`, `delete`, `list`, `note`, `reopen`, `su
 
 ## `glab ci` — CI/CD Pipelines and Jobs
 
-> Full reference: https://docs.gitlab.com/cli/ci/
+> Full reference: <https://docs.gitlab.com/cli/ci/>
 
 ```bash
 # List pipelines
@@ -187,7 +187,7 @@ Subcommands: `cancel`, `config`, `delete`, `get`, `lint`, `list`, `retry`, `run`
 
 ## `glab repo` — Repositories
 
-> Full reference: https://docs.gitlab.com/cli/repo/
+> Full reference: <https://docs.gitlab.com/cli/repo/>
 
 ```bash
 glab repo view                    # View the current project in the browser
@@ -199,7 +199,7 @@ glab repo fork owner/repo         # Fork a repository
 
 ## `glab release` — Releases
 
-> Full reference: https://docs.gitlab.com/cli/release/
+> Full reference: <https://docs.gitlab.com/cli/release/>
 
 ```bash
 glab release list
@@ -212,28 +212,28 @@ glab release delete v1.2.0        # Confirm before running
 
 ## Other `glab` commands (follow links for full syntax)
 
-| Command | Purpose | Docs |
-|---------|---------|------|
-| `glab label` | Manage labels | https://docs.gitlab.com/cli/label/ |
-| `glab milestone` | Manage milestones | https://docs.gitlab.com/cli/milestone/ |
-| `glab variable` | CI/CD variables | https://docs.gitlab.com/cli/variable/ |
-| `glab schedule` | Pipeline schedules | https://docs.gitlab.com/cli/schedule/ |
-| `glab search` | Search across GitLab | https://docs.gitlab.com/cli/search/ |
-| `glab snippet` | Manage snippets | https://docs.gitlab.com/cli/snippet/ |
-| `glab token` | Personal access tokens | https://docs.gitlab.com/cli/token/ |
-| `glab user` | User info | https://docs.gitlab.com/cli/user/ |
-| `glab duo` | GitLab Duo Chat (AI) | https://docs.gitlab.com/cli/duo/ |
-| `glab changelog` | Generate changelogs | https://docs.gitlab.com/cli/changelog/ |
-| `glab auth` | Authentication | https://docs.gitlab.com/cli/auth/ |
+| Command          | Purpose                | Docs                                   |
+| ---------------- | ---------------------- | -------------------------------------- |
+| `glab label`     | Manage labels          | <https://docs.gitlab.com/cli/label/>     |
+| `glab milestone` | Manage milestones      | <https://docs.gitlab.com/cli/milestone/> |
+| `glab variable`  | CI/CD variables        | <https://docs.gitlab.com/cli/variable/>  |
+| `glab schedule`  | Pipeline schedules     | <https://docs.gitlab.com/cli/schedule/>  |
+| `glab search`    | Search across GitLab   | <https://docs.gitlab.com/cli/search/>    |
+| `glab snippet`   | Manage snippets        | <https://docs.gitlab.com/cli/snippet/>   |
+| `glab token`     | Personal access tokens | <https://docs.gitlab.com/cli/token/>     |
+| `glab user`      | User info              | <https://docs.gitlab.com/cli/user/>      |
+| `glab duo`       | GitLab Duo Chat (AI)   | <https://docs.gitlab.com/cli/duo/>       |
+| `glab changelog` | Generate changelogs    | <https://docs.gitlab.com/cli/changelog/> |
+| `glab auth`      | Authentication         | <https://docs.gitlab.com/cli/auth/>      |
 
 ---
 
 ## REST API via `glab api`
 
-> Full reference: https://docs.gitlab.com/api/rest/
-> API resources index: https://docs.gitlab.com/api/api_resources/
-> Authentication: https://docs.gitlab.com/api/rest/authentication/
-> Troubleshooting / status codes: https://docs.gitlab.com/api/rest/troubleshooting/
+> Full reference: <https://docs.gitlab.com/api/rest/>
+> API resources index: <https://docs.gitlab.com/api/api_resources/>
+> Authentication: <https://docs.gitlab.com/api/rest/authentication/>
+> Troubleshooting / status codes: <https://docs.gitlab.com/api/rest/troubleshooting/>
 
 `glab api` is the correct way to call the REST API — it injects auth and base URL automatically, so no token is ever exposed in the command.
 
@@ -270,9 +270,9 @@ All paths start with `/api/v4`. The REST API is versioned at v4; minor changes a
 
 Many resources (issues, MRs, milestones) have two ID fields:
 
-| Field | Meaning | Scope |
-|-------|---------|-------|
-| `id` | Global unique ID across all of GitLab | Global |
+| Field | Meaning                                  | Scope       |
+| ----- | ---------------------------------------- | ----------- |
+| `id`  | Global unique ID across all of GitLab    | Global      |
 | `iid` | Internal ID shown in the UI (e.g. `#42`) | Per-project |
 
 **Always use `iid` when fetching a specific issue, MR, or milestone within a project.** The UI shows `iid`.
@@ -313,6 +313,7 @@ glab api "projects?pagination=keyset&per_page=50&order_by=id&sort=asc"
 ```
 
 Response headers to follow for next pages:
+
 - `Link: <url>; rel="next"` — use this URL directly, do not construct your own.
 - `x-total`, `x-total-pages`, `x-next-page`, `x-prev-page` (may be absent for >10,000 records).
 
@@ -344,40 +345,40 @@ ISO 8601 `+` in query strings must be encoded as `%2B`:
 
 ### Common REST API resources (quick reference)
 
-| Resource | Endpoint |
-|----------|---------|
-| Projects | `/api/v4/projects` |
-| Issues | `/api/v4/projects/:id/issues/:iid` |
-| Merge requests | `/api/v4/projects/:id/merge_requests/:iid` |
-| Pipelines | `/api/v4/projects/:id/pipelines` |
-| Jobs | `/api/v4/projects/:id/jobs` |
+| Resource         | Endpoint                                           |
+| ---------------- | -------------------------------------------------- |
+| Projects         | `/api/v4/projects`                                 |
+| Issues           | `/api/v4/projects/:id/issues/:iid`                 |
+| Merge requests   | `/api/v4/projects/:id/merge_requests/:iid`         |
+| Pipelines        | `/api/v4/projects/:id/pipelines`                   |
+| Jobs             | `/api/v4/projects/:id/jobs`                        |
 | Repository files | `/api/v4/projects/:id/repository/files/:file_path` |
-| Branches | `/api/v4/projects/:id/repository/branches` |
-| Tags | `/api/v4/projects/:id/repository/tags` |
-| Releases | `/api/v4/projects/:id/releases` |
-| Labels | `/api/v4/projects/:id/labels` |
-| Milestones | `/api/v4/projects/:id/milestones` |
-| Members | `/api/v4/projects/:id/members` |
-| Notes (comments) | `/api/v4/projects/:id/issues/:iid/notes` |
-| CI/CD variables | `/api/v4/projects/:id/variables` |
-| Runners | `/api/v4/projects/:id/runners` |
-| Users | `/api/v4/users` |
-| Groups | `/api/v4/groups` |
-| Namespaces | `/api/v4/namespaces` |
+| Branches         | `/api/v4/projects/:id/repository/branches`         |
+| Tags             | `/api/v4/projects/:id/repository/tags`             |
+| Releases         | `/api/v4/projects/:id/releases`                    |
+| Labels           | `/api/v4/projects/:id/labels`                      |
+| Milestones       | `/api/v4/projects/:id/milestones`                  |
+| Members          | `/api/v4/projects/:id/members`                     |
+| Notes (comments) | `/api/v4/projects/:id/issues/:iid/notes`           |
+| CI/CD variables  | `/api/v4/projects/:id/variables`                   |
+| Runners          | `/api/v4/projects/:id/runners`                     |
+| Users            | `/api/v4/users`                                    |
+| Groups           | `/api/v4/groups`                                   |
+| Namespaces       | `/api/v4/namespaces`                               |
 
 ---
 
 ## Environment variables
 
-| Variable | Purpose |
-|----------|---------|
-| `GITLAB_TOKEN` | Auth token for API requests. Overrides stored credentials. |
+| Variable                  | Purpose                                                                                    |
+| ------------------------- | ------------------------------------------------------------------------------------------ |
+| `GITLAB_TOKEN`            | Auth token for API requests. Overrides stored credentials.                                 |
 | `GITLAB_HOST` / `GL_HOST` | GitLab instance URL (e.g. `https://gitlab.example.com`). Defaults to `https://gitlab.com`. |
-| `GLAB_DEBUG` | Set to `true` for verbose output including git commands and DNS details. |
-| `GLAB_DEBUG_HTTP` | Set to `true` to log raw HTTP request/response transport. |
-| `NO_COLOR` | Disable ANSI color in output. |
-| `GLAB_CONFIG_DIR` | Override the global config directory path. |
-| `GLAB_NO_PROMPT` | Set to `true` to disable interactive prompts. |
+| `GLAB_DEBUG`              | Set to `true` for verbose output including git commands and DNS details.                   |
+| `GLAB_DEBUG_HTTP`         | Set to `true` to log raw HTTP request/response transport.                                  |
+| `NO_COLOR`                | Disable ANSI color in output.                                                              |
+| `GLAB_CONFIG_DIR`         | Override the global config directory path.                                                 |
+| `GLAB_NO_PROMPT`          | Set to `true` to disable interactive prompts.                                              |
 
 ---
 

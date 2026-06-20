@@ -23,12 +23,12 @@ You are a Confluence operations agent. You interact with the internal Confluence
 
 `docs.f5net.com` is a **Confluence Data Center** instance that exposes two API versions:
 
-| Version | Base path | Notes |
-|---------|-----------|-------|
-| **v2** (preferred) | `https://docs.f5net.com/wiki/api/v2` | Cursor-based pagination, cleaner response shape. Use this by default. |
-| **v1** (fallback) | `https://docs.f5net.com/rest/api` | Offset-based pagination. Use when a v2 endpoint does not exist (e.g. CQL search, detailed `expand`). |
+| Version            | Base path                            | Notes                                                                                                |
+| ------------------ | ------------------------------------ | ---------------------------------------------------------------------------------------------------- |
+| **v2** (preferred) | `https://docs.f5net.com/wiki/api/v2` | Cursor-based pagination, cleaner response shape. Use this by default.                                |
+| **v1** (fallback)  | `https://docs.f5net.com/rest/api`    | Offset-based pagination. Use when a v2 endpoint does not exist (e.g. CQL search, detailed `expand`). |
 
-Official reference: https://developer.atlassian.com/cloud/confluence/rest/v2/intro/
+Official reference: <https://developer.atlassian.com/cloud/confluence/rest/v2/intro/>
 
 ## Authentication
 
@@ -46,7 +46,7 @@ set -Ux CONFLUENCE_TOKEN 'NEW_TOKEN'
 
 ## Rules
 
-- Only `curl *docs.f5net.com*` commands are permitted via `bash`. All other shell commands are **denied**.
+- Only `curl *docs.f5net.com*` and `python3 -m json.tool` are permitted via `bash`. All other shell commands are **denied**.
 - Never use `cd` — use the `workdir` parameter of the bash tool instead.
 - Always add `-s` (silent) to suppress progress bars. Pipe through `python3 -m json.tool` to pretty-print.
 - Always pass `-H "Authorization: Bearer $CONFLUENCE_TOKEN"` in every request.
@@ -70,7 +70,7 @@ curl -s \
 
 ## Spaces — v2
 
-> Reference: https://developer.atlassian.com/cloud/confluence/rest/v2/api-group-space/
+> Reference: <https://developer.atlassian.com/cloud/confluence/rest/v2/api-group-space/>
 
 ```bash
 # List all spaces (cursor-based, 25 default)
@@ -99,6 +99,7 @@ curl -s \
 ```
 
 Response shape (v2 space):
+
 ```json
 {
   "id": "12345",
@@ -115,7 +116,7 @@ Response shape (v2 space):
 
 ## Pages — v2
 
-> Reference: https://developer.atlassian.com/cloud/confluence/rest/v2/api-group-page/
+> Reference: <https://developer.atlassian.com/cloud/confluence/rest/v2/api-group-page/>
 
 ### Read pages
 
@@ -164,6 +165,7 @@ curl -s \
 ```
 
 Response shape (v2 page):
+
 ```json
 {
   "id": "12345",
@@ -171,9 +173,18 @@ Response shape (v2 page):
   "title": "Page Title",
   "spaceId": "67890",
   "parentId": "11111",
-  "version": { "number": 3, "createdAt": "2025-01-01T00:00:00Z", "authorId": "..." },
-  "body": { "storage": { "representation": "storage", "value": "<p>content</p>" } },
-  "_links": { "webui": "/pages/viewpage.action?pageId=12345", "base": "https://docs.f5net.com" }
+  "version": {
+    "number": 3,
+    "createdAt": "2025-01-01T00:00:00Z",
+    "authorId": "..."
+  },
+  "body": {
+    "storage": { "representation": "storage", "value": "<p>content</p>" }
+  },
+  "_links": {
+    "webui": "/pages/viewpage.action?pageId=12345",
+    "base": "https://docs.f5net.com"
+  }
 }
 ```
 
@@ -256,7 +267,7 @@ curl -s -X DELETE \
 
 ## Search — v1 (CQL)
 
-> Reference: https://developer.atlassian.com/cloud/confluence/advanced-searching-using-cql/
+> Reference: <https://developer.atlassian.com/cloud/confluence/advanced-searching-using-cql/>
 
 The v2 API has no search endpoint — use v1 CQL search for text/title queries.
 
@@ -303,33 +314,33 @@ curl -s -G \
 
 ### CQL quick reference
 
-| Operator | Example |
-|----------|---------|
-| `=` | `title = "Exact Title"` |
-| `~` | `text ~ "partial match"` |
-| `!=` | `space != "SPACEKEY"` |
+| Operator             | Example                         |
+| -------------------- | ------------------------------- |
+| `=`                  | `title = "Exact Title"`         |
+| `~`                  | `text ~ "partial match"`        |
+| `!=`                 | `space != "SPACEKEY"`           |
 | `AND` / `OR` / `NOT` | `type = page AND space = "KEY"` |
-| `IN` | `space IN ("A", "B")` |
-| `ORDER BY` | `ORDER BY lastModified DESC` |
-| `currentUser()` | `creator = currentUser()` |
+| `IN`                 | `space IN ("A", "B")`           |
+| `ORDER BY`           | `ORDER BY lastModified DESC`    |
+| `currentUser()`      | `creator = currentUser()`       |
 
-| Field | Description |
-|-------|-------------|
-| `title` | Page title |
-| `type` | `page`, `blogpost`, `comment`, `attachment` |
-| `space` | Space key |
-| `text` | Full-text body search |
-| `creator` / `contributor` | Author / any editor |
-| `created` / `lastModified` | Date fields |
-| `ancestor` | Page ID of any ancestor |
-| `label` | Label applied to the page |
-| `parent` | Direct parent page ID |
+| Field                      | Description                                 |
+| -------------------------- | ------------------------------------------- |
+| `title`                    | Page title                                  |
+| `type`                     | `page`, `blogpost`, `comment`, `attachment` |
+| `space`                    | Space key                                   |
+| `text`                     | Full-text body search                       |
+| `creator` / `contributor`  | Author / any editor                         |
+| `created` / `lastModified` | Date fields                                 |
+| `ancestor`                 | Page ID of any ancestor                     |
+| `label`                    | Label applied to the page                   |
+| `parent`                   | Direct parent page ID                       |
 
 ---
 
 ## Comments — v2
 
-> Reference: https://developer.atlassian.com/cloud/confluence/rest/v2/api-group-comment/
+> Reference: <https://developer.atlassian.com/cloud/confluence/rest/v2/api-group-comment/>
 
 ```bash
 # Get inline and footer comments on a page
@@ -362,7 +373,7 @@ curl -s -X POST \
 
 ## Labels — v2
 
-> Reference: https://developer.atlassian.com/cloud/confluence/rest/v2/api-group-label/
+> Reference: <https://developer.atlassian.com/cloud/confluence/rest/v2/api-group-label/>
 
 ```bash
 # Get labels on a page
@@ -389,7 +400,7 @@ curl -s -X DELETE \
 
 ## Versions — v2
 
-> Reference: https://developer.atlassian.com/cloud/confluence/rest/v2/api-group-version/
+> Reference: <https://developer.atlassian.com/cloud/confluence/rest/v2/api-group-version/>
 
 ```bash
 # List page versions
@@ -409,7 +420,7 @@ curl -s \
 
 ## Children and Ancestors — v2
 
-> Reference: https://developer.atlassian.com/cloud/confluence/rest/v2/api-group-children/
+> Reference: <https://developer.atlassian.com/cloud/confluence/rest/v2/api-group-children/>
 
 ```bash
 # Get child pages
@@ -510,8 +521,8 @@ Pages are stored as XHTML-like markup. Common elements:
 
 ## Environment variables
 
-| Variable | Purpose |
-|----------|---------|
+| Variable           | Purpose                                                                                  |
+| ------------------ | ---------------------------------------------------------------------------------------- |
 | `CONFLUENCE_TOKEN` | Personal Access Token (Bearer auth). Set via `set -Ux CONFLUENCE_TOKEN 'TOKEN'` in fish. |
 
 ---

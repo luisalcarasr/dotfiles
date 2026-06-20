@@ -62,7 +62,7 @@ You are a Google Cloud operations agent. You interact with GCP exclusively throu
 
 ## `gcloud config` — Configuration
 
-> Full reference: https://docs.cloud.google.com/sdk/gcloud/reference/config
+> Full reference: <https://docs.cloud.google.com/sdk/gcloud/reference/config>
 
 ```bash
 # List all active config properties
@@ -95,7 +95,7 @@ gcloud config configurations describe my-config
 
 ## `gcloud auth` — Authentication
 
-> Full reference: https://docs.cloud.google.com/sdk/gcloud/reference/auth
+> Full reference: <https://docs.cloud.google.com/sdk/gcloud/reference/auth>
 
 ```bash
 # List credentialed accounts
@@ -121,7 +121,7 @@ gcloud auth print-access-token --impersonate-service-account=SA@PROJECT.iam.gser
 
 ## `gcloud projects` — Projects
 
-> Full reference: https://docs.cloud.google.com/sdk/gcloud/reference/projects
+> Full reference: <https://docs.cloud.google.com/sdk/gcloud/reference/projects>
 
 ```bash
 # List all projects
@@ -151,7 +151,7 @@ gcloud projects remove-iam-policy-binding PROJECT_ID \
 
 ## `gcloud compute` — Compute Engine
 
-> Full reference: https://docs.cloud.google.com/sdk/gcloud/reference/compute
+> Full reference: <https://docs.cloud.google.com/sdk/gcloud/reference/compute>
 
 ```bash
 # List instances
@@ -196,7 +196,7 @@ gcloud compute networks describe NETWORK_NAME
 
 ## `gcloud storage` — Cloud Storage (new CLI)
 
-> Full reference: https://docs.cloud.google.com/sdk/gcloud/reference/storage
+> Full reference: <https://docs.cloud.google.com/sdk/gcloud/reference/storage>
 
 ```bash
 # List buckets
@@ -229,7 +229,7 @@ gcloud storage buckets get-iam-policy gs://BUCKET_NAME
 
 ## `gsutil` — Cloud Storage (legacy CLI)
 
-> Full reference: https://cloud.google.com/storage/docs/gsutil
+> Full reference: <https://cloud.google.com/storage/docs/gsutil>
 
 ```bash
 # List buckets
@@ -260,7 +260,7 @@ gsutil iam get gs://BUCKET_NAME
 
 ## `gcloud iam` — Identity and Access Management
 
-> Full reference: https://docs.cloud.google.com/sdk/gcloud/reference/iam
+> Full reference: <https://docs.cloud.google.com/sdk/gcloud/reference/iam>
 
 ```bash
 # List service accounts
@@ -299,7 +299,7 @@ gcloud iam roles list --project=PROJECT_ID
 
 ## `gcloud container` — Google Kubernetes Engine
 
-> Full reference: https://docs.cloud.google.com/sdk/gcloud/reference/container
+> Full reference: <https://docs.cloud.google.com/sdk/gcloud/reference/container>
 
 ```bash
 # List clusters
@@ -328,7 +328,7 @@ gcloud container node-pools list --cluster=CLUSTER_NAME --zone=ZONE
 
 ## `gcloud run` — Cloud Run
 
-> Full reference: https://docs.cloud.google.com/sdk/gcloud/reference/run
+> Full reference: <https://docs.cloud.google.com/sdk/gcloud/reference/run>
 
 ```bash
 # List services
@@ -362,7 +362,7 @@ gcloud run services logs read SERVICE_NAME --region=REGION
 
 ## `gcloud functions` — Cloud Functions
 
-> Full reference: https://docs.cloud.google.com/sdk/gcloud/reference/functions
+> Full reference: <https://docs.cloud.google.com/sdk/gcloud/reference/functions>
 
 ```bash
 # List functions
@@ -392,7 +392,7 @@ gcloud functions delete FUNCTION_NAME --region=REGION
 
 ## `gcloud sql` — Cloud SQL
 
-> Full reference: https://docs.cloud.google.com/sdk/gcloud/reference/sql
+> Full reference: <https://docs.cloud.google.com/sdk/gcloud/reference/sql>
 
 ```bash
 # List instances
@@ -422,7 +422,7 @@ gcloud sql export sql INSTANCE_NAME gs://BUCKET/FILE.gz \
 
 ## `gcloud logging` — Cloud Logging
 
-> Full reference: https://docs.cloud.google.com/sdk/gcloud/reference/logging
+> Full reference: <https://docs.cloud.google.com/sdk/gcloud/reference/logging>
 
 ```bash
 # Read logs (most recent 10 entries)
@@ -445,7 +445,7 @@ gcloud logging metrics list
 
 ## `gcloud services` — API Services
 
-> Full reference: https://docs.cloud.google.com/sdk/gcloud/reference/services
+> Full reference: <https://docs.cloud.google.com/sdk/gcloud/reference/services>
 
 ```bash
 # List enabled services
@@ -465,7 +465,7 @@ gcloud services disable SERVICE_NAME.googleapis.com
 
 ## `gcloud pubsub` — Pub/Sub
 
-> Full reference: https://docs.cloud.google.com/sdk/gcloud/reference/pubsub
+> Full reference: <https://docs.cloud.google.com/sdk/gcloud/reference/pubsub>
 
 ```bash
 # List topics
@@ -488,7 +488,7 @@ gcloud pubsub subscriptions pull SUBSCRIPTION_NAME --auto-ack --limit=10
 
 ## `bq` — BigQuery
 
-> Full reference: https://cloud.google.com/bigquery/docs/bq-command-line-tool
+> Full reference: <https://cloud.google.com/bigquery/docs/bq-command-line-tool>
 
 ```bash
 # List datasets
@@ -542,60 +542,60 @@ bq ls --jobs=true --all=true --max_results=10
 
 ## Other `gcloud` groups (quick reference)
 
-| Group | Purpose | Docs |
-|-------|---------|------|
-| `gcloud artifacts` | Artifact Registry (container/package repos) | https://docs.cloud.google.com/sdk/gcloud/reference/artifacts |
-| `gcloud builds` | Cloud Build CI/CD | https://docs.cloud.google.com/sdk/gcloud/reference/builds |
-| `gcloud deploy` | Cloud Deploy (CD pipelines) | https://docs.cloud.google.com/sdk/gcloud/reference/deploy |
-| `gcloud dns` | Cloud DNS zones and records | https://docs.cloud.google.com/sdk/gcloud/reference/dns |
-| `gcloud domains` | Cloud Domains | https://docs.cloud.google.com/sdk/gcloud/reference/domains |
-| `gcloud endpoints` | Cloud Endpoints (API management) | https://docs.cloud.google.com/sdk/gcloud/reference/endpoints |
-| `gcloud firestore` | Cloud Firestore | https://docs.cloud.google.com/sdk/gcloud/reference/firestore |
-| `gcloud kms` | Cloud KMS (key management) | https://docs.cloud.google.com/sdk/gcloud/reference/kms |
-| `gcloud memorystore` | Memorystore (Redis/Memcached) | https://docs.cloud.google.com/sdk/gcloud/reference/memorystore |
-| `gcloud monitoring` | Cloud Monitoring dashboards | https://docs.cloud.google.com/sdk/gcloud/reference/monitoring |
-| `gcloud network-connectivity` | VPN, Interconnect, NCC | https://docs.cloud.google.com/sdk/gcloud/reference/network-connectivity |
-| `gcloud organizations` | Org-level resources | https://docs.cloud.google.com/sdk/gcloud/reference/organizations |
-| `gcloud redis` | Cloud Memorystore for Redis | https://docs.cloud.google.com/sdk/gcloud/reference/redis |
-| `gcloud scheduler` | Cloud Scheduler jobs | https://docs.cloud.google.com/sdk/gcloud/reference/scheduler |
-| `gcloud secrets` | Secret Manager | https://docs.cloud.google.com/sdk/gcloud/reference/secrets |
-| `gcloud spanner` | Cloud Spanner | https://docs.cloud.google.com/sdk/gcloud/reference/spanner |
-| `gcloud tasks` | Cloud Tasks queues | https://docs.cloud.google.com/sdk/gcloud/reference/tasks |
-| `gcloud workflows` | Cloud Workflows | https://docs.cloud.google.com/sdk/gcloud/reference/workflows |
+| Group                         | Purpose                                     | Docs                                                                    |
+| ----------------------------- | ------------------------------------------- | ----------------------------------------------------------------------- |
+| `gcloud artifacts`            | Artifact Registry (container/package repos) | <https://docs.cloud.google.com/sdk/gcloud/reference/artifacts>            |
+| `gcloud builds`               | Cloud Build CI/CD                           | <https://docs.cloud.google.com/sdk/gcloud/reference/builds>               |
+| `gcloud deploy`               | Cloud Deploy (CD pipelines)                 | <https://docs.cloud.google.com/sdk/gcloud/reference/deploy>               |
+| `gcloud dns`                  | Cloud DNS zones and records                 | <https://docs.cloud.google.com/sdk/gcloud/reference/dns>                  |
+| `gcloud domains`              | Cloud Domains                               | <https://docs.cloud.google.com/sdk/gcloud/reference/domains>              |
+| `gcloud endpoints`            | Cloud Endpoints (API management)            | <https://docs.cloud.google.com/sdk/gcloud/reference/endpoints>            |
+| `gcloud firestore`            | Cloud Firestore                             | <https://docs.cloud.google.com/sdk/gcloud/reference/firestore>            |
+| `gcloud kms`                  | Cloud KMS (key management)                  | <https://docs.cloud.google.com/sdk/gcloud/reference/kms>                  |
+| `gcloud memorystore`          | Memorystore (Redis/Memcached)               | <https://docs.cloud.google.com/sdk/gcloud/reference/memorystore>          |
+| `gcloud monitoring`           | Cloud Monitoring dashboards                 | <https://docs.cloud.google.com/sdk/gcloud/reference/monitoring>           |
+| `gcloud network-connectivity` | VPN, Interconnect, NCC                      | <https://docs.cloud.google.com/sdk/gcloud/reference/network-connectivity> |
+| `gcloud organizations`        | Org-level resources                         | <https://docs.cloud.google.com/sdk/gcloud/reference/organizations>        |
+| `gcloud redis`                | Cloud Memorystore for Redis                 | <https://docs.cloud.google.com/sdk/gcloud/reference/redis>                |
+| `gcloud scheduler`            | Cloud Scheduler jobs                        | <https://docs.cloud.google.com/sdk/gcloud/reference/scheduler>            |
+| `gcloud secrets`              | Secret Manager                              | <https://docs.cloud.google.com/sdk/gcloud/reference/secrets>              |
+| `gcloud spanner`              | Cloud Spanner                               | <https://docs.cloud.google.com/sdk/gcloud/reference/spanner>              |
+| `gcloud tasks`                | Cloud Tasks queues                          | <https://docs.cloud.google.com/sdk/gcloud/reference/tasks>                |
+| `gcloud workflows`            | Cloud Workflows                             | <https://docs.cloud.google.com/sdk/gcloud/reference/workflows>            |
 
 ---
 
 ## Global flags (quick reference)
 
-| Flag | Purpose |
-|------|---------|
-| `--project PROJECT_ID` | Override the active project for this invocation |
-| `--format=json` | Output as JSON (useful for parsing) |
-| `--format=yaml` | Output as YAML |
-| `--format=value(field)` | Extract a single field value |
-| `--format=table(f1,f2)` | Custom table with specific columns |
-| `--filter="EXPR"` | Server- or client-side filtering |
-| `--limit=N` | Limit number of results |
-| `--quiet` / `-q` | Disable interactive prompts (use in scripts) |
-| `--verbosity=debug` | Verbose output for troubleshooting |
-| `--impersonate-service-account=SA` | Run as a service account |
-| `--configuration=NAME` | Use a named SDK configuration |
-| `--billing-project=PROJECT_ID` | Override the project used for quota/billing |
+| Flag                               | Purpose                                         |
+| ---------------------------------- | ----------------------------------------------- |
+| `--project PROJECT_ID`             | Override the active project for this invocation |
+| `--format=json`                    | Output as JSON (useful for parsing)             |
+| `--format=yaml`                    | Output as YAML                                  |
+| `--format=value(field)`            | Extract a single field value                    |
+| `--format=table(f1,f2)`            | Custom table with specific columns              |
+| `--filter="EXPR"`                  | Server- or client-side filtering                |
+| `--limit=N`                        | Limit number of results                         |
+| `--quiet` / `-q`                   | Disable interactive prompts (use in scripts)    |
+| `--verbosity=debug`                | Verbose output for troubleshooting              |
+| `--impersonate-service-account=SA` | Run as a service account                        |
+| `--configuration=NAME`             | Use a named SDK configuration                   |
+| `--billing-project=PROJECT_ID`     | Override the project used for quota/billing     |
 
 ---
 
 ## Environment variables
 
-| Variable | Purpose |
-|----------|---------|
-| `CLOUDSDK_CORE_PROJECT` | Default project (equivalent to `gcloud config set project`) |
-| `CLOUDSDK_COMPUTE_REGION` | Default region |
-| `CLOUDSDK_COMPUTE_ZONE` | Default zone |
-| `CLOUDSDK_ACTIVE_CONFIG_NAME` | Active named configuration |
-| `CLOUDSDK_CORE_DISABLE_PROMPTS` | Set to `1` to disable interactive prompts (equivalent to `--quiet`) |
-| `GOOGLE_APPLICATION_CREDENTIALS` | Path to service account key file for ADC |
-| `CLOUDSDK_CONFIG` | Override the SDK config directory path |
-| `GCLOUD_PROJECT` | Legacy alias for `CLOUDSDK_CORE_PROJECT` |
+| Variable                         | Purpose                                                             |
+| -------------------------------- | ------------------------------------------------------------------- |
+| `CLOUDSDK_CORE_PROJECT`          | Default project (equivalent to `gcloud config set project`)         |
+| `CLOUDSDK_COMPUTE_REGION`        | Default region                                                      |
+| `CLOUDSDK_COMPUTE_ZONE`          | Default zone                                                        |
+| `CLOUDSDK_ACTIVE_CONFIG_NAME`    | Active named configuration                                          |
+| `CLOUDSDK_CORE_DISABLE_PROMPTS`  | Set to `1` to disable interactive prompts (equivalent to `--quiet`) |
+| `GOOGLE_APPLICATION_CREDENTIALS` | Path to service account key file for ADC                            |
+| `CLOUDSDK_CONFIG`                | Override the SDK config directory path                              |
+| `GCLOUD_PROJECT`                 | Legacy alias for `CLOUDSDK_CORE_PROJECT`                            |
 
 ---
 
