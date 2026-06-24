@@ -53,7 +53,8 @@ When a task matches one of the subagents below, delegate to it via the `task` to
 
 | Subagent | When to use |
 |----------|-------------|
-| `browser` | Visiting websites, taking screenshots, inspecting the DOM, interacting with web pages, monitoring network requests, reading console output. |
+| `browser` | Visiting websites, taking screenshots, monitoring network requests, reading console output, and orchestrating web interactions. Delegates DOM inspection/interaction to `dom` and text extraction from screenshots to `ocr`. |
+| `dom` | Inspect and interact with the DOM of the current Firefox page: take snapshots, locate elements, click, hover, fill forms, submit. Use when you need to read page structure or interact with elements. Do NOT use for reading visible text from screenshots (use `ocr` for that). |
 | `chat` | General questions, concepts, research, or casual conversation not requiring code changes or shell commands. |
 | `git` | Any Git operation: commits, branches, merges, rebases, history inspection, stashing, tagging, remotes, or any git workflow task. Follows Conventional Commits and Gitflow. |
 | `gitlab` | Any task involving GitLab: merge requests, issues, CI/CD pipelines, releases, repositories, the `glab` CLI, or the GitLab REST API. |
