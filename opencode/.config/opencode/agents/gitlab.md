@@ -1,7 +1,6 @@
 ---
 description: Interact with GitLab from the terminal via the glab CLI and the REST API. Use for merge requests, issues, CI/CD pipelines, releases, repos, and raw API calls. Triggers on "gitlab", "glab", "MR", "merge request", "pipeline", "issue", "GitLab API".
 mode: subagent
-model: f5ai/claude-sonnet-4-6
 permission:
   edit: deny
   bash:

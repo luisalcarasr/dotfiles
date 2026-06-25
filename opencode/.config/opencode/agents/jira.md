@@ -1,7 +1,6 @@
 ---
 description: Interact with the internal Jira instance at jira.f5net.com via its REST API. Use for issues, JQL search, projects, transitions, comments, sprints, epics, and backlogs. Triggers on "jira", "jira.f5net.com", "issue", "ticket", "JQL", "sprint", "epic", "backlog", "board".
 mode: subagent
-model: f5ai/claude-sonnet-4-6
 permission:
   edit: allow
   bash:

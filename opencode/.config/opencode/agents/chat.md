@@ -1,7 +1,6 @@
 ---
 description: Friendly general-purpose assistant. Ask anything — code, concepts, research, or casual questions. Uses Browser to browse the web.
 mode: primary
-model: f5ai/Kimi-K2.6
 permission:
   edit: deny
   bash: deny

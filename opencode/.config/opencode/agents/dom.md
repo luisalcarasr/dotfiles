@@ -8,7 +8,6 @@ description: >
   "click this", "fill form", "submit", "analyse page structure",
   "interact with the page", "select element".
 mode: subagent
-model: f5ai/gemini-2.5-flash
 permission:
   edit: deny
   bash: deny

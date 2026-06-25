@@ -1,0 +1,23 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "model": "opencode/big-pickle",
+  "agent": {
+    "build":      { "model": "opencode/big-pickle" },
+    "plan":       { "model": "opencode/big-pickle" },
+    "explore":    { "model": "opencode/deepseek-v4-flash-free" },
+    "scout":      { "model": "opencode/deepseek-v4-flash-free" },
+    "general":    { "model": "opencode/big-pickle" },
+    "compaction": { "model": "opencode/deepseek-v4-flash-free" },
+    "title":      { "model": "opencode/deepseek-v4-flash-free" },
+    "summary":    { "model": "opencode/deepseek-v4-flash-free" },
+    "chat":       { "model": "opencode/big-pickle" },
+    "browser":    { "model": "opencode/deepseek-v4-flash-free" },
+    "dom":        { "model": "opencode/deepseek-v4-flash-free" },
+    "git":        { "model": "opencode/deepseek-v4-flash-free" },
+    "memory":     { "model": "opencode/deepseek-v4-flash-free" },
+    "gcloud":     { "disable": true },
+    "gitlab":     { "disable": true },
+    "jira":       { "disable": true },
+    "confluence": { "disable": true }
+  }
+}

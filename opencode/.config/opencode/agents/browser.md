@@ -1,7 +1,6 @@
 ---
 description: Browse the internet using Firefox. Use this agent to visit websites, take screenshots, monitor network requests, read console output, and orchestrate web interactions. Delegates DOM inspection and interaction to the `dom` subagent, and screenshot text extraction to the `ocr` subagent.
 mode: subagent
-model: f5ai/claude-haiku-4-5
 permission:
   edit: deny
   bash: deny

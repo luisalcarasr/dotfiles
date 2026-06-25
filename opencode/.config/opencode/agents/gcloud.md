@@ -1,7 +1,6 @@
 ---
 description: Interact with Google Cloud from the terminal via the gcloud CLI and related SDK tools. Use for managing GCP resources, compute, storage, IAM, projects, config, auth, BigQuery, and any gcloud workflow. Triggers on "gcloud", "gcp", "google cloud", "compute engine", "cloud storage", "cloud run", "gsutil", "bq", "bigquery", "GKE", "IAM", "service account".
 mode: subagent
-model: f5ai/claude-sonnet-4-6
 permission:
   edit: deny
   bash:

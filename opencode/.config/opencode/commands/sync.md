@@ -1,9 +1,9 @@
 ---
-description: Sync F5 Inc provider models in opencode.json with the live API catalog
+description: Sync F5 Inc provider models in machines/work.json with the live API catalog
 agent: build
 ---
 
-Synchronize the `provider.f5ai.models` section in `~/.config/opencode/opencode.json` with the live F5 Inc API catalog. Do this **without asking for confirmation** — apply all changes and report a summary at the end.
+Synchronize the `provider.f5ai.models` section in `~/.config/opencode/machines/work.json` with the live F5 Inc API catalog. Do this **without asking for confirmation** — apply all changes and report a summary at the end.
 
 ## Steps
 
@@ -17,7 +17,7 @@ If `F5AI_API_KEY` is not set or the request fails (non-200, empty body, or malfo
 
 ### 2. Read the current config
 
-Read `~/.config/opencode/opencode.json`. Extract:
+Read `~/.config/opencode/machines/work.json`. Extract:
 
 - `provider.f5ai.models` — the current model registry (object keyed by model id).
 - `agent` — the agent-to-model assignments, to detect orphans after deletion.
@@ -56,7 +56,7 @@ After computing the removal list, check every value in the `agent` section. If a
 
 ### 6. Apply all changes atomically
 
-Edit `~/.config/opencode/opencode.json` in a single operation:
+Edit `~/.config/opencode/machines/work.json` in a single operation:
 
 - Add new model entries to `provider.f5ai.models`, preserving the existing multi-line JSON style (each model on its own `"id": { "name": "..." }` block, indented with 8 spaces).
 - Remove obsolete model entries from `provider.f5ai.models`.
@@ -66,7 +66,7 @@ Do not touch any other section of the file.
 
 ### 7. Verify
 
-1. Run `python3 -m json.tool ~/.config/opencode/opencode.json > /dev/null` and confirm it exits with 0. If JSON is invalid, restore the original file and report the error.
+1. Run `python3 -m json.tool ~/.config/opencode/machines/work.json > /dev/null` and confirm it exits with 0. If JSON is invalid, restore the original file and report the error.
 2. Re-run the diff (step 3) against the updated file and confirm both sets are empty.
 
 ### 8. Report

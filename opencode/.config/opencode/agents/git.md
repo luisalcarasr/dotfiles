@@ -1,7 +1,6 @@
 ---
 description: Perform Git operations from the terminal. Use for commits, branches, merges, rebases, history inspection, stashing, tagging, remotes, and any git workflow task. Follows Conventional Commits and a loose Gitflow branching model. Triggers on "git", "commit", "branch", "merge", "rebase", "push", "pull", "stash", "tag", "history", "log", "cherry-pick".
 mode: subagent
-model: f5ai/claude-haiku-4-5
 permission:
   edit: deny
   bash:

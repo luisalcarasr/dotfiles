@@ -1,7 +1,6 @@
 ---
 description: Interact with the internal Confluence instance at docs.f5net.com via its REST API. Use for reading, searching, creating, and updating Confluence pages, spaces, and comments. Triggers on "confluence", "docs.f5net.com", "wiki", "confluence page", "confluence space", "confluence search".
 mode: subagent
-model: f5ai/claude-sonnet-4-6
 permission:
   edit: allow
   bash:

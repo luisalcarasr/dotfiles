@@ -9,7 +9,6 @@ description: >
   "search past sessions", "what did we discuss", "last session",
   "useful memories", "recall history", "what did we work on".
 mode: subagent
-model: f5ai/claude-haiku-4-5
 temperature: 0.1
 permission:
   edit: deny
