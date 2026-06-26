@@ -1,0 +1,198 @@
+/* ============================================
+   WAYBAR GITHUB DARK THEME
+   ============================================ */
+
+* {
+  font-family: "Adwaita Sans";
+  font-size: 13px;
+  font-weight: 600;
+  min-height: 0;
+}
+
+/* ============================================
+   MAIN WINDOW
+   ============================================ */
+
+window#waybar {
+  background-color: #0d1117;
+  transition: background-color 0.3s ease;
+}
+
+/* ============================================
+   WORKSPACES - GITHUB DARK STYLE
+   ============================================ */
+
+#workspaces {
+  background: transparent;
+  margin: 2px 8px;
+  padding: 0;
+}
+
+#workspaces button {
+  color: #7d8590;
+  background: transparent;
+  padding: 0 8px;
+  margin: 4px 2px;
+  border-radius: 6px;
+  border: 1px solid #30363d;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  font-size: 14px;
+  font-weight: bold;
+  min-width: 24px;
+}
+
+#workspaces button:hover {
+  background: #161b22;
+  border-color: #484f58;
+  color: #c9d1d9;
+}
+
+#workspaces button.active {
+  color: #0d1117;
+  background: #58a6ff;
+  border: 2px solid #1f6feb;
+  font-weight: bold;
+}
+
+#workspaces button.visible:not(.active) {
+  color: #0d1117;
+  background: #79c0ff;
+  border: 1px solid #58a6ff;
+}
+
+#workspaces button:not(.empty):not(.active):not(.visible) {
+  color: #0d1117;
+  background: #8b949e;
+  border: 1px solid #30363d;
+}
+
+#workspaces button.urgent {
+  color: #f85149;
+  background: rgba(248, 81, 73, 0.15);
+  border-color: #f85149;
+}
+
+/* ============================================
+   MODULE DEFAULTS
+   ============================================ */
+
+.module:not(#workspaces) {
+  background: transparent;
+  color: #c9d1d9;
+  margin: 4px 2px;
+  padding: 2px 10px;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+}
+
+.module:not(#workspaces):hover {
+  background: #161b22;
+}
+
+/* ============================================
+   SEPARATORS
+   ============================================ */
+
+#custom-sep-left,
+#custom-sep-right {
+  color: transparent;
+  background: transparent;
+  margin: 0;
+  padding: 0;
+  border: none;
+  min-width: 0;
+}
+
+/* ============================================
+   DISTRO & IP MODULES
+   ============================================ */
+
+#custom-distro {
+  border: 1px solid #30363d;
+  border-radius: 6px;
+  color: #58a6ff;
+}
+
+#custom-ip {
+  border: 1px solid #30363d;
+  border-radius: 6px;
+  color: #c9d1d9;
+}
+
+/* ============================================
+   SPECIFIC MODULES - STATUS COLORS
+   ============================================ */
+
+#network,
+#pulseaudio,
+#battery,
+#bluetooth,
+#clock {
+  border: 1px solid #30363d;
+  border-radius: 6px;
+}
+
+#network.disconnected {
+  color: #f85149;
+}
+
+#pulseaudio.muted {
+  color: #6e7681;
+}
+
+#battery.charging {
+  color: #3fb950;
+}
+
+#battery.warning:not(.charging) {
+  color: #d29922;
+}
+
+#battery.critical:not(.charging) {
+  color: #f85149;
+}
+
+#bluetooth.disconnected {
+  color: #6e7681;
+}
+
+#clock {
+  font-weight: bold;
+  padding-right: 12px;
+}
+
+/* ============================================
+   TRAY
+   ============================================ */
+
+#tray {
+  background-color: #161b22;
+  border: 1px solid #30363d;
+  padding: 2px 8px;
+  border-radius: 6px;
+  margin: 4px 2px;
+}
+
+#tray > .passive {
+  -gtk-icon-effect: dim;
+}
+
+#tray > .needs-attention {
+  -gtk-icon-effect: highlight;
+}
+
+/* ============================================
+   TOOLTIP STYLING
+   ============================================ */
+
+tooltip {
+  background: #161b22;
+  border: 1px solid #30363d;
+  border-radius: 6px;
+  padding: 8px;
+}
+
+tooltip label {
+  color: #c9d1d9;
+  font-size: 12px;
+}
