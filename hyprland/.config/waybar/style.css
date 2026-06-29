@@ -124,7 +124,7 @@ window#waybar {
    ============================================ */
 
 #network,
-#pulseaudio,
+#custom-wiremix,
 #battery,
 #bluetooth,
 #clock {
@@ -134,10 +134,6 @@ window#waybar {
 
 #network.disconnected {
   color: #f85149;
-}
-
-#pulseaudio.muted {
-  color: #6e7681;
 }
 
 #battery.charging {
