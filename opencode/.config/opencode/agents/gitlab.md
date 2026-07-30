@@ -141,6 +141,47 @@ Subcommands: `board`, `close`, `create`, `delete`, `list`, `note`, `reopen`, `su
 
 ---
 
+## Issue number for commit titles
+
+When the `git` subagent (or any other caller) needs the issue number `N` to append `[#N]` to a commit subject, use the following workflow:
+
+### 1. Find an existing issue
+
+Search open issues in the current project for one that matches the current work (by branch name, title, or description):
+
+```bash
+# List open issues — scan titles for a match
+glab issue list
+
+# Search by keyword if the list is long
+glab issue list --search "keyword"
+```
+
+If a matching issue is found, return its number.
+
+### 2. Create a new issue if none exists
+
+If no suitable issue exists, create one. Infer the title and description from the changes, branch name, and context provided by the caller:
+
+```bash
+glab issue create \
+  --title "Short imperative title describing the work" \
+  --description "What this issue covers and why it is needed."
+```
+
+`glab issue create` prints the new issue URL on success — extract the number from the URL (e.g. `https://gitlab.com/owner/repo/-/issues/42` → `42`).
+
+Return the issue number to the caller so it can be appended as `[#N]` in the commit subject.
+
+### Rules
+
+- **Always return a number.** Either find an existing issue or create one — never return without a number.
+- Use `--label` and `--milestone` when the project conventions make them mandatory; otherwise omit them.
+- Do not create duplicate issues. If an issue already covers the work, reuse its number.
+- Confirm with the user before creating an issue if the context is ambiguous.
+
+---
+
 ## `glab ci` — CI/CD Pipelines and Jobs
 
 > Full reference: <https://docs.gitlab.com/cli/ci/>

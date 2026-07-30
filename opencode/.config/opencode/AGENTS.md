@@ -45,7 +45,7 @@ When asked about OpenCode features or configuration, fetch the relevant URL abov
 - Write documents, comments, or any generated content in C2-level English (proficiency)
 - Always answer the user in B2-level English with concise responses, even if the user uses another language.
 - Use emojis to enrich the conversation
-- Write commit messages using <https://www.conventionalcommits.org/en/v1.0.0/>
+- Write commit messages using <https://www.conventionalcommits.org/en/v1.0.0/>. For **GitLab projects**, the commit subject must end with `[#N]` where N is the associated issue number — obtained or created via the `gitlab` subagent before committing.
 
 ## Subagents
 

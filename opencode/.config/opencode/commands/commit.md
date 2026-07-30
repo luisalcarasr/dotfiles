@@ -11,6 +11,9 @@ Requirements:
 - Inspect staged and unstaged changes with `git diff --stat`, `git diff`, `git diff --cached --stat`, and `git diff --cached`.
 - Do not include files that likely contain secrets, credentials, tokens, private keys, or local environment values. Warn me if such files appear in the changes.
 - Do not revert or modify unrelated user changes.
+- **Detect the remote platform** by running `git remote get-url origin`:
+  - If the remote contains a GitLab host (e.g. `gitlab.com`) → GitLab project: the commit subject **must** end with `[#N]`. Delegate to the `gitlab` subagent to find or create the associated issue and obtain N. Do not commit without `[#N]`.
+  - Any other host → non-GitLab: omit the `[#N]` suffix entirely.
 - Draft the commit message based on the actual changes, focusing on why the change exists.
 - Show the proposed commit message and a concise summary of files to be committed.
 - Ask for confirmation before running `git add` or `git commit`.
