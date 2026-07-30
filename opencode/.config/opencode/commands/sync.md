@@ -56,7 +56,9 @@ After computing the removal list, check every value in the `agent` section. If a
 
 ### 6. Apply all changes atomically
 
-Edit `~/.config/opencode/machines/work.json` in a single operation:
+#### 6a. `~/.config/opencode/machines/work.json`
+
+Edit the file in a single operation:
 
 - Add new model entries to `provider.f5ai.models`, preserving the existing multi-line JSON style (each model on its own `"id": { "name": "..." }` block, indented with 8 spaces).
 - Remove obsolete model entries from `provider.f5ai.models`.
@@ -64,10 +66,28 @@ Edit `~/.config/opencode/machines/work.json` in a single operation:
 
 Do not touch any other section of the file.
 
+#### 6b. `~/.config/mods/mods.yml`
+
+Propagate the same diff to the `f5ai:` block under `apis:`:
+
+- **Add**: for each new model id, append an entry under `apis.f5ai.models` using the following schema. Assign `max-input-chars` based on model family (Claude → 680000, Gemini → 1048576, GPT/o-series → 392000, Kimi → 200000, DeepSeek → 128000, Grok → 392000, image/embedding → 4000). Add short `aliases` only for chat-capable models, following the existing alias style (e.g. `claude-opus-4-8: aliases: ["opus"]`).
+- **Remove**: delete the YAML block for each removed model id from `apis.f5ai.models`.
+- Do not touch any other section of the file.
+
+#### 6c. `~/.config/aichat/config.yaml`
+
+Propagate the same diff to the `clients[name=f5ai].models` list:
+
+- **Add**: for each new model id, append a `- name: <id>` entry with `max_input_tokens` using the same family heuristic as above (Claude → 200000, Gemini → 1048576, GPT/o-series → 1047576, Kimi → 131072, DeepSeek → 65536, Grok → 131072, image → 4000).
+- **Remove**: delete the corresponding `- name: <id>` line (and its `max_input_tokens` line) for each removed model id.
+- Do not touch any other section of the file.
+
 ### 7. Verify
 
 1. Run `python3 -m json.tool ~/.config/opencode/machines/work.json > /dev/null` and confirm it exits with 0. If JSON is invalid, restore the original file and report the error.
-2. Re-run the diff (step 3) against the updated file and confirm both sets are empty.
+2. Run `python3 -c "import yaml, sys; yaml.safe_load(open('$HOME/.config/mods/mods.yml'))"` and confirm it exits with 0.
+3. Run `python3 -c "import yaml, sys; yaml.safe_load(open('$HOME/.config/aichat/config.yaml'))"` and confirm it exits with 0.
+4. Re-run the diff (step 3) against the updated `work.json` and confirm both sets are empty.
 
 ### 8. Report
 
@@ -78,6 +98,7 @@ Print a concise summary:
   Added   (N): model-id-1, model-id-2, ...
   Removed (N): model-id-3, ...
   Agents reasigned (N): agent-name: old-model → new-model, ...
+  Files updated: work.json, mods.yml, aichat/config.yaml
   No changes (if nothing changed)
 ```
 
