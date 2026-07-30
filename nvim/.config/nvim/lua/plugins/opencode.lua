@@ -32,22 +32,38 @@ return {
     },
     config = function()
       local opencode_cmd = "opencode --port"
-      ---@type snacks.terminal.Opts
-      local term_opts = {
-        win = {
-          position = "float",
-          border = "rounded",
-          width = 0.85,
-          height = 0.85,
-          enter = true, -- popup: enter on open (quake-style)
-        },
-      }
+
+      -- Layout state: "float" (dialog) | "right" (panel)
+      local layout = "float"
+
+      ---@return snacks.terminal.Opts
+      local function term_opts()
+        if layout == "right" then
+          return {
+            win = {
+              position = "right",
+              width = 0.25,
+              enter = true,
+            },
+          }
+        end
+        -- float (dialog, quake-style)
+        return {
+          win = {
+            position = "float",
+            border = "rounded",
+            width = 0.85,
+            height = 0.85,
+            enter = true,
+          },
+        }
+      end
 
       ---@type opencode.Opts
       vim.g.opencode_opts = {
         server = {
           start = function()
-            require("snacks.terminal").open(opencode_cmd, term_opts)
+            require("snacks.terminal").open(opencode_cmd, term_opts())
           end,
         },
       }
@@ -123,8 +139,28 @@ return {
       -- === Server ===
       -- Toggle the opencode popup (no <leader> in terminal mode = no input delay)
       vim.keymap.set({ "n", "t" }, "<C-.>", function()
-        require("snacks.terminal").toggle(opencode_cmd, term_opts)
+        require("snacks.terminal").toggle(opencode_cmd, term_opts())
       end, { desc = "Toggle opencode popup" })
+
+      -- Toggle between dialog (float) and panel (right split), reusing same process
+      vim.keymap.set({ "n", "t" }, "<leader>aw", function()
+        layout = (layout == "float") and "right" or "float"
+        local win = term_opts().win
+        local term = require("snacks.terminal").get(opencode_cmd, { create = false })
+        if term and term:buf_valid() then
+          -- Mutate opts in-place; do NOT touch term.opts.win (reserved for parent win handle)
+          term.opts.position = win.position
+          term.opts.width = win.width
+          term.opts.height = win.height
+          term.opts.border = win.border
+          term:hide()
+          term:show()
+          term:focus()
+        else
+          require("snacks.terminal").open(opencode_cmd, term_opts())
+        end
+        vim.notify("opencode: " .. (layout == "float" and "dialog" or "panel"), vim.log.levels.INFO)
+      end, { desc = "Toggle opencode panel/dialog" })
 
       -- === Operator + dot-repeat to add ranges ===
       vim.keymap.set({ "n", "x" }, "go", function()
@@ -133,6 +169,21 @@ return {
       vim.keymap.set("n", "goo", function()
         return require("opencode").operator("@this ") .. "_"
       end, { desc = "Add line to opencode", expr = true })
+
+      -- === Bottom terminal (multi-tab via count: 2<C-t>, 3<C-t>, ...) ===
+      vim.keymap.set({ "n", "t" }, "<C-t>", function()
+        require("snacks.terminal").toggle(nil, {
+          win = {
+            position = "bottom",
+            height = 0.3,
+          },
+        })
+      end, { desc = "Toggle terminal (bottom)" })
+
+      -- Jump to previous window (exit panel without closing it)
+      vim.keymap.set("t", "<C-w>", function()
+        vim.cmd("wincmd p")
+      end, { desc = "Focus previous window" })
 
       -- === Scroll the panel ===
       vim.keymap.set("n", "<S-C-u>", function()
@@ -149,7 +200,7 @@ return {
           local no_file_args = vim.fn.argc() == 0
           local no_stdin = not vim.g.opencode_read_from_stdin
           if no_file_args and no_stdin then
-            require("snacks.terminal").open(opencode_cmd, term_opts)
+            require("snacks.terminal").open(opencode_cmd, term_opts())
           end
         end,
       })
