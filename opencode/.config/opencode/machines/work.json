@@ -10,7 +10,7 @@
     "compaction": { "model": "f5ai/DeepSeek-V4-Flash" },
     "title":      { "model": "f5ai/gpt-5-nano" },
     "summary":    { "model": "f5ai/DeepSeek-V4-Flash" },
-    "chat":       { "model": "f5ai/Kimi-K2.7-Code" },
+    "chat":       { "model": "f5ai/gpt-5.6-sol" },
     "browser":    { "model": "f5ai/gpt-5.6-luna" },
     "dom":        { "model": "f5ai/gemini-3.5-flash" },
     "git":        { "model": "f5ai/gpt-5.6-luna" },
