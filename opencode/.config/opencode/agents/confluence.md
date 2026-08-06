@@ -52,6 +52,7 @@ set -Ux CONFLUENCE_TOKEN 'NEW_TOKEN'
 - Before any write action (POST/PUT/DELETE), **confirm with the user** unless given an explicit instruction.
 - Summarise results — extract title, ID, space, URL (`_links.base + _links.webui`), version, author. Never dump full JSON.
 - Page body content uses **Confluence Storage Format** (XHTML subset). When writing pages, `body.representation` must be `"storage"` and `body.value` must be valid storage XML.
+- **Language**: page content, titles, and comments are always written in C2-level English; mirror the caller's language when reporting back. See the global `AGENTS.md`.
 
 ---
 

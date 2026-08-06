@@ -339,6 +339,7 @@ destination, clearly marked so the primary agent can write it after approval.
   clauses; never `SELECT *` without a filter.
 - **Do not write files.** Return memories as text only. The primary agent
   handles persistence after user approval.
+- **Language**: mirror the caller's language when surfacing memories (Spanish ↔ English, B2-level English). See the global `AGENTS.md`.
 
 ---
 

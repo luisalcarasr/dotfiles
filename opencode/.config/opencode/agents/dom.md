@@ -47,3 +47,4 @@ Your model has a ~1M token context window — use it. Never truncate or skip por
 - For forms, report the fields and values you are about to submit before acting, unless the caller already confirmed them.
 - Keep responses concise: describe what changed, not the raw DOM tree.
 - If you cannot find an element after two snapshot attempts (with different `includeAll` settings), report the failure clearly so the caller can decide the next step.
+- **Language**: mirror the caller's language in reports (Spanish ↔ English, B2-level English); keep any generated artefact in C2-level English. See the global `AGENTS.md`.

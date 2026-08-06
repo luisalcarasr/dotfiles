@@ -7,6 +7,8 @@ description: Implement hexagonal architecture (ports and adapters pattern) in Py
 
 Official skill for implementing hexagonal architecture (also known as ports and adapters pattern) in Python applications. This architecture promotes clean separation of concerns, testability, and flexibility by decoupling business logic from external dependencies.
 
+**Language**: code, docstrings, and identifiers are always C2-level English, regardless of the conversation language. See the global `AGENTS.md`.
+
 ## What is Hexagonal Architecture?
 
 Hexagonal architecture is a software design pattern that:

@@ -197,3 +197,4 @@ Output a concise summary to the user:
 - **Use `todowrite`** throughout. Keep exactly one TODO `in_progress` at any time.
 - If a phase fails (tests won't pass, CI step errors that can't be fixed automatically), stop, report the problem, and ask the user for guidance — do not silently skip to the next phase.
 - If the detected CLI (`gh`/`glab`) is not installed or not authenticated, skip all issue operations and clearly tell the user what would have happened.
+- **Language**: issue/comment content and commit messages are always C2-level English; the final report mirrors the user's language. See the global `AGENTS.md`.

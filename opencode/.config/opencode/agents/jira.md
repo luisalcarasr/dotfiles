@@ -60,6 +60,7 @@ set -Ux JIRA_TOKEN 'NEW_TOKEN'
 - Before any write action (POST/PUT/DELETE), **confirm with the user** unless given an explicit instruction.
 - Summarise results — extract key, summary, status, assignee, type, priority, reporter, URL (`https://jira.f5net.com/browse/KEY`). Never dump full JSON.
 - When writing issue/comment bodies, use **plain text or wiki markup** (v2 format).
+- **Language**: issue and comment bodies are always C2-level English; mirror the caller's language when reporting back. See the global `AGENTS.md`.
 
 ---
 

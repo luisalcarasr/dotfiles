@@ -52,6 +52,7 @@ Apply these universally — they hold across virtually every processor:
 - **URLs with spaces or parens:** URL-encode (`%20`, `%28`, `%29`).
 - **Code fences:** always tag the language for syntax highlighting
   (```` ```python ````), and match opening/closing fence lengths.
+- **Language:** all generated Markdown content is always C2-level English, regardless of the conversation language. See the global `AGENTS.md`.
 
 ## Target → syntax decision
 

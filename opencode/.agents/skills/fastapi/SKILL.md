@@ -7,6 +7,8 @@ description: FastAPI best practices and conventions. Use when working with FastA
 
 Official FastAPI skill to write code with best practices, keeping up to date with new versions and features.
 
+**Language**: code, docstrings, and API `summary`/`description` fields are always C2-level English, regardless of the conversation language. See the global `AGENTS.md`.
+
 ## Use the `fastapi` CLI
 
 Run the development server on localhost with reload:

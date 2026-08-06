@@ -9,6 +9,8 @@ Official skill for applying Feature-Sliced Design, an architectural methodology 
 
 Reference: https://feature-sliced.design/
 
+**Language**: layer/slice/segment names, code, and docs are always C2-level English, regardless of the conversation language. See the global `AGENTS.md`.
+
 ## When to Use FSD
 
 FSD is the right choice when:
