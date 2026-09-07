@@ -6,9 +6,8 @@
 ---------------------
 
 local terminal    = "kitty"
-local fileManager = "dolphin"
-local menu        = "hyprlauncher"
-local browser     = "brave"
+local menu        = "wofi"
+local browser     = "flatpak run com.brave.Browser"
 local mainMod     = "SUPER"
 local home        = os.getenv("HOME")
 
@@ -22,6 +21,20 @@ hl.monitor({
   position = "0x0",
   scale    = 1,
   vrr      = 1,
+})
+
+hl.monitor({
+  output   = "DP-4",
+  mode     = "2560x1440@144",
+  position = "2560x0",
+  scale    = 1,
+})
+
+hl.monitor({
+  output   = "DP-2",
+  mode     = "2560x1440@60",
+  position = "5120x0",
+  scale    = 1,
 })
 
 -------------------------------
@@ -41,7 +54,6 @@ local wallpaper = require("scripts.wallpaper")
 hl.on("hyprland.start", function()
   hl.exec_cmd("waybar")
   hl.exec_cmd("awww-daemon")
-  hl.exec_cmd("hyprlauncher -d")
 
   -- Set random wallpaper at start
   wallpaper.set_random(home .. "/Pictures/Wallpapers")
@@ -205,7 +217,6 @@ hl.window_rule({
 -- Launch programs
 hl.bind(mainMod .. " + RETURN", hl.dsp.exec_cmd(terminal))
 hl.bind(mainMod .. " + BACKSLASH", hl.dsp.exec_cmd(browser))
-hl.bind(mainMod .. " + E", hl.dsp.exec_cmd(fileManager))
 hl.bind(mainMod .. " + SPACE", hl.dsp.exec_cmd(menu))
 hl.bind(mainMod .. " + G", hl.dsp.exec_cmd("lua " .. home .. "/.config/hypr/scripts/steam-games-menu.lua"))
 
@@ -264,6 +275,8 @@ hl.bind("XF86AudioMute", hl.dsp.exec_cmd("wpctl set-mute @DEFAULT_AUDIO_SINK@ to
   { locked = true, repeating = true })
 hl.bind("XF86AudioMicMute", hl.dsp.exec_cmd("wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"),
   { locked = true, repeating = true })
+hl.bind(mainMod .. " + PLUS", hl.dsp.exec_cmd("wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%+"), { locked = true, repeating = true })
+hl.bind(mainMod .. " + MINUS", hl.dsp.exec_cmd("wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"), { locked = true, repeating = true })
 hl.bind("XF86MonBrightnessUp", hl.dsp.exec_cmd("brightnessctl set 5%+"), { locked = true, repeating = true })
 hl.bind("XF86MonBrightnessDown", hl.dsp.exec_cmd("brightnessctl set 5%-"), { locked = true, repeating = true })
 
