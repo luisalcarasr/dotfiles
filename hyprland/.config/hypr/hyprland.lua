@@ -200,6 +200,31 @@ hl.window_rule({
   no_focus = true,
 })
 
+-- Blur the waybar layer
+hl.layer_rule({
+  name  = "blur-waybar",
+  match = { namespace = "waybar" },
+  blur  = true,
+  blur_popups = true,
+  ignore_alpha = 0.5,
+})
+
+-- Blur waybar tooltips
+hl.layer_rule({
+  name  = "blur-tooltip",
+  match = { namespace = "tooltip" },
+  blur  = true,
+  ignore_alpha = 0.5,
+})
+
+-- Blur the wofi launcher
+hl.layer_rule({
+  name  = "blur-wofi",
+  match = { namespace = "wofi" },
+  blur  = true,
+  ignore_alpha = 0.5,
+})
+
 hl.window_rule({
   name              = "tui-floating",
   match             = { class = "^tui-floating$" },
@@ -286,9 +311,9 @@ hl.bind("XF86AudioPause", hl.dsp.exec_cmd("playerctl play-pause"), { locked = tr
 hl.bind("XF86AudioPlay", hl.dsp.exec_cmd("playerctl play-pause"), { locked = true })
 hl.bind("XF86AudioPrev", hl.dsp.exec_cmd("playerctl previous"), { locked = true })
 
--- Random wallpaper
+-- Random wallpaper at startup (sequential with KEY + W)
 hl.bind(mainMod .. " + W", function()
-  wallpaper.set_random(home .. "/Pictures/Wallpapers")
+  wallpaper.set_next(home .. "/Pictures/Wallpapers")
 end)
 
 -- Toggle secondary monitors (keep only DP-3 active)

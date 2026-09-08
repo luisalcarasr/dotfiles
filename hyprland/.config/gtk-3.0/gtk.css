@@ -1,0 +1,27 @@
+window.popup,
+menu,
+menu menuitem,
+.context-menu {
+  background-color: rgba(16, 16, 16, 0.6);
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 6px;
+  padding: 4px;
+}
+
+menu separator {
+  background-color: rgba(255, 255, 255, 0.15);
+  min-height: 1px;
+  margin: 4px 6px;
+}
+
+menu menuitem {
+  border: none;
+  border-radius: 4px;
+  padding: 4px 12px;
+}
+
+menu menuitem:hover,
+menu menuitem:selected {
+  background-color: rgba(255, 255, 255, 0.1);
+}
