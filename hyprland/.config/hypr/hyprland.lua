@@ -16,22 +16,22 @@ local home        = os.getenv("HOME")
 ------------------
 
 hl.monitor({
-  output   = "DP-3",
-  mode     = "2560x1440@144",
+  output   = "desc:Dell Inc. DELL P2423D B0MQVP3",
+  mode     = "2560x1440@60",
   position = "0x0",
+  scale    = 1,
+})
+
+hl.monitor({
+  output   = "desc:GGF MG700 0000000000000",
+  mode     = "2560x1440@144",
+  position = "2560x0",
   scale    = 1,
   vrr      = 1,
 })
 
 hl.monitor({
-  output   = "DP-4",
-  mode     = "2560x1440@144",
-  position = "2560x0",
-  scale    = 1,
-})
-
-hl.monitor({
-  output   = "DP-2",
+  output   = "desc:Dell Inc. DELL P2423DE B87GXR3",
   mode     = "2560x1440@60",
   position = "5120x0",
   scale    = 1,
@@ -290,3 +290,6 @@ hl.bind("XF86AudioPrev", hl.dsp.exec_cmd("playerctl previous"), { locked = true 
 hl.bind(mainMod .. " + W", function()
   wallpaper.set_random(home .. "/Pictures/Wallpapers")
 end)
+
+-- Toggle secondary monitors (keep only DP-3 active)
+hl.bind(mainMod .. " + X", hl.dsp.exec_cmd(home .. "/.config/hypr/scripts/toggle-secondary-monitors.sh"))

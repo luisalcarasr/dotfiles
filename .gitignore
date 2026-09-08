@@ -1,2 +1,6 @@
 # Fish shell machine-local state
 fish/.config/fish/fish_variables
+
+# Python bytecode cache
+__pycache__/
+*.pyc
