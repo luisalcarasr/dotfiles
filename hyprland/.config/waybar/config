@@ -4,7 +4,7 @@
   "height": 34,
   "modules-left": ["custom/distro", "custom/sep-left", "custom/ip"],
   "modules-center": ["hyprland/workspaces"],
-  "modules-right": ["tray", "custom/sep-right", "network", "custom/sep-right", "custom/wiremix", "custom/sep-right", "battery", "custom/sep-right", "bluetooth", "custom/sep-right", "clock"],
+  "modules-right": ["tray", "custom/sep-right", "network", "custom/sep-right", "wireplumber", "custom/sep-right", "battery", "custom/sep-right", "bluetooth", "custom/sep-right", "clock"],
 
   "hyprland/workspaces": {
     "format": "{id}",
@@ -136,11 +136,14 @@
     "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>"
   },
 
-  "custom/wiremix": {
-    "format": "WM",
+  "wireplumber": {
+    "format": "VOL {volume}%",
+    "format-muted": "VOL MUTED",
     "tooltip": true,
-    "tooltip-format": "WireMix - Click to open",
-    "on-click": "/home/luis/.config/hypr/scripts/tui-launcher.sh wiremix"
+    "tooltip-format": "Volume: {volume}%",
+    "scroll-step": 5,
+    "on-click": "/home/luis/.config/hypr/scripts/tui-launcher.sh wiremix",
+    "on-click-right": "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
   },
 
   "battery": {
