@@ -26,9 +26,9 @@ function fp -d "Search and install Flatpak apps with fzf"
         return 1
     end
 
-    # --- Install each selected app (per-user, interactive confirmation) ---
+    # --- Install each selected app (system, interactive confirmation) ---
     for app in $selected
         echo "==> Installing $app"
-        flatpak install --user flathub "$app"
+        flatpak install flathub "$app"
     end
 end
