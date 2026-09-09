@@ -44,6 +44,29 @@ hl.monitor({
 hl.env("XCURSOR_SIZE", "24")
 hl.env("HYPRCURSOR_SIZE", "24")
 
+-------------------------------
+---- CURSOR FOLLOWS FOCUS ----
+-------------------------------
+
+-- Move the cursor to the center of the active window when focus changes
+-- via keyboard (workspace / window navigation). Skip clicks and hover so
+-- the cursor is not yanked away while using the mouse.
+local FOCUS_REASON_FFM   = 1
+local FOCUS_REASON_CLICK = 16
+
+hl.on("window.active", function(window, focusReason)
+  if window == nil then
+    return
+  end
+  if (focusReason & (FOCUS_REASON_FFM | FOCUS_REASON_CLICK)) ~= 0 then
+    return
+  end
+  local at, size = window.at, window.size
+  if at ~= nil and size ~= nil then
+    hl.dispatch(hl.dsp.cursor.move({ x = at.x + size.x / 2, y = at.y + size.y / 2 }))
+  end
+end)
+
 --------------------------
 ---- AUTOSTART ----
 --------------------------
@@ -54,6 +77,7 @@ local wallpaper = require("scripts.wallpaper")
 hl.on("hyprland.start", function()
   hl.exec_cmd("waybar")
   hl.exec_cmd("awww-daemon")
+  hl.exec_cmd("mako")
 
   -- Set random wallpaper at start
   wallpaper.set_random(home .. "/Pictures/Wallpapers")
@@ -123,6 +147,10 @@ hl.config({
     touchpad     = {
       natural_scroll = false,
     },
+  },
+  cursor = {
+    hide_on_key_press = true,
+    inactive_timeout  = 2,
   },
 })
 
@@ -225,6 +253,15 @@ hl.layer_rule({
   ignore_alpha = 0.5,
 })
 
+-- Blur mako notifications
+hl.layer_rule({
+  name          = "blur-mako",
+  match         = { namespace = "notifications" },
+  blur          = true,
+  blur_popups   = true,
+  ignore_alpha  = 0.5,
+})
+
 hl.window_rule({
   name              = "tui-floating",
   match             = { class = "^tui-floating$" },
@@ -244,6 +281,7 @@ hl.bind(mainMod .. " + RETURN", hl.dsp.exec_cmd(terminal))
 hl.bind(mainMod .. " + BACKSLASH", hl.dsp.exec_cmd(browser))
 hl.bind(mainMod .. " + SPACE", hl.dsp.exec_cmd(menu))
 hl.bind(mainMod .. " + G", hl.dsp.exec_cmd("lua " .. home .. "/.config/hypr/scripts/steam-games-menu.lua"))
+hl.bind(mainMod .. " + N", hl.dsp.exec_cmd("makoctl mode -t dnd"))
 
 -- Window management
 hl.bind(mainMod .. " + Q", hl.dsp.window.close())
@@ -275,9 +313,13 @@ hl.bind(mainMod .. " + ALT + J", hl.dsp.window.resize({ x = 0, y = 20 }))
 -- Workspaces
 for i = 1, 10 do
   local key = i % 10
-  hl.bind(mainMod .. " + " .. key, hl.dsp.focus({ workspace = i }))
+  hl.bind(mainMod .. " + " .. key, hl.dsp.exec_cmd(home .. "/.config/hypr/scripts/workspace-nav.py goto " .. i))
   hl.bind(mainMod .. " + SHIFT + " .. key, hl.dsp.window.move({ workspace = i }))
 end
+
+-- Navigate workspaces (only those with windows, swap across monitors)
+hl.bind(mainMod .. " + right", hl.dsp.exec_cmd(home .. "/.config/hypr/scripts/workspace-nav.py next"))
+hl.bind(mainMod .. " + left", hl.dsp.exec_cmd(home .. "/.config/hypr/scripts/workspace-nav.py prev"))
 
 -- Special workspace
 hl.bind(mainMod .. " + S", hl.dsp.workspace.toggle_special("magic"))

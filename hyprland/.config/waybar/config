@@ -15,11 +15,6 @@
       "urgent": "!"
     },
     "all-outputs": false,
-    "persistent-workspaces": {
-      "DP-4": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
-      "DP-3": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
-      "DP-1": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
-    },
     "on-scroll-up": "hyprctl dispatch workspace e+1",
     "on-scroll-down": "hyprctl dispatch workspace e-1"
   },

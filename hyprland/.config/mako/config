@@ -1,0 +1,46 @@
+# Mako notification daemon
+# GitHub Dark theme, transparent + blur-ready (matching kitty/nvim/waybar/wofi)
+
+font=Adwaita Sans 13px
+
+background-color=#1818188c
+text-color=#ffffff
+border-color=#808080
+progress-color=#58a6ff
+
+border-size=1
+border-radius=4
+padding=10
+margin=12
+
+width=322
+height=400
+max-visible=6
+anchor=top-right
+layer=overlay
+output=DP-3
+
+icons=1
+icon-path=/usr/share/icons/Adwaita
+max-icon-size=72
+icon-border-radius=8
+markup=1
+actions=1
+
+default-timeout=10000
+ignore-timeout=0
+sort=-priority
+
+format=<b>%s</b>\n%b
+
+[urgency=low]
+background-color=#1818188c
+text-color=#ffffff
+border-color=#808080
+default-timeout=12000
+
+[urgency=critical]
+background-color=#1818188c
+text-color=#ffffff
+border-color=#808080
+default-timeout=0
