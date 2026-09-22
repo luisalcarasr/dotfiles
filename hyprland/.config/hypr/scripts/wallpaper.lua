@@ -44,19 +44,14 @@ local function load_index()
   return index
 end
 
---- Set a given wallpaper on all monitors
-local function set_wallpaper(bg)
-  hl.exec_cmd('awww img "' .. bg .. '"')
-  apply_accent(bg)
-end
-
 -- Alpha channels for the active and inactive window borders
 local ACTIVE_ALPHA = "ee"
 local INACTIVE_ALPHA = "66"
 
 --- Extract an accent color from the wallpaper and apply it to window borders
+-- @param bg Full path to the wallpaper image
 local function apply_accent(bg)
-  local script = os.environ["HOME"] .. "/.config/hypr/scripts/accent-color.py"
+  local script = os.getenv("HOME") .. "/.config/hypr/scripts/accent-color.py"
   local p = io.popen('python3 "' .. script .. '" "' .. bg .. '"')
   if not p then
     return
@@ -67,7 +62,7 @@ local function apply_accent(bg)
     return
   end
 
-  local cache = os.environ["XDG_CACHE_HOME"] or (os.environ["HOME"] .. "/.cache")
+  local cache = os.getenv("XDG_CACHE_HOME") or (os.getenv("HOME") .. "/.cache")
   os.execute('mkdir -p "' .. cache .. '"')
   local f = io.open(cache .. "/wallpaper-accent", "w")
   if f then
@@ -77,6 +72,13 @@ local function apply_accent(bg)
 
   local eval = 'hl.config({ general = { col = { active_border = "rgba(' .. hex .. ACTIVE_ALPHA .. ')", inactive_border = "rgba(' .. hex .. INACTIVE_ALPHA .. ')" } } })'
   hl.exec_cmd('hyprctl eval "' .. eval .. '"')
+end
+
+--- Set a given wallpaper on all monitors
+-- @param bg Full path to the wallpaper image
+local function set_wallpaper(wallpaper_dir, bg)
+  hl.exec_cmd('awww img "' .. bg .. '"')
+  apply_accent(bg)
 end
 
 --- Set a random wallpaper from the specified directory on all monitors
@@ -90,7 +92,7 @@ function M.set_random(wallpaper_dir)
   end
 
   math.randomseed(os.time())
-  set_wallpaper(files[math.random(#files)])
+  set_wallpaper(wallpaper_dir, files[math.random(#files)])
 
   return true
 end
@@ -106,7 +108,7 @@ function M.set_next(wallpaper_dir)
   end
 
   local index = load_index() % #files + 1
-  set_wallpaper(files[index])
+  set_wallpaper(wallpaper_dir, files[index])
   save_index(index)
 
   return true
