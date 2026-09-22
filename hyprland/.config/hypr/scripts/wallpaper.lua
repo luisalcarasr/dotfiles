@@ -3,6 +3,8 @@
 
 local M = {}
 
+local color = require("scripts.color")
+
 --- List all files in the wallpaper directory
 -- @param wallpaper_dir Path to the directory containing wallpapers
 -- @return table List of full paths, or empty table on failure
@@ -70,7 +72,7 @@ local function apply_accent(bg)
     f:close()
   end
 
-  local eval = 'hl.config({ general = { col = { active_border = "rgba(' .. hex .. ACTIVE_ALPHA .. ')", inactive_border = "rgba(' .. hex .. INACTIVE_ALPHA .. ')" } } })'
+  local eval = 'hl.config({ general = { col = { active_border = "rgba(' .. hex .. ACTIVE_ALPHA .. ')", inactive_border = "rgba(' .. hex .. INACTIVE_ALPHA .. ')" } }, decoration = { shadow = { color = "rgba(' .. color.shadow_hex(hex) .. 'ff)" } } })'
   hl.exec_cmd("hyprctl eval '" .. eval .. "'")
 end
 

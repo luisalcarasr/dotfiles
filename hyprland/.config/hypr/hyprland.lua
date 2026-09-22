@@ -85,6 +85,7 @@ end)
 
 -- Load wallpaper module
 local wallpaper = require("scripts.wallpaper")
+local color = require("scripts.color")
 
 hl.on("hyprland.start", function()
 	hl.exec_cmd("waybar")
@@ -95,8 +96,9 @@ hl.on("hyprland.start", function()
 	wallpaper.set_random(home .. "/Pictures/Wallpapers")
 end)
 
--- Re-apply the wallpaper accent color to window borders after a config reload,
--- since hl.config resets the border colors back to the static defaults.
+-- Re-apply the wallpaper accent color to window borders and the derived
+-- shadow after a config reload, since hl.config resets those decoration
+-- colors back to the static defaults.
 hl.on("config.reloaded", function()
 	local cache = os.getenv("XDG_CACHE_HOME") or (os.getenv("HOME") .. "/.cache")
 	local f = io.open(cache .. "/wallpaper-accent", "r")
@@ -111,7 +113,9 @@ hl.on("config.reloaded", function()
 			.. hex
 			.. 'ee)", inactive_border = "rgba('
 			.. hex
-			.. '66)" } } })'
+			.. '66)" } }, decoration = { shadow = { color = "rgba('
+			.. color.shadow_hex(hex)
+			.. 'ff)" } } })'
 		hl.exec_cmd('hyprctl eval "' .. eval .. '"')
 	end
 end)
@@ -124,7 +128,7 @@ hl.config({
 	general = {
 		gaps_in = 5,
 		gaps_out = 10,
-		border_size = 2,
+		border_size = 1,
 		col = {
 			active_border = "rgba(" .. (accent or "1a5fb4") .. "ee)",
 			inactive_border = "rgba(" .. (accent or "241f31") .. "66)",
@@ -140,9 +144,9 @@ hl.config({
 		inactive_opacity = 1.0,
 		shadow = {
 			enabled = true,
-			range = 4,
+			range = 8,
 			render_power = 3,
-			color = "rgba(1a1a1aee)",
+			color = accent and ("rgba(" .. color.shadow_hex(accent) .. "ff)") or "rgba(1a1a1af0)",
 		},
 		blur = {
 			enabled = true,
