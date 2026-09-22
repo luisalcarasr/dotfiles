@@ -5,46 +5,48 @@
 ---- MY PROGRAMS ----
 ---------------------
 
-local terminal    = "kitty"
-local menu        = "wofi"
-local browser     = "flatpak run com.brave.Browser"
-local mainMod     = "SUPER"
+local terminal = "kitty"
+local menu = "wofi"
+local browser = "flatpak run com.brave.Browser"
+local mainMod = "SUPER"
 
 local accent = (function()
-  local cache = os.getenv("XDG_CACHE_HOME") or (os.getenv("HOME") .. "/.cache")
-  local f = io.open(cache .. "/wallpaper-accent", "r")
-  if not f then return nil end
-  local hex = f:read("*l")
-  f:close()
-  return (hex or ""):match("^%x%x%x%x%x%x$")
+	local cache = os.getenv("XDG_CACHE_HOME") or (os.getenv("HOME") .. "/.cache")
+	local f = io.open(cache .. "/wallpaper-accent", "r")
+	if not f then
+		return nil
+	end
+	local hex = f:read("*l")
+	f:close()
+	return (hex or ""):match("^%x%x%x%x%x%x$")
 end)()
 
-local home        = os.getenv("HOME")
+local home = os.getenv("HOME")
 
 ------------------
 ---- MONITORS ----
 ------------------
 
 hl.monitor({
-  output   = "desc:Dell Inc. DELL P2423D B0MQVP3",
-  mode     = "2560x1440@60",
-  position = "0x0",
-  scale    = 1,
+	output = "desc:Dell Inc. DELL P2423D B0MQVP3",
+	mode = "2560x1440@60",
+	position = "0x0",
+	scale = 1,
 })
 
 hl.monitor({
-  output   = "desc:GGF MG700 0000000000000",
-  mode     = "2560x1440@144",
-  position = "2560x0",
-  scale    = 1,
-  vrr      = 1,
+	output = "desc:GGF MG700 0000000000000",
+	mode = "2560x1440@144",
+	position = "2560x0",
+	scale = 1,
+	vrr = 1,
 })
 
 hl.monitor({
-  output   = "desc:Dell Inc. DELL P2423DE B87GXR3",
-  mode     = "2560x1440@60",
-  position = "5120x0",
-  scale    = 1,
+	output = "desc:Dell Inc. DELL P2423DE B87GXR3",
+	mode = "2560x1440@60",
+	position = "5120x0",
+	scale = 1,
 })
 
 -------------------------------
@@ -61,20 +63,20 @@ hl.env("HYPRCURSOR_SIZE", "24")
 -- Move the cursor to the center of the active window when focus changes
 -- via keyboard (workspace / window navigation). Skip clicks and hover so
 -- the cursor is not yanked away while using the mouse.
-local FOCUS_REASON_FFM   = 1
+local FOCUS_REASON_FFM = 1
 local FOCUS_REASON_CLICK = 16
 
 hl.on("window.active", function(window, focusReason)
-  if window == nil then
-    return
-  end
-  if (focusReason & (FOCUS_REASON_FFM | FOCUS_REASON_CLICK)) ~= 0 then
-    return
-  end
-  local at, size = window.at, window.size
-  if at ~= nil and size ~= nil then
-    hl.dispatch(hl.dsp.cursor.move({ x = at.x + size.x / 2, y = at.y + size.y / 2 }))
-  end
+	if window == nil then
+		return
+	end
+	if (focusReason & (FOCUS_REASON_FFM | FOCUS_REASON_CLICK)) ~= 0 then
+		return
+	end
+	local at, size = window.at, window.size
+	if at ~= nil and size ~= nil then
+		hl.dispatch(hl.dsp.cursor.move({ x = at.x + size.x / 2, y = at.y + size.y / 2 }))
+	end
 end)
 
 --------------------------
@@ -85,29 +87,33 @@ end)
 local wallpaper = require("scripts.wallpaper")
 
 hl.on("hyprland.start", function()
-  hl.exec_cmd("waybar")
-  hl.exec_cmd("awww-daemon")
-  hl.exec_cmd("mako")
+	hl.exec_cmd("waybar")
+	hl.exec_cmd("awww-daemon")
+	hl.exec_cmd("mako")
 
-  -- Set random wallpaper at start
-  wallpaper.set_random(home .. "/Pictures/Wallpapers")
+	-- Set random wallpaper at start
+	wallpaper.set_random(home .. "/Pictures/Wallpapers")
 end)
 
 -- Re-apply the wallpaper accent color to window borders after a config reload,
 -- since hl.config resets the border colors back to the static defaults.
 hl.on("config.reloaded", function()
-  local cache = os.getenv("XDG_CACHE_HOME") or (os.getenv("HOME") .. "/.cache")
-  local f = io.open(cache .. "/wallpaper-accent", "r")
-  if not f then
-    return
-  end
-  local hex = f:read("*l")
-  f:close()
-  hex = (hex or ""):match("^%x%x%x%x%x%x$")
-  if hex then
-    local eval = 'hl.config({ general = { col = { active_border = "rgba(' .. hex .. 'ee)", inactive_border = "rgba(' .. hex .. '66)" } } })'
-    hl.exec_cmd('hyprctl eval "' .. eval .. '"')
-  end
+	local cache = os.getenv("XDG_CACHE_HOME") or (os.getenv("HOME") .. "/.cache")
+	local f = io.open(cache .. "/wallpaper-accent", "r")
+	if not f then
+		return
+	end
+	local hex = f:read("*l")
+	f:close()
+	hex = (hex or ""):match("^%x%x%x%x%x%x$")
+	if hex then
+		local eval = 'hl.config({ general = { col = { active_border = "rgba('
+			.. hex
+			.. 'ee)", inactive_border = "rgba('
+			.. hex
+			.. '66)" } } })'
+		hl.exec_cmd('hyprctl eval "' .. eval .. '"')
+	end
 end)
 
 -----------------------
@@ -115,70 +121,70 @@ end)
 -----------------------
 
 hl.config({
-  general = {
-    gaps_in          = 5,
-    gaps_out         = 10,
-    border_size      = 1,
-    col              = {
-      active_border   = "rgba(" .. (accent or "1a5fb4") .. "ee)",
-      inactive_border = "rgba(" .. (accent or "241f31") .. "66)",
-    },
-    resize_on_border = false,
-    allow_tearing    = false,
-    layout           = "dwindle",
-  },
-  decoration = {
-    rounding = 4,
-    rounding_power = 4,
-    active_opacity = 1.0,
-    inactive_opacity = 1.0,
-    shadow = {
-      enabled = true,
-      range = 4,
-      render_power = 3,
-      color = "rgba(1a1a1aee)",
-    },
-    blur = {
-      enabled = true,
-      size = 8,
-      passes = 3,
-      vibrancy = 0.1696,
-      noise = 0.0117,
-      contrast = 0.8916,
-      brightness = 0.8172,
-      popups = true,
-      popups_ignorealpha = 0.2,
-    },
-  },
-  animations = {
-    enabled = true,
-  },
-  dwindle = {
-    preserve_split = true,
-  },
-  master = {
-    new_status = "master",
-  },
-  misc = {
-    force_default_wallpaper = -1,
-    disable_hyprland_logo = true,
-  },
-  input = {
-    kb_layout    = "us",
-    kb_variant   = "",
-    kb_model     = "",
-    kb_options   = "",
-    kb_rules     = "",
-    follow_mouse = 1,
-    sensitivity  = 0,
-    touchpad     = {
-      natural_scroll = false,
-    },
-  },
-  cursor = {
-    hide_on_key_press = true,
-    inactive_timeout  = 2,
-  },
+	general = {
+		gaps_in = 5,
+		gaps_out = 10,
+		border_size = 2,
+		col = {
+			active_border = "rgba(" .. (accent or "1a5fb4") .. "ee)",
+			inactive_border = "rgba(" .. (accent or "241f31") .. "66)",
+		},
+		resize_on_border = false,
+		allow_tearing = false,
+		layout = "dwindle",
+	},
+	decoration = {
+		rounding = 4,
+		rounding_power = 4,
+		active_opacity = 1.0,
+		inactive_opacity = 1.0,
+		shadow = {
+			enabled = true,
+			range = 4,
+			render_power = 3,
+			color = "rgba(1a1a1aee)",
+		},
+		blur = {
+			enabled = true,
+			size = 8,
+			passes = 3,
+			vibrancy = 0.1696,
+			noise = 0.0117,
+			contrast = 0.8916,
+			brightness = 0.8172,
+			popups = true,
+			popups_ignorealpha = 0.2,
+		},
+	},
+	animations = {
+		enabled = true,
+	},
+	dwindle = {
+		preserve_split = true,
+	},
+	master = {
+		new_status = "master",
+	},
+	misc = {
+		force_default_wallpaper = -1,
+		disable_hyprland_logo = true,
+	},
+	input = {
+		kb_layout = "us",
+		kb_variant = "",
+		kb_model = "",
+		kb_options = "",
+		kb_rules = "",
+		follow_mouse = 1,
+		sensitivity = 0,
+		touchpad = {
+			natural_scroll = false,
+		},
+	},
+	cursor = {
+		hide_on_key_press = true,
+		inactive_timeout = 2,
+	},
 })
 
 ---------------
@@ -218,9 +224,9 @@ hl.animation({ leaf = "zoomFactor", enabled = true, speed = 7, bezier = "quick" 
 -----------------
 
 hl.gesture({
-  fingers = 3,
-  direction = "horizontal",
-  action = "workspace",
+	fingers = 3,
+	direction = "horizontal",
+	action = "workspace",
 })
 
 ----------------
@@ -228,8 +234,8 @@ hl.gesture({
 ----------------
 
 hl.device({
-  name = "epic-mouse-v1",
-  sensitivity = -0.5,
+	name = "epic-mouse-v1",
+	sensitivity = -0.5,
 })
 
 ---------------------
@@ -237,66 +243,66 @@ hl.device({
 ---------------------
 
 hl.window_rule({
-  name           = "suppress-maximize-events",
-  match          = { class = ".*" },
-  suppress_event = "maximize",
+	name = "suppress-maximize-events",
+	match = { class = ".*" },
+	suppress_event = "maximize",
 })
 
 hl.window_rule({
-  name     = "fix-xwayland-drags",
-  match    = {
-    class      = "^$",
-    title      = "^$",
-    xwayland   = true,
-    float      = true,
-    fullscreen = false,
-    pin        = false,
-  },
-  no_focus = true,
+	name = "fix-xwayland-drags",
+	match = {
+		class = "^$",
+		title = "^$",
+		xwayland = true,
+		float = true,
+		fullscreen = false,
+		pin = false,
+	},
+	no_focus = true,
 })
 
 -- Blur the waybar layer
 hl.layer_rule({
-  name  = "blur-waybar",
-  match = { namespace = "waybar" },
-  blur  = true,
-  blur_popups = true,
-  ignore_alpha = 0.5,
+	name = "blur-waybar",
+	match = { namespace = "waybar" },
+	blur = true,
+	blur_popups = true,
+	ignore_alpha = 0.5,
 })
 
 -- Blur waybar tooltips
 hl.layer_rule({
-  name  = "blur-tooltip",
-  match = { namespace = "tooltip" },
-  blur  = true,
-  ignore_alpha = 0.5,
+	name = "blur-tooltip",
+	match = { namespace = "tooltip" },
+	blur = true,
+	ignore_alpha = 0.5,
 })
 
 -- Blur the wofi launcher
 hl.layer_rule({
-  name  = "blur-wofi",
-  match = { namespace = "wofi" },
-  blur  = true,
-  ignore_alpha = 0.5,
+	name = "blur-wofi",
+	match = { namespace = "wofi" },
+	blur = true,
+	ignore_alpha = 0.5,
 })
 
 -- Blur mako notifications
 hl.layer_rule({
-  name          = "blur-mako",
-  match         = { namespace = "notifications" },
-  blur          = true,
-  blur_popups   = true,
-  ignore_alpha  = 0.5,
+	name = "blur-mako",
+	match = { namespace = "notifications" },
+	blur = true,
+	blur_popups = true,
+	ignore_alpha = 0.5,
 })
 
 hl.window_rule({
-  name              = "tui-floating",
-  match             = { class = "^tui-floating$" },
-  float             = true,
-  size              = { 854, 480 },
-  keep_aspect_ratio = true,
-  border_size       = 0,
-  no_shadow         = true,
+	name = "tui-floating",
+	match = { class = "^tui-floating$" },
+	float = true,
+	size = { 854, 480 },
+	keep_aspect_ratio = true,
+	border_size = 0,
+	no_shadow = true,
 })
 
 ---------------------
@@ -307,14 +313,22 @@ hl.window_rule({
 hl.bind(mainMod .. " + RETURN", hl.dsp.exec_cmd(terminal), { description = "Open terminal" })
 hl.bind(mainMod .. " + BACKSLASH", hl.dsp.exec_cmd(browser), { description = "Open browser" })
 hl.bind(mainMod .. " + SPACE", hl.dsp.exec_cmd(menu), { description = "Open launcher (wofi)" })
-hl.bind(mainMod .. " + G", hl.dsp.exec_cmd("lua " .. home .. "/.config/hypr/scripts/steam-games-menu.lua"), { description = "Steam games menu" })
+hl.bind(
+	mainMod .. " + G",
+	hl.dsp.exec_cmd("lua " .. home .. "/.config/hypr/scripts/steam-games-menu.lua"),
+	{ description = "Steam games menu" }
+)
 hl.bind(mainMod .. " + N", hl.dsp.exec_cmd("makoctl mode -t dnd"), { description = "Toggle Do Not Disturb" })
 
 -- Window management
 hl.bind(mainMod .. " + Q", hl.dsp.window.close(), { description = "Close window" })
 hl.bind(mainMod .. " + V", hl.dsp.window.float({ action = "toggle" }), { description = "Toggle floating window" })
 hl.bind(mainMod .. " + P", hl.dsp.window.pseudo(), { description = "Toggle pseudo-tiling" })
-hl.bind(mainMod .. " + F", hl.dsp.window.fullscreen({ mode = "fullscreen", action = "toggle" }), { description = "Fullscreen" })
+hl.bind(
+	mainMod .. " + F",
+	hl.dsp.window.fullscreen({ mode = "fullscreen", action = "toggle" }),
+	{ description = "Fullscreen" }
+)
 
 -- Power actions (all around SUPER + Escape)
 hl.bind(mainMod .. " + SHIFT + Escape", hl.dsp.exit(), { description = "Log out" })
@@ -344,18 +358,38 @@ hl.bind(mainMod .. " + ALT + J", hl.dsp.window.resize({ x = 0, y = 20 }), { desc
 
 -- Workspaces
 for i = 1, 10 do
-  local key = i % 10
-  hl.bind(mainMod .. " + " .. key, hl.dsp.exec_cmd(home .. "/.config/hypr/scripts/workspace-nav.py goto " .. i), { description = "Go to workspace " .. i })
-  hl.bind(mainMod .. " + SHIFT + " .. key, hl.dsp.window.move({ workspace = i }), { description = "Send window to workspace " .. i })
+	local key = i % 10
+	hl.bind(
+		mainMod .. " + " .. key,
+		hl.dsp.exec_cmd(home .. "/.config/hypr/scripts/workspace-nav.py goto " .. i),
+		{ description = "Go to workspace " .. i }
+	)
+	hl.bind(
+		mainMod .. " + SHIFT + " .. key,
+		hl.dsp.window.move({ workspace = i }),
+		{ description = "Send window to workspace " .. i }
+	)
 end
 
 -- Navigate workspaces (only those with windows, swap across monitors)
-hl.bind(mainMod .. " + right", hl.dsp.exec_cmd(home .. "/.config/hypr/scripts/workspace-nav.py next"), { description = "Next workspace" })
-hl.bind(mainMod .. " + left", hl.dsp.exec_cmd(home .. "/.config/hypr/scripts/workspace-nav.py prev"), { description = "Previous workspace" })
+hl.bind(
+	mainMod .. " + right",
+	hl.dsp.exec_cmd(home .. "/.config/hypr/scripts/workspace-nav.py next"),
+	{ description = "Next workspace" }
+)
+hl.bind(
+	mainMod .. " + left",
+	hl.dsp.exec_cmd(home .. "/.config/hypr/scripts/workspace-nav.py prev"),
+	{ description = "Previous workspace" }
+)
 
 -- Special workspace
 hl.bind(mainMod .. " + S", hl.dsp.workspace.toggle_special("magic"), { description = "Toggle scratchpad" })
-hl.bind(mainMod .. " + SHIFT + S", hl.dsp.window.move({ workspace = "special:magic" }), { description = "Send window to scratchpad" })
+hl.bind(
+	mainMod .. " + SHIFT + S",
+	hl.dsp.window.move({ workspace = "special:magic" }),
+	{ description = "Send window to scratchpad" }
+)
 
 -- Mouse scroll workspaces
 hl.bind(mainMod .. " + mouse_down", hl.dsp.focus({ workspace = "e+1" }), { description = "Next workspace (scroll)" })
@@ -366,18 +400,46 @@ hl.bind(mainMod .. " + mouse:272", hl.dsp.window.drag(), { mouse = true, descrip
 hl.bind(mainMod .. " + mouse:273", hl.dsp.window.resize(), { mouse = true, description = "Resize window" })
 
 -- Multimedia keys
-hl.bind("XF86AudioRaiseVolume", hl.dsp.exec_cmd("wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%+"),
-  { locked = true, repeating = true, description = "Increase volume" })
-hl.bind("XF86AudioLowerVolume", hl.dsp.exec_cmd("wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"),
-  { locked = true, repeating = true, description = "Decrease volume" })
-hl.bind("XF86AudioMute", hl.dsp.exec_cmd("wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"),
-  { locked = true, repeating = true, description = "Mute audio" })
-hl.bind("XF86AudioMicMute", hl.dsp.exec_cmd("wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"),
-  { locked = true, repeating = true, description = "Mute mic" })
-hl.bind(mainMod .. " + PLUS", hl.dsp.exec_cmd("wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%+"), { locked = true, repeating = true, description = "Increase volume" })
-hl.bind(mainMod .. " + MINUS", hl.dsp.exec_cmd("wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"), { locked = true, repeating = true, description = "Decrease volume" })
-hl.bind("XF86MonBrightnessUp", hl.dsp.exec_cmd("brightnessctl set 5%+"), { locked = true, repeating = true, description = "Brightness up" })
-hl.bind("XF86MonBrightnessDown", hl.dsp.exec_cmd("brightnessctl set 5%-"), { locked = true, repeating = true, description = "Brightness down" })
+hl.bind(
+	"XF86AudioRaiseVolume",
+	hl.dsp.exec_cmd("wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%+"),
+	{ locked = true, repeating = true, description = "Increase volume" }
+)
+hl.bind(
+	"XF86AudioLowerVolume",
+	hl.dsp.exec_cmd("wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"),
+	{ locked = true, repeating = true, description = "Decrease volume" }
+)
+hl.bind(
+	"XF86AudioMute",
+	hl.dsp.exec_cmd("wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"),
+	{ locked = true, repeating = true, description = "Mute audio" }
+)
+hl.bind(
+	"XF86AudioMicMute",
+	hl.dsp.exec_cmd("wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"),
+	{ locked = true, repeating = true, description = "Mute mic" }
+)
+hl.bind(
+	mainMod .. " + PLUS",
+	hl.dsp.exec_cmd("wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%+"),
+	{ locked = true, repeating = true, description = "Increase volume" }
+)
+hl.bind(
+	mainMod .. " + MINUS",
+	hl.dsp.exec_cmd("wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"),
+	{ locked = true, repeating = true, description = "Decrease volume" }
+)
+hl.bind(
+	"XF86MonBrightnessUp",
+	hl.dsp.exec_cmd("brightnessctl set 5%+"),
+	{ locked = true, repeating = true, description = "Brightness up" }
+)
+hl.bind(
+	"XF86MonBrightnessDown",
+	hl.dsp.exec_cmd("brightnessctl set 5%-"),
+	{ locked = true, repeating = true, description = "Brightness down" }
+)
 
 -- Playerctl
 hl.bind("XF86AudioNext", hl.dsp.exec_cmd("playerctl next"), { locked = true, description = "Next track" })
@@ -387,11 +449,19 @@ hl.bind("XF86AudioPrev", hl.dsp.exec_cmd("playerctl previous"), { locked = true,
 
 -- Random wallpaper at startup (sequential with KEY + W)
 hl.bind(mainMod .. " + W", function()
-  wallpaper.set_next(home .. "/Pictures/Wallpapers")
+	wallpaper.set_next(home .. "/Pictures/Wallpapers")
 end, { description = "Change wallpaper" })
 
 -- Toggle secondary monitors (keep only DP-3 active)
-hl.bind(mainMod .. " + X", hl.dsp.exec_cmd(home .. "/.config/hypr/scripts/toggle-secondary-monitors.sh"), { description = "Toggle secondary monitors" })
+hl.bind(
+	mainMod .. " + X",
+	hl.dsp.exec_cmd(home .. "/.config/hypr/scripts/toggle-secondary-monitors.sh"),
+	{ description = "Toggle secondary monitors" }
+)
 
 -- Show keybindings (SUPER + ?)
-hl.bind(mainMod .. " + SHIFT + slash", hl.dsp.exec_cmd(home .. "/.config/hypr/scripts/show-binds.py"), { description = "Show keybindings (SUPER + ?)" })
+hl.bind(
+	mainMod .. " + SHIFT + slash",
+	hl.dsp.exec_cmd(home .. "/.config/hypr/scripts/show-binds.py"),
+	{ description = "Show keybindings (SUPER + ?)" }
+)
