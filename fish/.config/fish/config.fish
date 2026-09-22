@@ -28,3 +28,6 @@ if status is-interactive
         tide configure
     end
 end
+
+# opencode
+fish_add_path /home/luis/.opencode/bin
