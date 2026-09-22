@@ -9,6 +9,16 @@ local terminal    = "kitty"
 local menu        = "wofi"
 local browser     = "flatpak run com.brave.Browser"
 local mainMod     = "SUPER"
+
+local accent = (function()
+  local cache = os.getenv("XDG_CACHE_HOME") or (os.getenv("HOME") .. "/.cache")
+  local f = io.open(cache .. "/wallpaper-accent", "r")
+  if not f then return nil end
+  local hex = f:read("*l")
+  f:close()
+  return (hex or ""):match("^%x%x%x%x%x%x$")
+end)()
+
 local home        = os.getenv("HOME")
 
 ------------------
@@ -83,6 +93,23 @@ hl.on("hyprland.start", function()
   wallpaper.set_random(home .. "/Pictures/Wallpapers")
 end)
 
+-- Re-apply the wallpaper accent color to window borders after a config reload,
+-- since hl.config resets the border colors back to the static defaults.
+hl.on("config.reloaded", function()
+  local cache = os.getenv("XDG_CACHE_HOME") or (os.getenv("HOME") .. "/.cache")
+  local f = io.open(cache .. "/wallpaper-accent", "r")
+  if not f then
+    return
+  end
+  local hex = f:read("*l")
+  f:close()
+  hex = (hex or ""):match("^%x%x%x%x%x%x$")
+  if hex then
+    local eval = 'hl.config({ general = { col = { active_border = "rgba(' .. hex .. 'ee)", inactive_border = "rgba(' .. hex .. '66)" } } })'
+    hl.exec_cmd('hyprctl eval "' .. eval .. '"')
+  end
+end)
+
 -----------------------
 ---- LOOK AND FEEL ----
 -----------------------
@@ -93,8 +120,8 @@ hl.config({
     gaps_out         = 10,
     border_size      = 1,
     col              = {
-      active_border   = "rgba(1a5fb4ee)",
-      inactive_border = "rgba(241f31aa)",
+      active_border   = "rgba(" .. (accent or "1a5fb4") .. "ee)",
+      inactive_border = "rgba(" .. (accent or "241f31") .. "66)",
     },
     resize_on_border = false,
     allow_tearing    = false,

@@ -47,6 +47,36 @@ end
 --- Set a given wallpaper on all monitors
 local function set_wallpaper(bg)
   hl.exec_cmd('awww img "' .. bg .. '"')
+  apply_accent(bg)
+end
+
+-- Alpha channels for the active and inactive window borders
+local ACTIVE_ALPHA = "ee"
+local INACTIVE_ALPHA = "66"
+
+--- Extract an accent color from the wallpaper and apply it to window borders
+local function apply_accent(bg)
+  local script = os.environ["HOME"] .. "/.config/hypr/scripts/accent-color.py"
+  local p = io.popen('python3 "' .. script .. '" "' .. bg .. '"')
+  if not p then
+    return
+  end
+  local hex = (p:read("*l") or ""):match("^%x%x%x%x%x%x$")
+  p:close()
+  if not hex then
+    return
+  end
+
+  local cache = os.environ["XDG_CACHE_HOME"] or (os.environ["HOME"] .. "/.cache")
+  os.execute('mkdir -p "' .. cache .. '"')
+  local f = io.open(cache .. "/wallpaper-accent", "w")
+  if f then
+    f:write(hex)
+    f:close()
+  end
+
+  local eval = 'hl.config({ general = { col = { active_border = "rgba(' .. hex .. ACTIVE_ALPHA .. ')", inactive_border = "rgba(' .. hex .. INACTIVE_ALPHA .. ')" } } })'
+  hl.exec_cmd('hyprctl eval "' .. eval .. '"')
 end
 
 --- Set a random wallpaper from the specified directory on all monitors
