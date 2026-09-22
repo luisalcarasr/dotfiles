@@ -71,7 +71,7 @@ local function apply_accent(bg)
   end
 
   local eval = 'hl.config({ general = { col = { active_border = "rgba(' .. hex .. ACTIVE_ALPHA .. ')", inactive_border = "rgba(' .. hex .. INACTIVE_ALPHA .. ')" } } })'
-  hl.exec_cmd('hyprctl eval "' .. eval .. '"')
+  hl.exec_cmd("hyprctl eval '" .. eval .. "'")
 end
 
 --- Set a given wallpaper on all monitors
