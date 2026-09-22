@@ -277,86 +277,94 @@ hl.window_rule({
 ---------------------
 
 -- Launch programs
-hl.bind(mainMod .. " + RETURN", hl.dsp.exec_cmd(terminal))
-hl.bind(mainMod .. " + BACKSLASH", hl.dsp.exec_cmd(browser))
-hl.bind(mainMod .. " + SPACE", hl.dsp.exec_cmd(menu))
-hl.bind(mainMod .. " + G", hl.dsp.exec_cmd("lua " .. home .. "/.config/hypr/scripts/steam-games-menu.lua"))
-hl.bind(mainMod .. " + N", hl.dsp.exec_cmd("makoctl mode -t dnd"))
+hl.bind(mainMod .. " + RETURN", hl.dsp.exec_cmd(terminal), { description = "Open terminal" })
+hl.bind(mainMod .. " + BACKSLASH", hl.dsp.exec_cmd(browser), { description = "Open browser" })
+hl.bind(mainMod .. " + SPACE", hl.dsp.exec_cmd(menu), { description = "Open launcher (wofi)" })
+hl.bind(mainMod .. " + G", hl.dsp.exec_cmd("lua " .. home .. "/.config/hypr/scripts/steam-games-menu.lua"), { description = "Steam games menu" })
+hl.bind(mainMod .. " + N", hl.dsp.exec_cmd("makoctl mode -t dnd"), { description = "Toggle Do Not Disturb" })
 
 -- Window management
-hl.bind(mainMod .. " + Q", hl.dsp.window.close())
-hl.bind(mainMod .. " + M", hl.dsp.exit())
-hl.bind(mainMod .. " + V", hl.dsp.window.float({ action = "toggle" }))
-hl.bind(mainMod .. " + P", hl.dsp.window.pseudo())
+hl.bind(mainMod .. " + Q", hl.dsp.window.close(), { description = "Close window" })
+hl.bind(mainMod .. " + V", hl.dsp.window.float({ action = "toggle" }), { description = "Toggle floating window" })
+hl.bind(mainMod .. " + P", hl.dsp.window.pseudo(), { description = "Toggle pseudo-tiling" })
+hl.bind(mainMod .. " + F", hl.dsp.window.fullscreen({ mode = "fullscreen", action = "toggle" }), { description = "Fullscreen" })
+
+-- Power actions (all around SUPER + Escape)
+hl.bind(mainMod .. " + SHIFT + Escape", hl.dsp.exit(), { description = "Log out" })
+hl.bind(mainMod .. " + CTRL + Escape", hl.dsp.exec_cmd("systemctl reboot"), { description = "Reboot" })
+hl.bind(mainMod .. " + ALT + Escape", hl.dsp.exec_cmd("systemctl poweroff"), { description = "Power off" })
 
 -- Reload config
-hl.bind(mainMod .. " + R", hl.dsp.exec_cmd("hyprctl reload"))
+hl.bind(mainMod .. " + R", hl.dsp.exec_cmd("hyprctl reload"), { description = "Reload config" })
 
 -- Move focus
-hl.bind(mainMod .. " + H", hl.dsp.focus({ direction = "l" }))
-hl.bind(mainMod .. " + L", hl.dsp.focus({ direction = "r" }))
-hl.bind(mainMod .. " + K", hl.dsp.focus({ direction = "u" }))
-hl.bind(mainMod .. " + J", hl.dsp.focus({ direction = "d" }))
+hl.bind(mainMod .. " + H", hl.dsp.focus({ direction = "l" }), { description = "Focus left" })
+hl.bind(mainMod .. " + L", hl.dsp.focus({ direction = "r" }), { description = "Focus right" })
+hl.bind(mainMod .. " + K", hl.dsp.focus({ direction = "u" }), { description = "Focus up" })
+hl.bind(mainMod .. " + J", hl.dsp.focus({ direction = "d" }), { description = "Focus down" })
 
 -- Move window
-hl.bind(mainMod .. " + SHIFT + H", hl.dsp.window.move({ direction = "l" }))
-hl.bind(mainMod .. " + SHIFT + L", hl.dsp.window.move({ direction = "r" }))
-hl.bind(mainMod .. " + SHIFT + K", hl.dsp.window.move({ direction = "u" }))
-hl.bind(mainMod .. " + SHIFT + J", hl.dsp.window.move({ direction = "d" }))
+hl.bind(mainMod .. " + SHIFT + H", hl.dsp.window.move({ direction = "l" }), { description = "Move window left" })
+hl.bind(mainMod .. " + SHIFT + L", hl.dsp.window.move({ direction = "r" }), { description = "Move window right" })
+hl.bind(mainMod .. " + SHIFT + K", hl.dsp.window.move({ direction = "u" }), { description = "Move window up" })
+hl.bind(mainMod .. " + SHIFT + J", hl.dsp.window.move({ direction = "d" }), { description = "Move window down" })
 
 -- Resize window
-hl.bind(mainMod .. " + ALT + H", hl.dsp.window.resize({ x = -20, y = 0 }))
-hl.bind(mainMod .. " + ALT + L", hl.dsp.window.resize({ x = 20, y = 0 }))
-hl.bind(mainMod .. " + ALT + K", hl.dsp.window.resize({ x = 0, y = -20 }))
-hl.bind(mainMod .. " + ALT + J", hl.dsp.window.resize({ x = 0, y = 20 }))
+hl.bind(mainMod .. " + ALT + H", hl.dsp.window.resize({ x = -20, y = 0 }), { description = "Shrink window" })
+hl.bind(mainMod .. " + ALT + L", hl.dsp.window.resize({ x = 20, y = 0 }), { description = "Grow window" })
+hl.bind(mainMod .. " + ALT + K", hl.dsp.window.resize({ x = 0, y = -20 }), { description = "Lower window" })
+hl.bind(mainMod .. " + ALT + J", hl.dsp.window.resize({ x = 0, y = 20 }), { description = "Raise window" })
 
 -- Workspaces
 for i = 1, 10 do
   local key = i % 10
-  hl.bind(mainMod .. " + " .. key, hl.dsp.exec_cmd(home .. "/.config/hypr/scripts/workspace-nav.py goto " .. i))
-  hl.bind(mainMod .. " + SHIFT + " .. key, hl.dsp.window.move({ workspace = i }))
+  hl.bind(mainMod .. " + " .. key, hl.dsp.exec_cmd(home .. "/.config/hypr/scripts/workspace-nav.py goto " .. i), { description = "Go to workspace " .. i })
+  hl.bind(mainMod .. " + SHIFT + " .. key, hl.dsp.window.move({ workspace = i }), { description = "Send window to workspace " .. i })
 end
 
 -- Navigate workspaces (only those with windows, swap across monitors)
-hl.bind(mainMod .. " + right", hl.dsp.exec_cmd(home .. "/.config/hypr/scripts/workspace-nav.py next"))
-hl.bind(mainMod .. " + left", hl.dsp.exec_cmd(home .. "/.config/hypr/scripts/workspace-nav.py prev"))
+hl.bind(mainMod .. " + right", hl.dsp.exec_cmd(home .. "/.config/hypr/scripts/workspace-nav.py next"), { description = "Next workspace" })
+hl.bind(mainMod .. " + left", hl.dsp.exec_cmd(home .. "/.config/hypr/scripts/workspace-nav.py prev"), { description = "Previous workspace" })
 
 -- Special workspace
-hl.bind(mainMod .. " + S", hl.dsp.workspace.toggle_special("magic"))
-hl.bind(mainMod .. " + SHIFT + S", hl.dsp.window.move({ workspace = "special:magic" }))
+hl.bind(mainMod .. " + S", hl.dsp.workspace.toggle_special("magic"), { description = "Toggle scratchpad" })
+hl.bind(mainMod .. " + SHIFT + S", hl.dsp.window.move({ workspace = "special:magic" }), { description = "Send window to scratchpad" })
 
 -- Mouse scroll workspaces
-hl.bind(mainMod .. " + mouse_down", hl.dsp.focus({ workspace = "e+1" }))
-hl.bind(mainMod .. " + mouse_up", hl.dsp.focus({ workspace = "e-1" }))
+hl.bind(mainMod .. " + mouse_down", hl.dsp.focus({ workspace = "e+1" }), { description = "Next workspace (scroll)" })
+hl.bind(mainMod .. " + mouse_up", hl.dsp.focus({ workspace = "e-1" }), { description = "Previous workspace (scroll)" })
 
 -- Mouse drag/resize
-hl.bind(mainMod .. " + mouse:272", hl.dsp.window.drag(), { mouse = true })
-hl.bind(mainMod .. " + mouse:273", hl.dsp.window.resize(), { mouse = true })
+hl.bind(mainMod .. " + mouse:272", hl.dsp.window.drag(), { mouse = true, description = "Drag window" })
+hl.bind(mainMod .. " + mouse:273", hl.dsp.window.resize(), { mouse = true, description = "Resize window" })
 
 -- Multimedia keys
 hl.bind("XF86AudioRaiseVolume", hl.dsp.exec_cmd("wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%+"),
-  { locked = true, repeating = true })
+  { locked = true, repeating = true, description = "Increase volume" })
 hl.bind("XF86AudioLowerVolume", hl.dsp.exec_cmd("wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"),
-  { locked = true, repeating = true })
+  { locked = true, repeating = true, description = "Decrease volume" })
 hl.bind("XF86AudioMute", hl.dsp.exec_cmd("wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"),
-  { locked = true, repeating = true })
+  { locked = true, repeating = true, description = "Mute audio" })
 hl.bind("XF86AudioMicMute", hl.dsp.exec_cmd("wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"),
-  { locked = true, repeating = true })
-hl.bind(mainMod .. " + PLUS", hl.dsp.exec_cmd("wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%+"), { locked = true, repeating = true })
-hl.bind(mainMod .. " + MINUS", hl.dsp.exec_cmd("wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"), { locked = true, repeating = true })
-hl.bind("XF86MonBrightnessUp", hl.dsp.exec_cmd("brightnessctl set 5%+"), { locked = true, repeating = true })
-hl.bind("XF86MonBrightnessDown", hl.dsp.exec_cmd("brightnessctl set 5%-"), { locked = true, repeating = true })
+  { locked = true, repeating = true, description = "Mute mic" })
+hl.bind(mainMod .. " + PLUS", hl.dsp.exec_cmd("wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%+"), { locked = true, repeating = true, description = "Increase volume" })
+hl.bind(mainMod .. " + MINUS", hl.dsp.exec_cmd("wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"), { locked = true, repeating = true, description = "Decrease volume" })
+hl.bind("XF86MonBrightnessUp", hl.dsp.exec_cmd("brightnessctl set 5%+"), { locked = true, repeating = true, description = "Brightness up" })
+hl.bind("XF86MonBrightnessDown", hl.dsp.exec_cmd("brightnessctl set 5%-"), { locked = true, repeating = true, description = "Brightness down" })
 
 -- Playerctl
-hl.bind("XF86AudioNext", hl.dsp.exec_cmd("playerctl next"), { locked = true })
-hl.bind("XF86AudioPause", hl.dsp.exec_cmd("playerctl play-pause"), { locked = true })
-hl.bind("XF86AudioPlay", hl.dsp.exec_cmd("playerctl play-pause"), { locked = true })
-hl.bind("XF86AudioPrev", hl.dsp.exec_cmd("playerctl previous"), { locked = true })
+hl.bind("XF86AudioNext", hl.dsp.exec_cmd("playerctl next"), { locked = true, description = "Next track" })
+hl.bind("XF86AudioPause", hl.dsp.exec_cmd("playerctl play-pause"), { locked = true, description = "Play/Pause" })
+hl.bind("XF86AudioPlay", hl.dsp.exec_cmd("playerctl play-pause"), { locked = true, description = "Play/Pause" })
+hl.bind("XF86AudioPrev", hl.dsp.exec_cmd("playerctl previous"), { locked = true, description = "Previous track" })
 
 -- Random wallpaper at startup (sequential with KEY + W)
 hl.bind(mainMod .. " + W", function()
   wallpaper.set_next(home .. "/Pictures/Wallpapers")
-end)
+end, { description = "Change wallpaper" })
 
 -- Toggle secondary monitors (keep only DP-3 active)
-hl.bind(mainMod .. " + X", hl.dsp.exec_cmd(home .. "/.config/hypr/scripts/toggle-secondary-monitors.sh"))
+hl.bind(mainMod .. " + X", hl.dsp.exec_cmd(home .. "/.config/hypr/scripts/toggle-secondary-monitors.sh"), { description = "Toggle secondary monitors" })
+
+-- Show keybindings (SUPER + ?)
+hl.bind(mainMod .. " + SHIFT + slash", hl.dsp.exec_cmd(home .. "/.config/hypr/scripts/show-binds.py"), { description = "Show keybindings (SUPER + ?)" })
