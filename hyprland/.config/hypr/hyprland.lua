@@ -70,6 +70,192 @@ hl.on("window.active", function(window, focusReason)
 	end
 end)
 
+----------------------------
+---- FOCUS HIGHLIGHT ----
+----------------------------
+
+-- Highlight the focused window while the SUPER key is held down: a thicker
+-- border with a rotating gradient that follows keyboard navigation and
+-- reverts to the default border as soon as SUPER is released. The gradient
+-- runs between the accent color of the current wallpaper and its hue-opposite
+-- (see scripts/accent.py); it is refreshed whenever the wallpaper changes.
+-- Triggered by the key event (xkb keycodes 133/134 for Super_L/Super_R) with
+-- a slow polling safety net; reads state only, so no keybind is consumed and
+-- other shortcuts keep working.
+local FOCUS_HIGHLIGHT_STEP = 150
+local FOCUS_HIGHLIGHT_ANGLE_STEP = 30
+local FOCUS_HIGHLIGHT_BORDER = 4
+local FOCUS_HIGHLIGHT_POLL_MS = 500
+local FOCUS_GRADIENT_A = "rgba(803457ee)"
+local FOCUS_GRADIENT_B = "rgba(a1eb60ee)"
+local ACCENT_SCRIPT = home .. "/.config/hypr/scripts/accent.py"
+local ACTIVE_BORDER_DEFAULT = "rgba(5b8abfee)"
+local BORDER_SIZE_DEFAULT = 4
+local SUPER_KEYCODE_LEFT = 133
+local SUPER_KEYCODE_RIGHT = 134
+
+local highlightAddress = nil
+local highlightRotateTimer = nil
+local highlightPollTimer = nil
+local highlightSuperDown = false
+
+-- Read the accent triangle for the current wallpaper. accent.py prints
+-- "BORDER GRAD_A GRAD_B": three triadic colors sharing the wallpaper accent
+-- hue. Returns a table or nil on failure.
+local function accentColors(wallpaper_path)
+	if wallpaper_path == nil then
+		return nil
+	end
+	local p = io.popen('python3 "' .. ACCENT_SCRIPT .. '" "' .. wallpaper_path .. '" 2>/dev/null')
+	if not p then
+		return nil
+	end
+	local out = p:read("*l")
+	p:close()
+	if out == nil then
+		return nil
+	end
+	local border, grad_a, grad_b = out:match("(%x%x%x%x%x%x)%s+(%x%x%x%x%x%x)%s+(%x%x%x%x%x%x)")
+	if border == nil then
+		return nil
+	end
+	return { border = border, grad_a = grad_a, grad_b = grad_b }
+end
+
+local function highlightReset(address)
+	if address == nil then
+		return
+	end
+	pcall(function()
+		hl.dispatch(hl.dsp.window.set_prop({ prop = "border_size", value = tostring(BORDER_SIZE_DEFAULT), window = address }))
+		hl.dispatch(hl.dsp.window.set_prop({ prop = "active_border_color", value = ACTIVE_BORDER_DEFAULT, window = address }))
+	end)
+end
+
+-- The setprop gradient parser drops the first space-separated token, so a
+-- harmless separator keeps both gradient colors and the angle parseable.
+local function highlightGradient(angleDeg)
+	return table.concat({ "unused", FOCUS_GRADIENT_A, FOCUS_GRADIENT_B, angleDeg .. "deg" }, " ")
+end
+
+local function highlightStop()
+	if highlightRotateTimer ~= nil then
+		highlightRotateTimer:set_enabled(false)
+		highlightRotateTimer = nil
+	end
+	highlightReset(highlightAddress)
+	highlightAddress = nil
+end
+
+local function highlightStart(w)
+	if w == nil or w.address == nil then
+		return
+	end
+
+	if highlightAddress ~= nil then
+		highlightStop()
+	end
+
+	local address = "address:" .. w.address
+	highlightAddress = address
+	local angle = 0
+
+	hl.dispatch(hl.dsp.window.set_prop({ prop = "border_size", value = tostring(FOCUS_HIGHLIGHT_BORDER), window = address }))
+	hl.dispatch(hl.dsp.window.set_prop({ prop = "active_border_color", value = highlightGradient(angle), window = address }))
+
+	highlightRotateTimer = hl.timer(
+		function()
+			angle = (angle + FOCUS_HIGHLIGHT_ANGLE_STEP) % 360
+			hl.dispatch(hl.dsp.window.set_prop({ prop = "active_border_color", value = highlightGradient(angle), window = address }))
+		end,
+		{ timeout = FOCUS_HIGHLIGHT_STEP, type = "repeat" }
+	)
+end
+
+local function highlightIsSuperDown()
+	return hl.is_key_down(SUPER_KEYCODE_LEFT) or hl.is_key_down(SUPER_KEYCODE_RIGHT)
+end
+
+local function highlightSetState(down)
+	highlightSuperDown = down
+	if down then
+		highlightStart(hl.get_active_window())
+	else
+		highlightStop()
+	end
+end
+
+-- input.keyboard.key args: xkb keycode, timestamp, state (0 released, 1
+-- pressed, 2 repeated).
+local function highlightOnKey(keycode, _, state)
+	local isSuper = keycode == SUPER_KEYCODE_LEFT or keycode == SUPER_KEYCODE_RIGHT
+	if not isSuper then
+		return
+	end
+	if state == 1 and not highlightSuperDown then
+		highlightSetState(true)
+	elseif state == 0 and highlightSuperDown then
+		highlightSetState(false)
+	end
+end
+
+hl.on("input.keyboard.key", highlightOnKey)
+
+-- Safety net: the key event drives press/release instantly, but a slow poll
+-- re-synchronizes in case a release is swallowed by an input grab or config
+-- reloaded while SUPER was already held.
+highlightPollTimer = hl.timer(
+	function()
+		local down = highlightIsSuperDown()
+		if down ~= highlightSuperDown then
+			highlightSetState(down)
+		end
+	end,
+	{ timeout = FOCUS_HIGHLIGHT_POLL_MS, type = "repeat" }
+)
+
+hl.on("window.active", function(window)
+	if window ~= nil and highlightSuperDown then
+		highlightStart(window)
+	elseif window ~= nil then
+		-- Newly focused window: apply the pastel accent border.
+		highlightReset("address:" .. window.address)
+	end
+end)
+
+-- A config reload recreates the Lua state, so tracked overrides are lost and
+-- could leave a stale highlight behind. Reset every window's border whenever
+-- the reload happens outside a held SUPER.
+local function resetAllBorders()
+	for _, win in ipairs(hl.get_windows() or {}) do
+		if win ~= nil and win.address ~= nil then
+			highlightReset("address:" .. win.address)
+		end
+	end
+end
+
+-- Refresh every accent-derived color from the current wallpaper: the
+-- highlight gradient from two triadic partners and the default active border
+-- from the third. Re-applies the default border so already-open windows pick
+-- up the new border color.
+local function updateAccent(wallpaper_path)
+	local colors = accentColors(wallpaper_path)
+	if colors == nil then
+		return
+	end
+	FOCUS_GRADIENT_A = "rgba(" .. colors.grad_a .. "ee)"
+	FOCUS_GRADIENT_B = "rgba(" .. colors.grad_b .. "ee)"
+	ACTIVE_BORDER_DEFAULT = "rgba(" .. colors.border .. "ee)"
+	resetAllBorders()
+end
+
+hl.on("config.reloaded", function()
+	updateAccent(wallpaper.current(home .. "/Pictures/Wallpapers"))
+	if not highlightIsSuperDown() then
+		resetAllBorders()
+	end
+end)
+
 --------------------------
 ---- AUTOSTART ----
 --------------------------
@@ -84,20 +270,28 @@ hl.on("hyprland.start", function()
 
 	-- Set random wallpaper at start
 	wallpaper.set_random(home .. "/Pictures/Wallpapers")
+	hl.exec_cmd("hyprctl reload")
 end)
 
 -----------------------
 ---- LOOK AND FEEL ----
 -----------------------
 
+-- Derive the default active border from the current wallpaper accent so the
+-- border matches the wallpaper even before the first SUPER hold.
+local initialColors = accentColors(wallpaper.current(home .. "/Pictures/Wallpapers"))
+if initialColors ~= nil then
+	ACTIVE_BORDER_DEFAULT = "rgba(" .. initialColors.border .. "ee)"
+end
+
 hl.config({
 	general = {
-		gaps_in = 5,
-		gaps_out = 10,
-		border_size = 2,
+		gaps_in = 8,
+		gaps_out = 20,
+		border_size = 4,
 		col = {
-			active_border = "rgba(1a5fb4ee)",
-			inactive_border = "rgba(6e768166)",
+			active_border = ACTIVE_BORDER_DEFAULT,
+			inactive_border = "rgba(21262d80)",
 		},
 		resize_on_border = false,
 		allow_tearing = false,
@@ -110,9 +304,11 @@ hl.config({
 		inactive_opacity = 1.0,
 		shadow = {
 			enabled = true,
-			range = 8,
-			render_power = 3,
-			color = "rgba(1a1a1af0)",
+			range = 24,
+			render_power = 4,
+			color = ACTIVE_BORDER_DEFAULT,
+			color_inactive = "rgba(16161660)",
+			offset = "0 0",
 		},
 		blur = {
 			enabled = true,
@@ -430,6 +626,7 @@ hl.bind("XF86AudioPrev", hl.dsp.exec_cmd("playerctl previous"), { locked = true,
 -- Random wallpaper at startup (sequential with KEY + W)
 hl.bind(mainMod .. " + W", function()
 	wallpaper.set_next(home .. "/Pictures/Wallpapers")
+	hl.exec_cmd("hyprctl reload")
 end, { description = "Change wallpaper" })
 
 -- Toggle secondary monitors (keep only DP-3 active)

@@ -44,6 +44,18 @@ local function load_index()
   return index
 end
 
+--- Resolve the path of the wallpaper currently referenced by the state file
+-- @param wallpaper_dir Path to the directory containing wallpapers
+-- @return string|nil Full path of the current wallpaper, or nil
+function M.current(wallpaper_dir)
+  local index = load_index()
+  local files = list_wallpapers(wallpaper_dir)
+  if index < 1 or index > #files then
+    return nil
+  end
+  return files[index]
+end
+
 --- Set a given wallpaper on all monitors
 -- @param bg Full path to the wallpaper image
 local function set_wallpaper(wallpaper_dir, bg)
@@ -61,7 +73,9 @@ function M.set_random(wallpaper_dir)
   end
 
   math.randomseed(os.time())
-  set_wallpaper(wallpaper_dir, files[math.random(#files)])
+  local index = math.random(#files)
+  set_wallpaper(wallpaper_dir, files[index])
+  save_index(index)
 
   return true
 end
