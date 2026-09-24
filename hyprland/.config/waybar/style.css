@@ -2,6 +2,8 @@
    WAYBAR GITHUB DARK THEME
    ============================================ */
 
+@import "generated.css";
+
 * {
   font-family: "Adwaita Sans";
   font-size: 13px;
@@ -53,13 +55,13 @@ button {
 }
 
 #workspaces button:hover {
-  background: rgba(255, 255, 255, 0.1);
-  color: #ffffff;
+  color: @accent;
+  background: alpha(@accent, 0.12);
 }
 
 #workspaces button.active {
   color: #ffffff;
-  background: rgba(255, 255, 255, 0.15);
+  background: alpha(@accent, 0.22);
   font-weight: bold;
 }
 
@@ -89,7 +91,8 @@ button {
 }
 
 .module:not(#workspaces):hover {
-  background: rgba(255, 255, 255, 0.1);
+  color: @accent;
+  background: alpha(@accent, 0.12);
 }
 
 /* ============================================
@@ -111,7 +114,7 @@ button {
    ============================================ */
 
 #custom-distro {
-  color: #58a6ff;
+  color: @accent;
 }
 
 #custom-ip {
@@ -184,7 +187,7 @@ button {
 
 tooltip {
   background: rgba(16, 16, 16, 0.85);
-  border: 1px solid rgba(255, 255, 255, 0.35);
+  border: 1px solid alpha(@accent, 0.35);
   border-radius: 6px;
   padding: 8px;
 }

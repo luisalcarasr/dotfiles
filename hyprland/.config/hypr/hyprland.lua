@@ -128,7 +128,7 @@ hl.config({
 	general = {
 		gaps_in = 5,
 		gaps_out = 10,
-		border_size = 1,
+		border_size = 2,
 		col = {
 			active_border = "rgba(" .. (accent or "1a5fb4") .. "ee)",
 			inactive_border = "rgba(" .. (accent or "241f31") .. "66)",
