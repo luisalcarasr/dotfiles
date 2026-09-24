@@ -6,7 +6,9 @@
 ---------------------
 
 local terminal = "kitty"
-local menu = "wofi"
+-- wofi as a toggle: pressing the launcher shortcut while wofi is open just
+-- closes it, so only a single instance can ever exist.
+local menu = "pkill -x wofi || wofi"
 local browser = "flatpak run com.brave.Browser"
 local mainMod = "SUPER"
 
@@ -281,6 +283,16 @@ hl.window_rule({
 hl.bind(mainMod .. " + RETURN", hl.dsp.exec_cmd(terminal), { description = "Open terminal" })
 hl.bind(mainMod .. " + BACKSLASH", hl.dsp.exec_cmd(browser), { description = "Open browser" })
 hl.bind(mainMod .. " + SPACE", hl.dsp.exec_cmd(menu), { description = "Open launcher (wofi)" })
+
+-- Close wofi when it stops being the focused window: any click on another
+-- window or keyboard focus change dismisses the launcher. The open/active
+-- wofi never matches the branch, so it cannot close itself.
+hl.on("window.active", function(window)
+	if window == nil or (window.class or ""):lower() == "wofi" then
+		return
+	end
+	os.execute("pkill -x wofi")
+end)
 hl.bind(
 	mainMod .. " + G",
 	hl.dsp.exec_cmd("lua " .. home .. "/.config/hypr/scripts/steam-games-menu.lua"),
