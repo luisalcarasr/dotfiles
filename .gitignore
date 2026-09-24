@@ -4,7 +4,3 @@ fish/.config/fish/fish_variables
 # Python bytecode cache
 __pycache__/
 *.pyc
-
-# Wallpaper accent tint files (rewritten at runtime by scripts/wallpaper.lua)
-hyprland/.config/waybar/generated.css
-hyprland/.config/wofi/generated.css

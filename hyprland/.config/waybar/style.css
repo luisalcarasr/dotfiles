@@ -2,7 +2,7 @@
    WAYBAR GITHUB DARK THEME
    ============================================ */
 
-@import "generated.css";
+@define-color accent #ffffff;
 
 * {
   font-family: "Adwaita Sans";

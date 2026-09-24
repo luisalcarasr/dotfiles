@@ -10,17 +10,6 @@ local menu = "wofi"
 local browser = "flatpak run com.brave.Browser"
 local mainMod = "SUPER"
 
-local accent = (function()
-	local cache = os.getenv("XDG_CACHE_HOME") or (os.getenv("HOME") .. "/.cache")
-	local f = io.open(cache .. "/wallpaper-accent", "r")
-	if not f then
-		return nil
-	end
-	local hex = f:read("*l")
-	f:close()
-	return (hex or ""):match("^%x%x%x%x%x%x$")
-end)()
-
 local home = os.getenv("HOME")
 
 ------------------
@@ -85,7 +74,6 @@ end)
 
 -- Load wallpaper module
 local wallpaper = require("scripts.wallpaper")
-local color = require("scripts.color")
 
 hl.on("hyprland.start", function()
 	hl.exec_cmd("waybar")
@@ -94,30 +82,6 @@ hl.on("hyprland.start", function()
 
 	-- Set random wallpaper at start
 	wallpaper.set_random(home .. "/Pictures/Wallpapers")
-end)
-
--- Re-apply the wallpaper accent color to window borders and the derived
--- shadow after a config reload, since hl.config resets those decoration
--- colors back to the static defaults.
-hl.on("config.reloaded", function()
-	local cache = os.getenv("XDG_CACHE_HOME") or (os.getenv("HOME") .. "/.cache")
-	local f = io.open(cache .. "/wallpaper-accent", "r")
-	if not f then
-		return
-	end
-	local hex = f:read("*l")
-	f:close()
-	hex = (hex or ""):match("^%x%x%x%x%x%x$")
-	if hex then
-		local eval = 'hl.config({ general = { col = { active_border = "rgba('
-			.. hex
-			.. 'ee)", inactive_border = "rgba('
-			.. hex
-			.. '66)" } }, decoration = { shadow = { color = "rgba('
-			.. color.shadow_hex(hex)
-			.. 'ff)" } } })'
-		hl.exec_cmd('hyprctl eval "' .. eval .. '"')
-	end
 end)
 
 -----------------------
@@ -130,8 +94,8 @@ hl.config({
 		gaps_out = 10,
 		border_size = 2,
 		col = {
-			active_border = "rgba(" .. (accent or "1a5fb4") .. "ee)",
-			inactive_border = "rgba(" .. (accent or "241f31") .. "66)",
+			active_border = "rgba(1a5fb4ee)",
+			inactive_border = "rgba(6e768166)",
 		},
 		resize_on_border = false,
 		allow_tearing = false,
@@ -146,7 +110,7 @@ hl.config({
 			enabled = true,
 			range = 8,
 			render_power = 3,
-			color = accent and ("rgba(" .. color.shadow_hex(accent) .. "ff)") or "rgba(1a1a1af0)",
+			color = "rgba(1a1a1af0)",
 		},
 		blur = {
 			enabled = true,

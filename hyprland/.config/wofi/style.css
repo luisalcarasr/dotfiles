@@ -1,4 +1,9 @@
-@import "generated.css";
+/*
+ * Wofi stylesheet. Translucent tints derive from the static accent color
+ * with the GTK alpha() function.
+ */
+@define-color accent #ffffff;
+@define-color accent-dark #7d8590;
 
 * {
     font-family: "Adwaita Sans";
@@ -29,7 +34,7 @@
 #input {
     margin: 0px 0px 20px 0px;
     padding: 14px 18px;
-    border: 1px solid rgba(255, 255, 255, 0.35);
+    border: 1px solid alpha(@accent-dark, 0.8);
     border-radius: 12px;
     background-color: rgba(16, 16, 16, 0.6);
     color: #ffffff;
