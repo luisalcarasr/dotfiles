@@ -1,11 +1,12 @@
 #!/usr/bin/env python3
-"""Build a triadic color triangle from a wallpaper's accent hue.
+"""Build a triadic color triangle and a dark shadow tone from a wallpaper.
 
-Prints "<BORDER> <GRAD_A> <GRAD_B>" (three hex RRGGBB, no "#"). The hue
-extracted from the image seeds three colors spaced 120 degrees apart on the
-color wheel: BORDER is the accent itself (soft, used for the default window
-border) and the other two are its triadic partners at different values, so the
-rotating highlight gradient sweeps between them.
+Prints "<BORDER> <GRAD_A> <GRAD_B> <SHADOW>" (four hex RRGGBB, no "#"). The
+hue extracted from the image seeds three colors spaced 120 degrees apart on
+the color wheel: BORDER is the accent itself (vivid, used for the default
+window border) and GRAD_A/GRAD_B are its triadic partners at different
+values for the rotating highlight gradient. SHADOW is a near-black version of
+the accent hue used as the window drop-shadow color.
 
 Usage: accent.py [path-to-image]
 If no path is given the script exits with a GitHub-blue fallback set so
@@ -54,7 +55,7 @@ def accent_hue_from_image(path):
     return hue, sat
 
 
-def color_triangle(path):
+def color_set(path):
     accent = None
     if path:
         accent = accent_hue_from_image(path)
@@ -71,20 +72,21 @@ def color_triangle(path):
     border = hsv_to_hex(hue, border_sat, 0.68)
     grad_a = hsv_to_hex((hue + 1 / 3) % 1.0, sat * 0.9, 0.5)
     grad_b = hsv_to_hex((hue + 2 / 3) % 1.0, sat * 0.9, 0.92)
-    return border, grad_a, grad_b
+    shadow = hsv_to_hex(hue, sat, 0.15)
+    return border, grad_a, grad_b, shadow
 
 
 def main():
     path = sys.argv[1] if len(sys.argv) > 1 else None
     if not path or not os.path.isfile(path):
         path = None
-    border, grad_a, grad_b = color_triangle(path)
-    print("%s %s %s" % (border, grad_a, grad_b))
+    border, grad_a, grad_b, shadow = color_set(path)
+    print("%s %s %s %s" % (border, grad_a, grad_b, shadow))
 
 
 if __name__ == "__main__":
     try:
         main()
     except Exception:
-        border, grad_a, grad_b = color_triangle(None)
-        print("%s %s %s" % (border, grad_a, grad_b))
+        border, grad_a, grad_b, shadow = color_set(None)
+        print("%s %s %s %s" % (border, grad_a, grad_b, shadow))
