@@ -127,8 +127,12 @@ local function highlightReset(address)
 		return
 	end
 	pcall(function()
-		hl.dispatch(hl.dsp.window.set_prop({ prop = "border_size", value = tostring(BORDER_SIZE_DEFAULT), window = address }))
-		hl.dispatch(hl.dsp.window.set_prop({ prop = "active_border_color", value = ACTIVE_BORDER_DEFAULT, window = address }))
+		hl.dispatch(
+			hl.dsp.window.set_prop({ prop = "border_size", value = tostring(BORDER_SIZE_DEFAULT), window = address })
+		)
+		hl.dispatch(
+			hl.dsp.window.set_prop({ prop = "active_border_color", value = ACTIVE_BORDER_DEFAULT, window = address })
+		)
 	end)
 end
 
@@ -160,16 +164,19 @@ local function highlightStart(w)
 	highlightAddress = address
 	local angle = 0
 
-	hl.dispatch(hl.dsp.window.set_prop({ prop = "border_size", value = tostring(FOCUS_HIGHLIGHT_BORDER), window = address }))
-	hl.dispatch(hl.dsp.window.set_prop({ prop = "active_border_color", value = highlightGradient(angle), window = address }))
-
-	highlightRotateTimer = hl.timer(
-		function()
-			angle = (angle + FOCUS_HIGHLIGHT_ANGLE_STEP) % 360
-			hl.dispatch(hl.dsp.window.set_prop({ prop = "active_border_color", value = highlightGradient(angle), window = address }))
-		end,
-		{ timeout = FOCUS_HIGHLIGHT_STEP, type = "repeat" }
+	hl.dispatch(
+		hl.dsp.window.set_prop({ prop = "border_size", value = tostring(FOCUS_HIGHLIGHT_BORDER), window = address })
 	)
+	hl.dispatch(
+		hl.dsp.window.set_prop({ prop = "active_border_color", value = highlightGradient(angle), window = address })
+	)
+
+	highlightRotateTimer = hl.timer(function()
+		angle = (angle + FOCUS_HIGHLIGHT_ANGLE_STEP) % 360
+		hl.dispatch(
+			hl.dsp.window.set_prop({ prop = "active_border_color", value = highlightGradient(angle), window = address })
+		)
+	end, { timeout = FOCUS_HIGHLIGHT_STEP, type = "repeat" })
 end
 
 local function highlightIsSuperDown()
@@ -204,15 +211,12 @@ hl.on("input.keyboard.key", highlightOnKey)
 -- Safety net: the key event drives press/release instantly, but a slow poll
 -- re-synchronizes in case a release is swallowed by an input grab or config
 -- reloaded while SUPER was already held.
-highlightPollTimer = hl.timer(
-	function()
-		local down = highlightIsSuperDown()
-		if down ~= highlightSuperDown then
-			highlightSetState(down)
-		end
-	end,
-	{ timeout = FOCUS_HIGHLIGHT_POLL_MS, type = "repeat" }
-)
+highlightPollTimer = hl.timer(function()
+	local down = highlightIsSuperDown()
+	if down ~= highlightSuperDown then
+		highlightSetState(down)
+	end
+end, { timeout = FOCUS_HIGHLIGHT_POLL_MS, type = "repeat" })
 
 hl.on("window.active", function(window)
 	if window ~= nil and highlightSuperDown then
@@ -286,8 +290,8 @@ end
 
 hl.config({
 	general = {
-		gaps_in = 8,
-		gaps_out = 20,
+		gaps_in = 4,
+		gaps_out = 8,
 		border_size = 4,
 		col = {
 			active_border = ACTIVE_BORDER_DEFAULT,
@@ -303,8 +307,8 @@ hl.config({
 		active_opacity = 1.0,
 		inactive_opacity = 1.0,
 		shadow = {
-			enabled = true,
-			range = 24,
+			enabled = false,
+			range = 4,
 			render_power = 4,
 			color = ACTIVE_BORDER_DEFAULT,
 			color_inactive = "rgba(16161660)",
@@ -502,8 +506,13 @@ hl.bind(mainMod .. " + V", hl.dsp.window.float({ action = "toggle" }), { descrip
 hl.bind(mainMod .. " + P", hl.dsp.window.pseudo(), { description = "Toggle pseudo-tiling" })
 hl.bind(
 	mainMod .. " + F",
-	hl.dsp.window.fullscreen({ mode = "fullscreen", action = "toggle" }),
+	hl.dsp.window.fullscreen_state({ internal = 2, client = 2, action = "toggle" }),
 	{ description = "Fullscreen" }
+)
+hl.bind(
+	mainMod .. " + SHIFT + F",
+	hl.dsp.window.fullscreen_state({ internal = 0, client = 2, action = "toggle" }),
+	{ description = "Fake Fullscreen" }
 )
 
 -- Power actions (all around SUPER + Escape)
