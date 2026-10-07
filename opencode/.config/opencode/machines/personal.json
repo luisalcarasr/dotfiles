@@ -16,8 +16,6 @@
     "git":        { "model": "opencode/ling-3.0-flash-fin-free" },
     "memory":     { "model": "opencode/ling-3.0-flash-fin-free" },
     "gcloud":     { "disable": true },
-    "gitlab":     { "disable": true },
-    "jira":       { "disable": true },
-    "confluence": { "disable": true }
+    "gitlab":     { "disable": true }
   }
 }

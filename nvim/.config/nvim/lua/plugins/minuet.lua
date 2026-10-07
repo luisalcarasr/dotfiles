@@ -1,5 +1,5 @@
--- Inline AI suggestions (ghost text) backed by the F5AI OpenAI-compatible
--- endpoint. The API key is read from the F5AI_API_KEY environment variable.
+-- Inline AI suggestions (ghost text) backed by a local Ollama
+-- OpenAI-compatible endpoint (no API key required).
 return {
   "milanglacier/minuet-ai.nvim",
   event = "InsertEnter",
@@ -8,10 +8,10 @@ return {
     request_timeout = 20,
     provider_options = {
       openai_compatible = {
-        api_key = "F5AI_API_KEY",
-        end_point = "https://f5ai.pd.f5net.com/openai/v1/chat/completions",
-        model = "gpt-5.4-mini",
-        name = "F5AI",
+        api_key = "ollama",
+        end_point = "http://localhost:11434/v1/chat/completions",
+        model = "codellama",
+        name = "Ollama",
       },
     },
     virtualtext = {
