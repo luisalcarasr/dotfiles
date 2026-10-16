@@ -161,11 +161,11 @@ PACKAGES_CLI=(
 
 # Git TUI, GitLab CLI, security and dotfile management
 PACKAGES_GIT=(
-  lazygit   # Full Git TUI — visual commits, staging, rebase, conflict resolution
-  glab      # Official GitLab CLI — MRs, issues, CI/CD pipelines from terminal
-  gitleaks  # Repository secrets scanner — detects leaked API keys and tokens
-  stow      # Symlink manager — core of the dotfiles system
-  gnupg     # GPG encryption — commit signing and key management
+  lazygit      # Full Git TUI — visual commits, staging, rebase, conflict resolution
+  gh           # GitHub CLI — issues, PRs, CI/CD pipelines, releases from terminal
+  gitleaks     # Repository secrets scanner — detects leaked API keys and tokens
+  stow         # Symlink manager — core of the dotfiles system
+  gnupg        # GPG encryption — commit signing and key management
 )
 
 # Container runtime and orchestration (Docker Desktop alternative)

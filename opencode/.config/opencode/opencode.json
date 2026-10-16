@@ -2,11 +2,27 @@
   "$schema": "https://opencode.ai/config.json",
   "default_agent": "plan",
   "autoshare": false,
+  "model": "opencode/nemotron-3-ultra-free",
   "mcp": {
     "firefox-devtools": {
       "type": "local",
       "command": ["npx", "-y", "@mozilla/firefox-devtools-mcp-moz"],
       "enabled": true
     }
+  },
+  "agents": {
+    "build":      { "model": "openrouter/nvidia/nemotron-3-super-120b-a12b:free" },
+    "plan":       { "model": "opencode/nemotron-3-ultra-free" },
+    "general":    { "model": "openrouter/thinkingmachines/inkling:free" },
+    "chat":       { "model": "openrouter/thinkingmachines/inkling-small:free" },
+    "explore":    { "model": "opencode/nemotron-3.5-lightning-free" },
+    "compaction": { "model": "opencode/longcat-2.5-preview-free" },
+    "title":      { "model": "opencode/ll-alpha-free" },
+    "summary":    { "model": "opencode/mimo-v2.6-flash-free" },
+    "browser":    { "model": "openrouter/nvidia/nemotron-3.5-super-vl:free" },
+    "dom":        { "model": "openrouter/dots-studio/dots-3-note-preview:free" },
+    "git":        { "model": "openrouter/cohere/north-mini-code:free" },
+    "github":     { "model": "opencode/deepseek-v4.1-flash-free" },
+    "memory":     { "model": "openrouter/google/gemma-4-26b-a4b-it:free" }
   }
 }

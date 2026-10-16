@@ -4,7 +4,7 @@ description: >
   Takes DOM snapshots, locates elements by UID, clicks, hovers, fills inputs,
   submits forms, and analyses large DOM/HTML structures. Use when you need to
   read page structure or interact with elements (not for reading visible text —
-  use vision/ocr for that). Triggers on: "inspect the DOM", "find element",
+  the browser subagent reads screenshots itself). Triggers on: "inspect the DOM", "find element",
   "click this", "fill form", "submit", "analyse page structure",
   "interact with the page", "select element".
 mode: subagent
@@ -28,7 +28,7 @@ Your model has a ~1M token context window — use it. Never truncate or skip por
 
 ## What you do NOT do
 
-- Do NOT take screenshots or analyse images — that is the `ocr` subagent's responsibility.
+- Do NOT take screenshots or analyse images — that is the `browser` subagent's responsibility.
 - Do NOT navigate to new URLs or open new tabs — that is the `browser` orchestrator's responsibility.
 - Do NOT read files from disk or write files.
 

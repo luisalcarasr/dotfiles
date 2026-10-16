@@ -78,9 +78,9 @@ chore(fedora.sh): add missing flatpak remote check
 
 Rules:
 - Subject line is imperative mood, lowercase after the type, no period at end
-- Maximum 72 characters on the subject line (including the `[#N]` suffix when applicable)
+- Maximum 72 characters on the subject line (including the `(#N)` suffix when applicable)
 - Use the body to explain *what changed and why*, not *how*
-- **GitLab projects only:** the subject line must end with `[#N]`, where N is the associated GitLab issue number. The issue is obtained (or created) via the `gitlab` subagent before committing. For non-GitLab remotes (e.g. GitHub), omit the suffix.
+- **GitHub projects only:** the subject line must end with `(#N)`, where N is the associated GitHub issue number. The issue is obtained (or created) via the `github` subagent before committing. For non-GitHub remotes, omit the suffix.
 
 ### 4. Describe your pull request thoroughly
 

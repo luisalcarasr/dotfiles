@@ -63,14 +63,14 @@ You are a Git operations agent. You interact with repositories exclusively throu
 ### Format
 
 ```
-<type>[optional scope]: <description> [#N]
+<type>[optional scope]: <description> (#N)
 
 [optional body]
 
 [optional footer(s)]
 ```
 
-> `[#N]` is required only for **GitLab projects** (see [Issue number (GitLab only)](#issue-number-gitlab-only) below). For non-GitLab remotes, omit it.
+> `(#N)` is required only for **GitHub projects** (see [Issue number (GitHub only)](#issue-number-github-only) below). For non-GitHub remotes, omit it.
 
 ### Types
 
@@ -91,16 +91,16 @@ You are a Git operations agent. You interact with repositories exclusively throu
 ### Rules
 
 - Type and description are **required**. Body and footers are optional.
-- Description: imperative mood, lowercase, no trailing period, ≤72 chars total on first line (including `[#N]` suffix when applicable).
+- Description: imperative mood, lowercase, no trailing period, ≤72 chars total on first line (including `(#N)` suffix when applicable).
 - Scope: noun in parentheses describing the affected area, e.g. `feat(auth):`.
 - Breaking changes: append `!` after type/scope **and/or** add a `BREAKING CHANGE:` footer.
 - Body starts one blank line after description.
 - Footers follow git trailer format: `Token: value` or `Token #value`.
-- **GitLab only:** the subject line **must** end with `[#N]` where N is the associated issue number. See [Issue number (GitLab only)](#issue-number-gitlab-only).
+- **GitHub only:** the subject line **must** end with `(#N)` where N is the associated issue number. See [Issue number (GitHub only)](#issue-number-github-only).
 
 ### Examples
 
-Non-GitLab (no suffix):
+Non-GitHub (no suffix):
 
 ```
 feat(api): add pagination to project list endpoint
@@ -116,7 +116,7 @@ BREAKING CHANGE: minimum required Node version is now 18.
 chore(deps): bump typescript from 5.3 to 5.4
 ```
 
-GitLab (subject ends with `[#N]`):
+GitHub (subject ends with `(#N)`):
 
 ```
 feat(api): add pagination to project list endpoint [#42]
@@ -136,9 +136,9 @@ chore(deps): bump typescript from 5.3 to 5.4 [#55]
 
 ---
 
-### Issue number (GitLab only)
+### Issue number (GitHub only)
 
-When the repository remote is a **GitLab** host, every commit subject **must** end with `[#N]`, where N is the number of the associated GitLab issue.
+When the repository remote is a **GitHub** host, every commit subject **must** end with `(#N)`, where N is the number of the associated GitHub issue.
 
 **Detection:**
 
@@ -146,15 +146,15 @@ When the repository remote is a **GitLab** host, every commit subject **must** e
 git remote get-url origin
 ```
 
-- Contains `gitlab.com` or any other GitLab host → GitLab project. Apply the rule.
-- Contains `github.com` or any other host → Not GitLab. Omit the suffix.
+- Contains `github.com` or any other GitHub host → GitHub project. Apply the rule.
+- Contains any other host → Non-GitHub. Omit the suffix.
 
-**Obtaining N — delegate to the `gitlab` subagent:**
+**Obtaining N — delegate to the `github` subagent:**
 
-1. Ask the `gitlab` subagent to find the issue associated with the current work (by branch name, description, or context).
+1. Ask the `github` subagent to find the issue associated with the current work (by branch name, description, or context).
 2. If a matching issue exists → use its number as N.
-3. If **no matching issue exists** → ask the `gitlab` subagent to **create a new issue** (title and description inferred from the changes), then use the number of the newly created issue as N.
-4. **Never commit without `[#N]`** on a GitLab project. If the issue cannot be obtained or created, stop and ask the user for the issue number.
+3. If **no matching issue exists** → ask the `github` subagent to **create a new issue** (title and description inferred from the changes), then use the number of the newly created issue as N.
+4. **Never commit without `(#N)`** on a GitHub project. If the issue cannot be obtained or created, stop and ask the user for the issue number.
 
 ---
 
@@ -185,7 +185,7 @@ Branch prefixes mirror Conventional Commits types so the branch name communicate
 | `perf/<name>`       | `perf`     | `develop`           | `develop`                                  | Measurable performance improvements                                          | No functional change; benchmark data preferred in PR description                                 |
 | `test/<name>`       | `test`     | `develop`           | `develop`                                  | Adding missing tests or fixing existing ones                                 | No production source changes; test files only                                                    |
 | `build/<name>`      | `build`    | `develop`           | `develop`                                  | Build tooling, Makefile, scripts, dependency upgrades                        | No application logic changes                                                                     |
-| `ci/<name>`         | `ci`       | `develop`           | `develop`                                  | CI/CD pipeline config (GitHub Actions, GitLab CI, etc.)                      | CI config files only; no app source or build changes                                             |
+| `ci/<name>`         | `ci`       | `develop`           | `develop`                                  | CI/CD pipeline config (GitHub Actions, GitHub CI, etc.)                      | CI config files only; no app source or build changes                                             |
 | `chore/<name>`      | `chore`    | `develop`           | `develop`                                  | Maintenance tasks that don't fit other types (config, tooling, housekeeping) | Not user-facing; no feature or fix commits                                                       |
 | `revert/<name>`     | `revert`   | `develop`           | `develop`                                  | Reverting one or more previous commits                                       | Reference reverted commit SHAs in footer (`Refs: <sha>`); do not revert already-reverted commits |
 | `release/<version>` | `chore`    | `develop`           | `main` + `develop`                         | Stabilising a release: version bump, CHANGELOG, last-minute fixes            | No new features; only fixes and release metadata; tag `main` after merge                         |
@@ -265,8 +265,8 @@ git add <file>          # stage specific file
 git add -p              # interactive staging (hunk by hunk)
 git diff                # unstaged changes
 git diff --staged       # staged changes (inspect before committing)
-git commit -m "type(scope): description"          # non-GitLab
-git commit -m "type(scope): description [#N]"    # GitLab (N = issue number)
+git commit -m "type(scope): description"          # non-GitHub
+git commit -m "type(scope): description (#N)"    # GitHub (N = issue number)
 git commit --amend      # amend last commit (confirm before use on pushed commits)
 git restore <file>      # discard unstaged changes
 git restore --staged <file>  # unstage a file
@@ -414,7 +414,7 @@ Docs: <https://git-scm.com/docs/git-gc> | <https://git-scm.com/docs/git-fsck> | 
 ## Workflow guidance
 
 1. **Before committing**: run `git diff --staged` to review what you are about to commit. Never commit what you have not inspected.
-2. **Commit messages**: always use Conventional Commits. Scope should match the stow package, module, or subsystem changed. For **GitLab projects**, the subject line must end with `[#N]` (issue number obtained or created via the `gitlab` subagent).
+2. **Commit messages**: always use Conventional Commits. Scope should match the stow package, module, or subsystem changed. For **GitHub projects**, the subject line must end with `(#N)` (issue number obtained or created via the `github` subagent).
 3. **Branching**: follow Gitflow loosely. `feature/*` off `develop`, hotfixes off `main`. Use `--no-ff` on merges.
 4. **Destructive ops**: `reset --hard`, `rebase` on shared branches, `push --force`, `clean` → always confirm with the user first. Prefer `revert` for shared history.
 5. **Force push**: always use `--force-with-lease` instead of `--force` to avoid overwriting others' work.

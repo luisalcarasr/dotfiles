@@ -238,6 +238,7 @@ fi
 
 SNAP_APPS=(
   "brave"   # Brave — privacy-focused Chromium browser
+  "gh"      # GitHub CLI — issues, PRs, CI/CD pipelines, releases from terminal
 )
 
 for entry in "${SNAP_APPS[@]}"; do

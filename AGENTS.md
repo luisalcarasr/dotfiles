@@ -20,9 +20,9 @@ Personal dotfiles managed with **GNU Stow**. Primary platforms: Ubuntu and macOS
 - Ubuntu quirks (handled by `ubuntu.sh`): `bat`/`fd-find` install as `batcat`/`fdfind` and get shimmed to `bat`/`fd` in `~/.local/bin`; `eza` (gierens apt repo) and `lazygit` (GitHub release) are installed from upstream, not the default repos.
 
 ## Conventions
-- Commits: Conventional Commits, imperative, lowercase, no trailing period, <=72 chars. Scope = stow package or script name (e.g. `fix(fish): ...`, `docs(readme): ...`). For **GitLab projects**, the subject line must end with `[#N]` (N = associated issue number, obtained or created via the `gitlab` subagent).
+- Commits: Conventional Commits, imperative, lowercase, no trailing period, <=72 chars. Scope = stow package or script name (e.g. `fix(fish): ...`, `docs(readme): ...`). For **GitHub projects**, the subject line must end with `(#N)` (N = associated issue number, obtained or created via the `github` subagent).
 - Shell style: clarity over cleverness; explicit loops over compact one-liners (CONTRIBUTING.md has the canonical example).
-- Visual theme is GitHub Dark across tools; keep it consistent.
+- Visual theme is GitHub Dark across tools (Breeze in opencode and Neovim); keep it consistent.
 
 ## Component notes
 - `git/.local/bin/git-ai` — Python `git ai commit` helper; requires a running local **ollama** (default model `codellama`). Not a general dependency.

@@ -20,15 +20,15 @@ description: 'Prompt and workflow for generating conventional commit messages us
    ```bash
    git remote get-url origin
    ```
-   - Contains a GitLab host (e.g. `gitlab.com`) → GitLab project. Proceed to step 5.
-   - Any other host → Non-GitLab. Skip step 5; omit `[#N]` from the subject.
-5. **GitLab only — obtain the issue number:** delegate to the `gitlab` subagent to find or create the associated issue and get its number N. The subject **must** end with `[#N]`.
+   - Contains a GitHub host (e.g. `github.com`) → GitHub project. Proceed to step 5.
+   - Any other host → Non-GitHub. Skip step 5; omit `(#N)` from the subject.
+5. **GitHub only — obtain the issue number:** delegate to the `github` subagent to find or create the associated issue and get its number N. The subject **must** end with `(#N)`.
 6. Construct your commit message using the following XML structure.
 7. After generating your commit message, run the following command:
 
 ```bash
-git commit -m "type(scope): description"          # non-GitLab
-git commit -m "type(scope): description [#N]"     # GitLab
+git commit -m "type(scope): description"          # non-GitHub
+git commit -m "type(scope): description (#N)"     # GitHub
 ```
 
 8. Just execute this prompt and the agent will handle the commit for you in the terminal.
@@ -40,17 +40,17 @@ git commit -m "type(scope): description [#N]"     # GitLab
 	<type>feat|fix|docs|style|refactor|perf|test|build|ci|chore|revert</type>
 	<scope>()</scope>
 	<description>A short, imperative summary of the change</description>
-	<issue>#N (required for GitLab projects; omit for non-GitLab)</issue>
+	<issue>(#N) (required for GitHub projects; omit for non-GitHub)</issue>
 	<body>(optional: more detailed explanation)</body>
 	<footer>(optional: e.g. BREAKING CHANGE: details, or issue references)</footer>
 </commit-message>
 ```
 
-> The `<issue>` value is appended to the subject line as `[#N]`: `type(scope): description [#N]`.
+> The `<issue>` value is appended to the subject line as `(#N)`: `type(scope): description (#N)`.
 
 ### Examples
 
-Non-GitLab (no suffix):
+Non-GitHub (no suffix):
 
 ```xml
 <examples>
@@ -63,7 +63,7 @@ Non-GitLab (no suffix):
 </examples>
 ```
 
-GitLab (subject ends with `[#N]`):
+GitHub (subject ends with `(#N)`):
 
 ```xml
 <examples>
@@ -83,7 +83,7 @@ GitLab (subject ends with `[#N]`):
 	<type>Must be one of the allowed types. See <reference>https://www.conventionalcommits.org/en/v1.0.0/#specification</reference></type>
 	<scope>Optional, but recommended for clarity.</scope>
 	<description>Required. Use the imperative mood (e.g., "add", not "added").</description>
-	<issue>Required for GitLab projects. Must be appended as [#N] at the end of the subject line. Obtain N via the gitlab subagent (find or create the associated issue). Omit entirely for non-GitLab remotes.</issue>
+	<issue>Required for GitHub projects. Must be appended as (#N) at the end of the subject line. Obtain N via the github subagent (find or create the associated issue). Omit entirely for non-GitHub remotes.</issue>
 	<body>Optional. Use for additional context.</body>
 	<footer>Use for breaking changes or issue references.</footer>
 </validation>
@@ -94,7 +94,7 @@ GitLab (subject ends with `[#N]`):
 ```xml
 <final-step>
 	<cmd>git commit -m "type(scope): description"</cmd>
-	<cmd-gitlab>git commit -m "type(scope): description [#N]"</cmd-gitlab>
-	<note>Replace with your constructed message. Use the gitlab variant for GitLab projects (N = issue number obtained via the gitlab subagent). Include body and footer if needed.</note>
+	<cmd-github>git commit -m "type(scope): description (#N)"</cmd-github>
+	<note>Replace with your constructed message. Use the github variant for GitHub projects (N = issue number obtained via the github subagent). Include body and footer if needed.</note>
 </final-step>
 ```

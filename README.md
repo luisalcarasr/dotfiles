@@ -1,6 +1,6 @@
 # 🏠 Dotfiles
 
-Personal workstation configuration managed with [GNU Stow](https://www.gnu.org/software/stow/). Targets **Ubuntu** and **macOS** (primary), with **Fedora KDE** kept as legacy. Provides a reproducible, terminal-centric development environment with a consistent GitHub Dark visual theme across all tools.
+Personal workstation configuration managed with [GNU Stow](https://www.gnu.org/software/stow/). Targets **Ubuntu** and **macOS** (primary), with **Fedora KDE** kept as legacy. Provides a reproducible, terminal-centric development environment with a consistent GitHub Dark visual theme across all tools, with Breeze accents in opencode and Neovim.
 
 ## 🚀 Quick Start
 
@@ -46,7 +46,7 @@ git clone git@github.com:luisalcarasr/dotfiles.git ~/.dotfiles && cd ~/.dotfiles
 |--------------|-----------------------------------------------------------|------------------------------------------------|
 | 🔧 system    | stow, git, curl, wget                                     | Base tools and dotfile symlink management      |
 | 🐚 shell     | fish, zoxide, fzf, fastfetch                              | Primary shell, smart navigation, system info   |
-| 📝 editor    | neovim                                                    | LazyVim-based editor with LSP and GitHub Dark  |
+| 📝 editor    | neovim                                                    | LazyVim-based editor with LSP and Breeze Dark  |
 | ⚡ cli       | bat, fd-find, ripgrep, tree, jq, btop, unzip              | Modern CLI replacements and system monitor     |
 | 🌍 upstream  | eza, lazygit                                              | Tools not in default repos (apt repo / GitHub) |
 | 🐋 containers | podman, distrobox                                        | Daemonless containers and distro environments  |
@@ -62,7 +62,7 @@ git clone git@github.com:luisalcarasr/dotfiles.git ~/.dotfiles && cd ~/.dotfiles
 | 🐚 shell      | fish, tmux, zoxide, fzf, fastfetch                                           | Shell, multiplexer, smart navigation              |
 | 📝 editor     | neovim, rust-analyzer                                                        | Primary editor and Rust LSP server                |
 | ⚡ cli        | bat, eza, fd, ripgrep, tree, jq, glow, pandoc, watch, btop, poppler          | Modern CLI tools and document utilities           |
-| 🌿 git        | lazygit, glab, gitleaks, stow, gnupg                                         | Git TUI, GitLab CLI, secrets scanner, GPG         |
+| 🌿 git        | lazygit, gh, gitleaks, stow, gnupg                                         | Git TUI, GitHub CLI, secrets scanner, GPG         |
 | 🐋 containers | colima, docker, docker-compose, docker-buildx, qemu, lazydocker              | Docker Desktop alternative with TUI              |
 | 🐍 languages  | python@3.12, pipx, openjdk@21                                                | Python 3.12 LTS, isolated tools, Java 21 JDK     |
 | 🌐 network    | curl, wget, axel, nmap                                                       | Networking, downloaders and port scanner          |
@@ -76,7 +76,7 @@ git clone git@github.com:luisalcarasr/dotfiles.git ~/.dotfiles && cd ~/.dotfiles
 |--------------|-----------------------------------------------------------|------------------------------------------------|
 | 🔧 system    | stow, git, curl, wget                                     | Base tools and dotfile symlink management      |
 | 🐚 shell     | fish, zoxide, fzf, fastfetch                              | Primary shell, smart navigation, system info   |
-| 📝 editor    | neovim                                                    | LazyVim-based editor with LSP and GitHub Dark  |
+| 📝 editor    | neovim                                                    | LazyVim-based editor with LSP and Breeze Dark  |
 | ⚡ cli       | bat, eza, fd-find, ripgrep, tree, jq, btop, unzip         | Modern CLI replacements and system monitor     |
 | 🌿 git       | lazygit                                                   | Full-featured Git TUI                          |
 | 🐋 containers | podman, distrobox                                        | Daemonless containers and distro environments  |
@@ -88,7 +88,7 @@ git clone git@github.com:luisalcarasr/dotfiles.git ~/.dotfiles && cd ~/.dotfiles
 | Package      | Target                  | Contents                                                |
 |--------------|-------------------------|---------------------------------------------------------|
 | 🐚 fish      | `~/.config/fish/`       | Shell config, plugins (tide, nvm, repojump), aliases    |
-| 📝 nvim      | `~/.config/nvim/`       | LazyVim config, plugins, keymaps, GitHub Dark theme     |
+| 📝 nvim      | `~/.config/nvim/`       | LazyVim config, plugins, keymaps, Breeze Dark theme     |
 | 🐱 kitty     | `~/.config/kitty/`      | Terminal theme, OS-specific font and keybindings        |
 | 🌿 git       | `~/`                    | `.gitconfig` and `git-ai` AI commit command             |
 | 🤖 opencode  | `~/.config/opencode/`   | AI provider config, custom agents and slash commands    |
